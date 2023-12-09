@@ -14,11 +14,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $supplier = Supplier::all();
-        return inertia('Supplier/Index', [
-            'supplier' => $supplier,
-            'status'=> session('status')
-        ]);
+       
     }
 
     /**
