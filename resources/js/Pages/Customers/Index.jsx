@@ -6,7 +6,7 @@ function Index({auth}) {
     <Authenticated
       header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>} 
     >
-        <div> Customer Index</div>
+        <div> Customer Index.</div>
         </Authenticated>
   )
 }
