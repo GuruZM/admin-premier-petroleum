@@ -1,6 +1,6 @@
 import React from 'react'
 import Authenticated from '@/Layouts/AuthenticatedLayout'
-import { Head } from '@inertiajs/inertia-react'
+
 function Index() {
   return (
     <Authenticated
