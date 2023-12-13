@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class GoodReceived extends Model
 {
     use HasFactory;
+    // give the table a name
+    protected $table = 'good_received';
     
     protected $fillable = [
         'reference',

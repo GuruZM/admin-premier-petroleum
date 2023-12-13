@@ -1,1 +1,0 @@
-import{j as e}from"./app-d930736b.js";import{A as t}from"./AuthenticatedLayout-f24ae1ac.js";import"./transition-a20255c3.js";import"./chunk-NXTXE2B3-35c8e769.js";function d(){return e.jsx(t,{header:e.jsx("h2",{className:"font-semibold text-xl text-gray-800 leading-tight",children:"Invoice"}),children:e.jsx("div",{children:"Invoice Index"})})}export{d as default};

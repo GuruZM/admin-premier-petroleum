@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\GoodReceived;
 use Illuminate\Http\Request;
 
 class GoodReceivedController extends Controller
@@ -13,7 +13,7 @@ class GoodReceivedController extends Controller
     {
         
         // render the goods recieved index page
-            $goodsrecieved = GoodsRecieved::all();                   
+            $goodsrecieved = GoodReceived::all();                   
         return inertia('GoodsReceived/Index', [
             'goodsrecieved' => $goodsrecieved,
             'status'=> session('status')

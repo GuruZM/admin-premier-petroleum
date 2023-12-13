@@ -1,1 +1,0 @@
-import{j as t}from"./app-d930736b.js";import{A as e}from"./AuthenticatedLayout-f24ae1ac.js";import"./transition-a20255c3.js";import"./chunk-NXTXE2B3-35c8e769.js";function d({auth:r}){return t.jsx(e,{header:t.jsx("h2",{className:"font-semibold text-xl text-gray-800 leading-tight",children:"Dashboard"}),children:t.jsx("div",{children:" Customer Index."})})}export{d as default};

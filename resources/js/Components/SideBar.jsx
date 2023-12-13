@@ -87,7 +87,7 @@ export default function Sidebar({user}) {
                             </li>
                             <li className="rounded-lg mb-2 text-gray-700">
                                 <Link
-                                    href="/good-recieved"
+                                    href="/good-received"
                                     className="flex items-center gap-4 text-sm text-gray-700 font-medium px-4 py-3 rounded-lg"
                                     // activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                                 >

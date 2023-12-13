@@ -5,6 +5,8 @@ import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import {NextUIProvider} from "@nextui-org/react";
+import { Provider } from 'react-redux';
+import store from './Redux/store';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
@@ -15,7 +17,9 @@ createInertiaApp({
 
         root.render(
             <NextUIProvider>
-        <App {...props} />
+                  <Provider store={store}>
+                  <App {...props} />
+                  </Provider>
         </NextUIProvider>
         );
     },
