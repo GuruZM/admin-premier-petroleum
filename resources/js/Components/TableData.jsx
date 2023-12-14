@@ -19,9 +19,6 @@ import {
  
 } from "@nextui-org/react";
 
-
-
-
 function TableData({modelObject,objectColumn,initialColumns,onOpen}) {
  
   // const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -50,8 +47,11 @@ function TableData({modelObject,objectColumn,initialColumns,onOpen}) {
       let filteredObj = [...modelObject];
   
       if (hasSearchFilter) {
+        const searchKey = Object.keys(filteredObj[0])[1];
+        console.log('searchKey :',searchKey);
         filteredObj = filteredObj.filter((obj) =>
-          obj.name.toLowerCase().includes(filterValue.toLowerCase()),
+        String(obj[searchKey]).toLowerCase().includes(filterValue.toLowerCase()),
+          // obj.firstname.toLowerCase().includes(filterValue.toLowerCase()),
         );
       }
       if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
@@ -179,9 +179,10 @@ function TableData({modelObject,objectColumn,initialColumns,onOpen}) {
         <div className="flex flex-col gap-4">
           <div className="flex justify-between gap-3 items-end">
             <Input
+              style={{ border: "none", outline: "none", ":focus": { outline: "none" } }}
               isClearable
               className="w-full sm:max-w-[44%]"
-              placeholder="Search by name..."
+              placeholder="Search..."
               // startContent={<SearchIcon />}
               value={filterValue}
               onClear={() => onClear()}
@@ -250,10 +251,11 @@ function TableData({modelObject,objectColumn,initialColumns,onOpen}) {
             </div>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-default-400 text-small">Total {modelObject.length} users</span>
+            <span className="text-default-400 text-small">Total {modelObject.length} Entries</span>
             <label className="flex items-center text-default-400 text-small">
               Rows per page:
               <select
+                style={{ border: "none", outline: "none", ":focus": { outline: "none" } }}
                 className="bg-transparent outline-none text-default-400 text-small"
                 onChange={onRowsPerPageChange}
               >

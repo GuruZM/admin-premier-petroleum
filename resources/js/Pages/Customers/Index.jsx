@@ -1,17 +1,22 @@
 import React,{useEffect} from 'react'
 import Authenticated from '@/Layouts/AuthenticatedLayout'
 import { Head } from '@inertiajs/react';
-
-import {useDisclosure} from "@nextui-org/react";
+import {useDisclosure , Divider,Button,Input as InputBox} from "@nextui-org/react";
 import { toast } from 'react-toastify';
 import { useSelector,useDispatch } from 'react-redux';
 import { fetchCustomers } from '@/Redux/slices/customerSlice';
 import { customerColumns } from '@/Utils/tableStructure/columns';
 import ContentLayout from '@/Components/contentLayout';
 import AddModal from '@/Components/AddModal';
- 
+import TextInput from '@/Components/TextInput';
+import { useForm,  Controller, set,  } from 'react-hook-form';
+import axios from '../../Axios/axiosConfig';
+
+const INITIAL_VISIBLE_COLUMNS = ["firstname","lastname", "company_name", "contact", "address"];
+
 function Index({auth}) {
   
+  const { register,reset, handleSubmit, getValues,formState} = useForm();
   const dispatch = useDispatch()
   const { customers, status, error } = useSelector((state) => state.customers);
 
@@ -20,21 +25,115 @@ function Index({auth}) {
     
   }, [])
 
-  const INITIAL_VISIBLE_COLUMNS = ["firstname","lastname", "company", "contact", "address"];
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
+ 
 
+
+  const onSubmit = async (data) => {
+   
+    console.log('data :',data);
+    axios.post('/customers',data).then((res)=>{
+      console.log('res :',res);
+      toast.success('Customer Added Successfully')
+      onOpenChange()
+      dispatch(fetchCustomers())
+      reset()
+    }).catch((err)=>{
+    
+      console.log('err :',err);
+      toast.error('Failed to add Customer')
+    })
+  }
+
+  console.log('customers :',customers);
   return (
     <Authenticated
     user={auth.user}
       header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Customers</h2>}> 
         <ContentLayout onOpen={onOpen} title="Customers" tableObject={customers} tableColumns={customerColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
         <AddModal 
-          onOpenChange={onOpenChange} isOpen={isOpen} title="Add Product" isSubmitting={false}
+          onOpenChange={onOpenChange} isOpen={isOpen} title="Add Customer" isSubmitting={false}
         >
-        <form >
-          form
-          as
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className='flex flex-col space-y-8'>
+          <InputBox
+         style={{ border: "none", outline: "none", ":focus": { outline: "none" } }}
+              
+                  labelPlacement='outside'
+                  label="Firstname"
+                  placeholder=""
+                  className="border-none outline-none  "
+                   {...register('firstname', { required: true })}
+                  startContent={<span className="text-default-400 text-small"></span>}
+                />
+
+<InputBox
+        style={{border:"none"}}
+              
+                  labelPlacement='outside'
+                  label="Lastname"
+                  placeholder=""
+                  className="   "
+                   {...register('lastname', { required: true })}
+                  startContent={<span className="text-default-400 text-small"></span>}
+                />
+
+<InputBox
+        style={{border:"none"}}
+              
+                  labelPlacement='outside'
+                  label="Company"
+                  placeholder=""
+                  className="   "
+                   {...register('company_name', { required: true })}
+                  startContent={<span className="text-default-400 text-small"></span>}
+                />
+
+<InputBox
+        style={{border:"none"}}
+              
+                  labelPlacement='outside'
+                  label="Contact"
+                  placeholder=""
+                  className="   "
+                   {...register('contact', { required: true })}
+                  startContent={<span className="text-default-400 text-small"></span>}
+                />
+
+<InputBox
+        style={{border:"none",focus:"none"}}
+              
+                  labelPlacement='outside'
+                  label="Address"
+                  placeholder=""
+                  className="   "
+                   {...register('address', { required: true })}
+                  startContent={<span className="text-default-400 text-small"></span>}
+                />
+
+          </div>
+        
+  
+                
+<Divider className='my-5'/>
+                <div className="buttonSection flex  justify-end gap-1">
+                  <Button 
+                
+                color="danger" variant="flat"  onPress={()=>{
+              
+                  onOpenChange()  
+                }}>
+                  Close
+                </Button>
+
+                <Button 
+                isLoading={formState.isSubmitting}
+                type='submit'
+                color="primary" >
+                 Submit
+                </Button>
+                </div>
         </form>
         </AddModal>
         </Authenticated>

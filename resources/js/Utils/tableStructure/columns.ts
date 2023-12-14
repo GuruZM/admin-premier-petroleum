@@ -43,7 +43,7 @@ const customerColumns = [
   {name: "ID", uid: "id", sortable: true},
   {name: "FIRSTNAME", uid: "firstname", sortable: true},
   {name: "LASTNAME", uid: "lastname", sortable: true},
-  {name: "COMPANY NAME", uid: "company", sortable: true},
+  {name: "COMPANY NAME", uid: "company_name", sortable: true},
   {name: "CONTACT", uid: "contact", sortable: true},
   {name: "ADDRESS", uid: "address", sortable: true},
   {name: "ACTIONS", uid: "actions"},

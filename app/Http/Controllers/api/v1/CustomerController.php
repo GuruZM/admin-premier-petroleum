@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Customer;
 
 class CustomerController extends Controller
 {
@@ -12,7 +13,19 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        // write an index method to return all customers
+
+        try {
+            // Get all customers ordered by the most recently added
+            $customers = Customer::orderBy('created_at', 'desc')->get();
+
+            return response()->json($customers);
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            \Log::error('Error getting customers: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
     }
 
     /**
@@ -28,7 +41,30 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // write a store method to store the customer data
+
+        // return response()->json(['message' => $request->data]);
+
+        try {
+            // Validate the incoming request data
+            $validatedData = $request->validate([
+                'firstname' => 'required|string',
+                'lastname' => 'required|string',
+                'company_name'=> 'required|string',
+                'contact'=> 'required|string',
+                'address'=> 'required|string',
+            ]);
+
+            // Create a new customer
+            $customer = Customer::create($validatedData);
+
+            return response()->json(['message' => 'Customer created successfully'], 201);
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            \Log::error('Error creating customer: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Internal server error','error'=>$e->getMessage()], 500);
+        }
     }
 
     /**
