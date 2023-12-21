@@ -15,8 +15,8 @@ export default function Authenticated({ user, header, children }) {
 
         <div className='relative'>
           <Sidebar user={user} />
-        <main className=" max-h-fit relative md:ml-64 bg-gray-200">
-            <div className="px-10 md:px-10 py-10 md:py-10 mx-auto w-full h-full min-h-screen">
+        <main className="print:bg-white max-h-fit relative md:ml-64 bg-gray-200 ">
+            <div className="px-10 print:py-0 print:px-0 md:px-10 py-10 md:py-10 mx-auto w-full h-full min-h-screen">
                 {children}
             </div>
             <Footer/>

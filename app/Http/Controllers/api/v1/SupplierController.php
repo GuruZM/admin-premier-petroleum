@@ -14,7 +14,18 @@ class SupplierController extends Controller
      */
     public function index()
     {
-       
+        try {
+            // Get all customers ordered by the most recently added
+            $suppliers = Supplier::orderBy('created_at', 'desc')->get();
+
+            return response()->json($suppliers);
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            \Log::error('Error getting customers: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
+
     }
 
     /**
@@ -30,7 +41,28 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      
+        try {
+            // Validate the incoming request data
+            $validatedData = $request->validate([
+                'name' => 'required|string',
+                'address' => 'required|string',
+                'contact'=> 'required|string',
+                'tpin'=> 'required|string',
+
+            ]);
+
+            // Create a new customer
+            $supplier = Supplier::create($validatedData);
+
+            return response()->json(['message' => 'Supplier created successfully'], 201);
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            \Log::error('Error creating Supplier: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Internal server error','error'=>$e->getMessage()], 500);
+        }
+
     }
 
     /**

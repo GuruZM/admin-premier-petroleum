@@ -32,7 +32,7 @@ function Index({auth}) {
 
   const onSubmit = async (data) => {
    
-    console.log('data :',data);
+     
     axios.post('/customers',data).then((res)=>{
       console.log('res :',res);
       toast.success('Customer Added Successfully')

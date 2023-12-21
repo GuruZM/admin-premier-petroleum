@@ -25,7 +25,9 @@ class GoodReceivedController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('GoodsReceived/Create',[
+            'status'=> session('status')
+        ]);
     }
 
     /**

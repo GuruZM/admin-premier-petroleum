@@ -18,8 +18,9 @@ import {
   useDisclosure,
  
 } from "@nextui-org/react";
-
-function TableData({modelObject,objectColumn,initialColumns,onOpen}) {
+import {  router , Link } from '@inertiajs/react';
+import { VerticalDotsIcon } from './icons/VerticalDotsIcon';
+function TableData({modelObject,objectColumn,initialColumns,onOpen,baseurl}) {
  
   // const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [filterValue, setFilterValue] = React.useState("");
@@ -107,6 +108,13 @@ function TableData({modelObject,objectColumn,initialColumns,onOpen}) {
               <p className="text-bold text-tiny capitalize text-default-400">{obj.category}</p>
             </div>
           );
+          case "total":
+            return (
+              <div className="flex flex-col">
+                {/* <p className="text-bold text-small capitalize">{cellValue}</p> */}
+                <p className="text-bold text-tiny capitalize text-default-400">K{obj.total}</p>
+              </div>
+            );
         case "supplier":
           return (
             <div className="flex flex-col">
@@ -128,11 +136,18 @@ function TableData({modelObject,objectColumn,initialColumns,onOpen}) {
                 <DropdownTrigger>
                   <Button isIconOnly size="sm" variant="light">
                     <VerticalDotsIcon className="text-default-300" />
+                   
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu>
-                  <DropdownItem>View</DropdownItem>
-                  <DropdownItem>Edit</DropdownItem>
+                  <DropdownItem
+                  // href={baseurl+obj.id}
+                  onClick={() => {
+                    router.visit(`${baseurl+obj.id}`)
+                  }}
+
+                  >View</DropdownItem>
+                  {/* <DropdownItem>Edit</DropdownItem> */}
                   <DropdownItem>Delete</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
@@ -177,9 +192,9 @@ function TableData({modelObject,objectColumn,initialColumns,onOpen}) {
     const topContent = React.useMemo(() => {
       return (
         <div className="flex flex-col gap-4">
-          <div className="flex justify-between gap-3 items-end">
+          <div className="flex justify-between   items-end">
             <Input
-              style={{ border: "none", outline: "none", ":focus": { outline: "none" } }}
+               style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
               isClearable
               className="w-full sm:max-w-[44%]"
               placeholder="Search..."

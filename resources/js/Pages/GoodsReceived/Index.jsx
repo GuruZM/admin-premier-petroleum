@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { goodsReceivedColumns } from '@/Utils/tableStructure/columns';
 import AddModal from '@/Components/AddModal';
 import ContentLayout from '@/Components/contentLayout';
-
+import {  router  } from '@inertiajs/react';
 
 function Index({auth}) {
 
@@ -19,14 +19,18 @@ function Index({auth}) {
   useEffect(() => {
     dispatch(fetchGoodsReceived())
     
-  }, [])
+  }, [dispatch])
+
+  const redi = () => {
+    router.visit('/good-received/create')
+  }
 
   return (
     <Authenticated
     user={auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Goods Recieved</h2>}
     >
-      <ContentLayout onOpen={onOpen} title="Goods Received" tableObject={goodsReceived} tableColumns={goodsReceivedColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
+      <ContentLayout onOpen={redi} title="Goods Received" tableObject={goodsReceived} tableColumns={goodsReceivedColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
         <AddModal 
           onOpenChange={onOpenChange} isOpen={isOpen} title="Add Goods" isSubmitting={false}
         >

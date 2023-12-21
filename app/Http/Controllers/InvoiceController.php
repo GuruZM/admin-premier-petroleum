@@ -17,10 +17,28 @@ class InvoiceController extends Controller
         ]);
     }
 
+    
+    public function create()
+    {
+        return inertia('Invoice/Create',[
+            'status'=> session('status')
+        ]);
+    }
+
     public function show($id)
     {
-        // Your code to fetch a specific customer
+        $invoice = Invoice::find($id);
+        $invoiceData = Invoice::join('customers', 'invoices.customer', '=', 'customers.id')
+    ->join('users', 'invoices.issued_by', '=', 'users.id')
+    ->where('invoices.id', '=', $invoice->id) // Add the where clause here
+    ->select('invoices.*', 'customers.company_name as customer_name','customers.address as customer_address', 'customers.tpin as customer_tpin',  'users.name as issued_by_name')
+    ->first();
+        return inertia('Invoice/Show', [
+            'invoice' => $invoiceData,
+            'status'=> session('status')
+        ]);
     }
+
 
     public function store(Request $request)
     {

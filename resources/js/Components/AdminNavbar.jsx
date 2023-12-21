@@ -5,7 +5,7 @@ export default function AdminNavbar({user, showSidebar, setShowSidebar }) {
  
   
       return (
-          <nav className="bg-light-blue-500   bg-white  z-50 md:ml-64 py-6 px-3">
+          <nav className="bg-light-blue-500 print:hidden  bg-white  z-50 md:ml-64 py-6 px-3">
               <div className="container max-w-full mx-auto flex items-center justify-between md:pr-8 md:pl-10">
                   <div className="md:hidden pl-3 absolute   border-red left-0">
                       <Button

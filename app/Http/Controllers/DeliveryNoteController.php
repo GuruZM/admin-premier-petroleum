@@ -18,10 +18,25 @@ class DeliveryNoteController extends Controller
         ]);
 
     }
+    public function create()
+    {
+        return inertia('DeliveryNote/Create',[
+            'status'=> session('status')
+        ]);
+    }
 
     public function show($id)
     {
-        // Your code for the show method
+       
+        $deliveryNote = DeliveryNote::find($id);
+        $deliveryNoteData = DeliveryNote::join('invoices', 'delivery_notes.invoice_number', '=', 'invoices.number')
+        ->where('delivery_notes.id', '=', $deliveryNote->id) // Add the where clause here
+    ->select('delivery_notes.*', 'invoices.number as invoice_number', )
+        ->first();
+        return inertia('DeliveryNote/Show', [
+            'deliveryNote' => $deliveryNoteData,
+            'status'=> session('status')
+        ]);
     }
 
     public function store(Request $request)

@@ -18,6 +18,10 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                'prime-orange': '#F16924',
+                'prime-blue': '#083756',
+            },
         },
     },
     darkMode: "class",

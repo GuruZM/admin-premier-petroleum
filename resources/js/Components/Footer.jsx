@@ -1,7 +1,7 @@
 import React from 'react';
 export default function Footer() {
     return (
-        <footer className="py-6 px-16 border-t border-gray-200 bg-white font-light flex flex-col lg:flex-row justify-between items-center">
+        <footer className="py-6 px-16 print:hidden border-t border-gray-200 bg-white font-light flex flex-col lg:flex-row justify-between items-center">
             <p className="text-gray-700 hover:text-gray-900 opacity-60 font-medium block text-sm">
                 Copyright &copy; {new Date().getFullYear()}{' '}
                 <a
