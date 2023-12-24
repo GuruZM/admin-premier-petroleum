@@ -142,7 +142,7 @@ Lusaka</h3> */}
 
                             <p class="text-sm  print:text-xs font-normal">Issued by: {invoice.issued_by_name}</p>
 
-                            <p class="text-sm mt-5 print:text-xs font-normal">Approved By: K.C</p>
+                            <p class="text-sm mt-5 print:text-xs font-normal">Approved By:                                    </p>
                         </div>
 
                         <div>

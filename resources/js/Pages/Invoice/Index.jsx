@@ -41,8 +41,7 @@ function Index({auth}) {
           onOpenChange={onOpenChange} isOpen={isOpen} title="Add Invoice" isSubmitting={false}
         >
         <form >
-          form
-          as
+           
         </form>
         </AddModal>
     </Authenticated>
