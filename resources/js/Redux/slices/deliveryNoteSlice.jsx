@@ -6,6 +6,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const fetchDeliveryNotes = createAsyncThunk('deliveryNotes/fetchAll', async () => {
     try {
       const response = await axios.get('/delivery-notes'); // Replace with your API endpoint
+     console.log('deliveries',response.data )
       return response.data;
     } catch (error) {
       throw error; 

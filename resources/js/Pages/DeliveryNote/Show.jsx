@@ -1,25 +1,24 @@
 import React from 'react'
 import Authenticated from '@/Layouts/AuthenticatedLayout'
 import {useDisclosure , Divider,Button,Input as InputBox} from "@nextui-org/react";
-
 import { toast } from 'react-toastify';
-
 import { useSelector,useDispatch } from 'react-redux';
 import { fetchInvoices } from '@/Redux/slices/invoiceSlice';
-
 import deliverybg from '../../../assets/images/deliverybg.png';
 
-function Show({auth }) {
+function Show({auth,deliveryNote}) {
+
+    console.log(deliveryNote)
   return (
     <Authenticated
     user={auth.user}
-        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Invoice</h2>}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Delivery Note</h2>}
         className="print:hidden"
     >
         <div className='text-white  flex justify-end'>
-        <Button color="primary" endContent={ <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" color='white' class="pe-3 text-white ">
+        <Button  endContent={ <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" color='white' class="pe-3  text-white ">
                         <path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zM432 248a24 24 0 1 1 0 48 24 24 0 1 1 0-48z" />
-                    </svg>} onClick={() => window.print()} className="bg-primary ml-auto  print:hidden">
+                    </svg>} onClick={() => window.print()} className="bg-prime-blue text-white ml-auto  print:hidden">
             Print
             </Button>
         </div>
@@ -71,7 +70,7 @@ premierpetroleum21@gmail.co
                         <div>
                         <h2 class="text-lg print:text-xs font-semibold tracking-widest ">
                             For: <br/>
-                            {/* {invoice.customer_name} */}
+                            {deliveryNote.client}
 </h2>
 {/* <h3 class="text-lg print:text-xs tracking-widest uppercase">TPIN: </h3> */}
 
@@ -89,10 +88,10 @@ Lusaka</h3> */}
 
                         <div className='  flex flex-col print:text-xs items-end'>
                             <div className='flex'>
-                                <h2 class="text-lg font-bold print:text-xs tracking-widest  ">Delivery Note No <span class="ps-5 text-gray-500"> </span></h2>
+                                <h2 class="text-lg font-bold print:text-xs tracking-widest  ">Delivery Note No <span class="ps-5 text-gray-500"> {deliveryNote.date} </span></h2>
                             </div>
                             <div className='flex'>
-                                <h2 class="text-lg font-bold print:text-xs tracking-widest  ">Date Issue: <span class="ps-5 text-gray-500"> </span></h2>
+                                <h2 class="text-lg font-bold print:text-xs tracking-widest  ">Date Issue: <span class="ps-5 text-gray-500"> {deliveryNote.issue_date}</span></h2>
                             </div>
 
                            
@@ -109,13 +108,20 @@ Lusaka</h3> */}
                              
                                 </tr>
                             </thead>
+                            <tbody>
+                            {deliveryNote.items && JSON.parse(deliveryNote.items).map((item, index) => (
+    <tr key={index} className={index % 2 === 0 ? "bg-gray-200" : "bg-white"}>
+        <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium">{index + 1}</td>
+        <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium">{item.description}</td>
+        <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium">{item.quantity}</td>
+    </tr>
+))}
+                            </tbody>
                             <tbody class="bg-white">
                                
                             
 
-<tr  >
-        <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium"> </td>         
-                                </tr>
+ 
                             
                                 
                             </tbody>

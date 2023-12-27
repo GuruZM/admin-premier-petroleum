@@ -13,6 +13,9 @@ class DeliveryNote extends Model
         'address',
         'title',
         'number',
+        'client',
+        'date',
+        'items',
         'issue_date',
         'invoice_number',
     ];
@@ -21,4 +24,8 @@ class DeliveryNote extends Model
     {
         return $this->belongsTo(Invoice::class, 'invoice_number');
     }
+    public function customer()
+{
+    return $this->belongsTo(Customer::class, 'client');
+}
 }

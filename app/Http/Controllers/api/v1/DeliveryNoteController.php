@@ -13,9 +13,22 @@ class DeliveryNoteController extends Controller
      */
     public function index()
     {
-        $deliveryNotesWithInvoices = DeliveryNote::with('invoice') // Assuming the relationship is named 'invoice'
+        // $deliveryNotesWithInvoices = DeliveryNote::with('invoice') // Assuming the relationship is named 'invoice'
+        // ->get();
+      
+        $deliveryNotesWithInvoicesAndCustomers = DeliveryNote::join('invoices', 'delivery_notes.invoice_number', '=', 'invoices.id')
+        ->join('customers', 'customers.id', '=', 'delivery_notes.client')
+        ->select(
+            'delivery_notes.*',
+            'customers.firstname as client',
+            'invoices.number as invoice_number'
+            
+        )
         ->get();
-        return response()->json($deliveryNotesWithInvoices);
+    
+     
+     
+        return response()->json($deliveryNotesWithInvoicesAndCustomers);
     }
 
     /**
@@ -31,19 +44,28 @@ class DeliveryNoteController extends Controller
      */
     public function store(Request $request)
     {
+        // return response()->json([
+        //     'request'=> $request->all(),
+        //     'message'=> 'success'
+        // ]);
         try{
             $validatedData = $request->validate([
-                'address' => 'required|string',
-                'title' => 'required|string',
-                'number'=> 'required|string',
+                'client' => 'required',
+                'items' => 'required',
+                'date' => 'required',
                 'issue_date'=> 'required|string',
-                'invoice_number'=> 'nullable',
-          
-
+                'invoice'=> 'nullable',
             ]);
 
           
-            $deliveryNote = DeliveryNote::create($validatedData);
+            $deliveryNote = DeliveryNote::create(
+                [
+                 "issue_date" =>  $validatedData['issue_date'],
+                 "date" => $validatedData['date'],
+                 "client"=> $validatedData['client'],
+                 "invoice_number"=> $validatedData['invoice'] ? $validatedData['invoice'] : 0,
+                 "items" => json_encode($validatedData['items'])
+                ]); 
 
             return response()->json(['message' => 'Delivery Note created successfully'], 201);
 

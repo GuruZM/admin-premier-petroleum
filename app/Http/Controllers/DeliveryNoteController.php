@@ -11,7 +11,12 @@ class DeliveryNoteController extends Controller
 {
     public function index()
     {
-        $deliveryNote = DeliveryNote::all();
+        $deliveryNote = DeliveryNote::join('invoices', 'delivery_notes.invoice_number', '=', 'invoices.id')
+        // ->where('delivery_notes.id', '=', $deliveryNote->id) 
+        ->join('customers','customers.id','=','delivery_notes.client')
+    ->select('delivery_notes.*', 'invoices.number as invoice_number','customers.firstname as client' )
+        ->first();
+
         return inertia('DeliveryNote/Index', [
             'deliveryNote' => $deliveryNote,
             'status'=> session('status')
@@ -28,10 +33,11 @@ class DeliveryNoteController extends Controller
     public function show($id)
     {
        
-        $deliveryNote = DeliveryNote::find($id);
-        $deliveryNoteData = DeliveryNote::join('invoices', 'delivery_notes.invoice_number', '=', 'invoices.number')
-        ->where('delivery_notes.id', '=', $deliveryNote->id) // Add the where clause here
-    ->select('delivery_notes.*', 'invoices.number as invoice_number', )
+          $deliveryNote = DeliveryNote::find($id);
+        $deliveryNoteData = DeliveryNote::join('invoices', 'delivery_notes.invoice_number', '=', 'invoices.id')
+        ->where('delivery_notes.id', '=', $deliveryNote->id) 
+        ->join('customers','customers.id','=','delivery_notes.client')
+    ->select('delivery_notes.*', 'invoices.number as invoice_number','customers.firstname as client' )
         ->first();
         return inertia('DeliveryNote/Show', [
             'deliveryNote' => $deliveryNoteData,
