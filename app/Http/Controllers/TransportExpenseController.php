@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\TransportExpense;
+use Inertia\Inertia;
 
 class TransportExpenseController extends Controller
 {
@@ -11,7 +13,12 @@ class TransportExpenseController extends Controller
      */
     public function index()
     {
-        //
+        // return inertia view
+        return inertia('TransportExpense/Index', [
+            'transport_expenses' => TransportExpense::all(),
+            'status'=> session('status')
+        ]);
+
     }
 
     /**

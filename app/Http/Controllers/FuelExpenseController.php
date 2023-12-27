@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\FuelExpense;
+use Inertia\Inertia;
 
 class FuelExpenseController extends Controller
 {
@@ -11,7 +13,11 @@ class FuelExpenseController extends Controller
      */
     public function index()
     {
-        //
+        // return inertia view
+        return inertia('FuelExpense/Index', [
+            'fuel_expenses' => FuelExpense::all(),
+            'status'=> session('status')
+        ]);
     }
 
     /**

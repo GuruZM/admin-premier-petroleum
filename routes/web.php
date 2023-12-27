@@ -9,6 +9,9 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\DeliveryNoteController;
 use App\Http\Controllers\GoodReceivedController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\FuelExpenseController;
+use App\Http\Controllers\TransportExpenseController;
+ 
 
 /*
 |--------------------------------------------------------------------------

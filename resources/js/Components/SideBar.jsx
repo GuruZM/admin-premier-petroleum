@@ -60,7 +60,7 @@ export default function Sidebar({user}) {
         <ul>
             <li>
             <Link
-    href="/products"
+    href="/fuel-expenses"
     className="flex items-center gap-4 text-sm text-gray-700 font-medium px-4   rounded-lg"
     // activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
 >
@@ -70,7 +70,7 @@ export default function Sidebar({user}) {
             </li>
             <li> 
             <Link
-    href="/invoices"
+    href="/transport-expenses"
     className="flex items-center gap-4 text-sm text-gray-700 font-medium px-4 py-3 rounded-lg"
     // activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
 >

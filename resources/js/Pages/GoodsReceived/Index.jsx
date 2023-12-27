@@ -21,6 +21,7 @@ function Index({auth}) {
     
   }, [dispatch])
 
+  
   const redi = () => {
     router.visit('/good-received/create')
   }

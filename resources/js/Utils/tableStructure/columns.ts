@@ -58,6 +58,27 @@ const deliveryNoteColumns = [
   {name: "ACTIONS", uid: "actions"},
 ];
 
+// fuel expense 
+
+const fuelExpenseColumns = [
+  {name: "ID", uid: "id", sortable: true},
+  {name: "QUANTITY", uid: "quantity", sortable: true},
+  {name: "PRICE", uid: "price", sortable: true},
+  {name: "TOTAL", uid: "total", sortable: true},
+  {name: "STATUS", uid: "status", sortable: true},
+  {name: "DUTY", uid: "duty", sortable: true},
+  {name: "ACTIONS", uid: "actions"},
+];
+
+// transport expense
+
+const transportExpenseColumns = [
+  {name: "ID", uid: "id", sortable: true},
+  {name: "QUANTITY", uid: "quantity", sortable: true},
+  {name: "PRICE", uid: "price", sortable: true},
+  {name: "STATUS", uid: "status", sortable: true},
+  {name: "ACTIONS", uid: "actions"},
+];  
  
  
 
@@ -96,4 +117,4 @@ const statusOptions = [
   ];
 
 
-  export {categoryColumns,goodsReceivedColumns,customerColumns,deliveryNoteColumns,supplierColumns,users,productColumns,invoiceColumns,statusOptions};
+  export {categoryColumns,transportExpenseColumns,fuelExpenseColumns,goodsReceivedColumns,customerColumns,deliveryNoteColumns,supplierColumns,users,productColumns,invoiceColumns,statusOptions};

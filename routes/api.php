@@ -8,7 +8,7 @@ use App\Http\Controllers\api\v1\DeliveryNoteController;
 use App\Http\Controllers\api\v1\GoodReceivedController;
 use App\Http\Controllers\api\v1\SupplierController;
 use App\Http\Controllers\api\v1\FuelExpenseController;
-
+use App\Http\Controllers\api\v1\TransportExpenseController;
 
 /*
 |--------------------------------------------------------------------------

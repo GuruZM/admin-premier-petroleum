@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class FuelExpense extends Model
 {
     use HasFactory;
+     protected $table = 'fuel_expense';
     protected $fillable = ['quantity', 'price', 'total', 'status', 'duty'];
 }
