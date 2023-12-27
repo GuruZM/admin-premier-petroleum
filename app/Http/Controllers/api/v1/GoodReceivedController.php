@@ -12,7 +12,13 @@ class GoodReceivedController extends Controller
      */
     public function index()
     {
-        //
+     
+        return response()->json( 
+            GoodReceived::all()
+  );
+     
+
+
     }
 
     /**
@@ -28,21 +34,37 @@ class GoodReceivedController extends Controller
      */
     public function store(Request $request)
     {
+        // return response()->json([
+        //     'message' => 'Good Received created successfully',
+        //     'data' => $request->all()
+        // ]
+        // );
+
         try {
             // Validate the incoming request data
             $validatedData = $request->validate([
                 'reference' => 'required|string',
-                'number' => 'required|string',
                 'date'=> 'required|string',
                 'received_by'=> 'required|string',
                 'checked_by'=> 'required|string',
                 'order_reference'=> 'required|string',
-                'items'=> 'required|string',
+                'items'=> 'required',
+                'goods_condition'=> 'required|string',
 
             ]);
 
             // Create a new customer
-            $supplier = GoodReceived::create($validatedData);
+            $supplier = GoodReceived::create(
+            [
+                'reference' => $validatedData['reference'],
+                'date' => $validatedData['date'],
+                'received_by' => $validatedData['received_by'],
+                'checked_by' => $validatedData['checked_by'],
+                'order_reference' => $validatedData['order_reference'],
+                'items' => json_encode($validatedData['items']),
+                'goods_condition' => $validatedData['goods_condition'],
+            ]    
+            );
 
             return response()->json(['message' => 'Supplier created successfully'], 201);
         } catch (\Exception $e) {
@@ -59,7 +81,7 @@ class GoodReceivedController extends Controller
      */
     public function show(string $id)
     {
-        //
+         
     }
 
     /**

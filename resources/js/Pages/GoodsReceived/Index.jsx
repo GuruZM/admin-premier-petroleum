@@ -10,7 +10,7 @@ import {  router  } from '@inertiajs/react';
 
 function Index({auth}) {
 
-  const INITIAL_VISIBLE_COLUMNS = ["reference","number","date","received_by","checked_by","order_reference"];
+  const INITIAL_VISIBLE_COLUMNS = ["reference","date","received_by","checked_by","order_reference","actions"];
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const dispatch = useDispatch()
@@ -24,13 +24,13 @@ function Index({auth}) {
   const redi = () => {
     router.visit('/good-received/create')
   }
-
+  const baseurl = "/good-received/"
   return (
     <Authenticated
     user={auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Goods Recieved</h2>}
     >
-      <ContentLayout onOpen={redi} title="Goods Received" tableObject={goodsReceived} tableColumns={goodsReceivedColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
+      <ContentLayout onOpen={redi} baseurl={baseurl} title="Goods Received" tableObject={goodsReceived} tableColumns={goodsReceivedColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
         <AddModal 
           onOpenChange={onOpenChange} isOpen={isOpen} title="Add Goods" isSubmitting={false}
         >

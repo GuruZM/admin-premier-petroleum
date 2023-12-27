@@ -1,23 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
-use App\Models\GoodReceived;
+namespace App\Http\Controllers\api\v1;
+
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class GoodReceivedController extends Controller
+class TransportExpenseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        
-        // render the goods recieved index page
-            $goodsrecieved = GoodReceived::all();                   
-        return inertia('GoodsReceived/Index', [
-            'goodsrecieved' => $goodsrecieved,
-            'status'=> session('status')
-        ]);
+        //
     }
 
     /**
@@ -25,9 +20,7 @@ class GoodReceivedController extends Controller
      */
     public function create()
     {
-        return inertia('GoodsReceived/Create',[
-            'status'=> session('status')
-        ]);
+        //
     }
 
     /**
@@ -43,13 +36,7 @@ class GoodReceivedController extends Controller
      */
     public function show(string $id)
     {
-         // find and return the goods recieved view
-            $goodsrecieved = GoodReceived::find($id);
-        return inertia('GoodsReceived/Show', [
-            'goodsRecieved' => $goodsrecieved,
-            'status'=> session('status')
-        ]);
-
+        //
     }
 
     /**

@@ -19,5 +19,6 @@ class GoodReceived extends Model
         'checked_by',
         'order_reference',
         'items',
+        'goods_condition'
     ];
 }

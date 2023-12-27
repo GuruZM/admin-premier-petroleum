@@ -85,6 +85,27 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/suppliers/{supplier}/edit', [SupplierController::class, 'edit']);
     Route::put('/suppliers/{supplier}', [SupplierController::class, 'update']);
     Route::delete('/suppliers/{supplier}', [SupplierController::class, 'destroy']);
+
+    // Fuel Expenses
+    Route::get('/fuel-expenses', [FuelExpenseController::class, 'index']);
+    Route::get('/fuel-expenses/create', [FuelExpenseController::class, 'create']);
+    Route::post('/fuel-expenses', [FuelExpenseController::class, 'store']);
+    Route::get('/fuel-expenses/{fuelExpense}', [FuelExpenseController::class, 'show']);
+    Route::get('/fuel-expenses/{fuelExpense}/edit', [FuelExpenseController::class, 'edit']);
+    Route::put('/fuel-expenses/{fuelExpense}', [FuelExpenseController::class, 'update']);
+    Route::delete('/fuel-expenses/{fuelExpense}', [FuelExpenseController::class, 'destroy']);
+
+    // Transport Expenses
+
+    Route::get('/transport-expenses', [TransportExpenseController::class, 'index']);
+    Route::get('/transport-expenses/create', [TransportExpenseController::class, 'create']);
+    Route::post('/transport-expenses', [TransportExpenseController::class, 'store']);
+    Route::get('/transport-expenses/{transportExpense}', [TransportExpenseController::class, 'show']);
+    Route::get('/transport-expenses/{transportExpense}/edit', [TransportExpenseController::class, 'edit']);
+    Route::put('/transport-expenses/{transportExpense}', [TransportExpenseController::class, 'update']);
+    Route::delete('/transport-expenses/{transportExpense}', [TransportExpenseController::class, 'destroy']);
+    
+
 });
 
 

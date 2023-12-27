@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link } from '@inertiajs/react';
 import AdminNavbar from './AdminNavbar';
 import {Accordion, AccordionItem,Button, Divider} from "@nextui-org/react";
-
+ 
 
 export default function Sidebar({user}) {
     const [showSidebar, setShowSidebar] = useState('-left-64');
@@ -15,7 +15,7 @@ export default function Sidebar({user}) {
                 setShowSidebar={setShowSidebar}
             />
             <div
-                className={`h-screen fixed z-50  rounded-lg   top-0 md:left-0 ${showSidebar} overflow-y-auto flex-row flex-nowrap overflow-hidden   bg-white w-64 z-10 py-4 px-6 transition-all duration-300`}
+                className={`h-screen fixed z-50 rounded-lg top-0 md:left-0 ${showSidebar} overflow-y-auto flex-row flex-nowrap overflow-hidden   bg-white w-64 z-10 py-4 px-6 transition-all duration-300`}
             >
                 <div className="flex-col items-stretch min-h-full font-medium flex-nowrap px-0 relative">
                     <a
@@ -52,7 +52,42 @@ export default function Sidebar({user}) {
                                     Invoices
                                 </Link>
                             </li>
-                       
+                       <li className="rounded-lg mb-2">
+                       <Accordion
+    
+    >
+    <AccordionItem key="1" aria-label="Accordion 1" title={<small className='ml-2'>Expenses</small>} className='text-sm'>
+        <ul>
+            <li>
+            <Link
+    href="/products"
+    className="flex items-center gap-4 text-sm text-gray-700 font-medium px-4   rounded-lg"
+    // activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+>
+    {/* <Icon name="toc" size="2xl" /> */}
+     Fuel
+</Link>
+            </li>
+            <li> 
+            <Link
+    href="/invoices"
+    className="flex items-center gap-4 text-sm text-gray-700 font-medium px-4 py-3 rounded-lg"
+    // activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+>
+    {/* <Icon name="toc" size="2xl" /> */}
+ Transport 
+</Link>
+            </li>
+            <li>
+          
+            </li>
+        </ul>
+
+    </AccordionItem>
+    
+    </Accordion>
+
+                       </li>
                             <li className="rounded-lg mb-2">
                                 <Link
                                     href="/delivery-notes"

@@ -7,7 +7,7 @@ use App\Http\Controllers\api\v1\InvoiceController;
 use App\Http\Controllers\api\v1\DeliveryNoteController;
 use App\Http\Controllers\api\v1\GoodReceivedController;
 use App\Http\Controllers\api\v1\SupplierController;
-
+use App\Http\Controllers\api\v1\FuelExpenseController;
 
 
 /*
@@ -41,4 +41,6 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('delivery-notes', DeliveryNoteController::class);
     Route::apiResource('good-received', GoodReceivedController::class);
     Route::apiResource('suppliers', SupplierController::class);
+    Route::resource('fuel_expenses', FuelExpenseController::class);
+    Route::resource('transport_expenses', TransportExpenseController::class);
 });
