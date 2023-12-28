@@ -24,7 +24,7 @@ const dispatch = useDispatch()
 const { suppliers, status, error } = useSelector((state) => state.suppliers);
 
 useEffect(() => {
-  dispatch(fetchSuppliers())
+  // dispatch(fetchSuppliers())
   
 }, [dispatch])
 

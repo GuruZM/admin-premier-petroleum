@@ -29,18 +29,18 @@ useEffect(() => {
 
 const onSubmit = async (data) => {
    
-    console.log('data :',data);
-    axios.post('/suppliers',data).then((res)=>{
-      console.log('res :',res);
-      // toast.success('Supplier Added Successfully')
-      onOpenChange()
-      dispatch(fetchSuppliers())
-      reset()
-    }).catch((err)=>{
+    // console.log('data :',data);
+    // axios.post('/suppliers',data).then((res)=>{
+    //   console.log('res :',res);
+    //   // toast.success('Supplier Added Successfully')
+    //   onOpenChange()
+    //   dispatch(fetchSuppliers())
+    //   reset()
+    // }).catch((err)=>{
     
-      console.log('err :',err);
-      toast.error('Failed to add Supplier')
-    })
+    //   console.log('err :',err);
+    //   toast.error('Failed to add Supplier')
+    // })
   }
 
   const calculateTotal = () => {
