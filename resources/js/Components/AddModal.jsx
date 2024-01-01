@@ -18,7 +18,6 @@ function AddModal({ isOpen, onOpenChange, children,isSubmitting,buttonSection,ti
         </ModalBody>
                
               {/* <ModalFooter>
-
               </ModalFooter> */}
             </>
           )}
