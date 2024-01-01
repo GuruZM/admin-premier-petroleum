@@ -16,7 +16,7 @@ const INITIAL_VISIBLE_COLUMNS = ["quantity","price", "total","status", "duty","a
 function index({auth}) {
 
 
-    
+     
 
 const { register,reset, handleSubmit,setValue,watch, getValues,formState} = useForm();
 const {isOpen, onOpen, onOpenChange} = useDisclosure();
