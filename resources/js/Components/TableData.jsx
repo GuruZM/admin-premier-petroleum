@@ -91,7 +91,7 @@ function TableData({modelObject,objectColumn,initialColumns,onOpen,baseurl}) {
           return (
             <div className="flex flex-col">
             {/* <p className="text-bold text-small capitalize">{cellValue}</p> */}
-            <p className="text-bold text-tiny capitalize text-default-400">{obj.name}</p>
+            <p className="text-bold  capitalize  ">{obj.name}</p>
           </div>
           );
           case "description":
@@ -101,6 +101,7 @@ function TableData({modelObject,objectColumn,initialColumns,onOpen,baseurl}) {
               <p className="text-bold text-tiny capitalize text-default-400">{obj.description}</p>
             </div>
             );
+            
         case "category":
           return (
             <div className="flex flex-col">

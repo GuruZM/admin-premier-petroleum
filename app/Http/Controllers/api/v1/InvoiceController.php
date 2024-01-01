@@ -14,7 +14,7 @@ class InvoiceController extends Controller
         try {
             $invoiceData = Invoice::join('customers', 'invoices.customer', '=', 'customers.id')
                 ->join('users', 'invoices.issued_by', '=', 'users.id')
-                ->select('invoices.*', 'customers.firstname as customer_name', 'users.name as issued_by_name')
+                ->select('invoices.*', 'customers.company_name as customer_name', 'users.name as issued_by_name')
                 ->get();
             return response()->json($invoiceData);
         } catch (\Exception $e) {

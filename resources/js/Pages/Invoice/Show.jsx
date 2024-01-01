@@ -80,16 +80,31 @@ const Show = ({auth , invoice}) => {
 Lusaka</h3> */}
                         </div>
 
-                        <div className='  flex flex-col print:text-xs items-end'>
+                        <div className='  flex flex-row   items-start print:text-xs '>
+                            <div className=''>
                             <div className='flex'>
-                                <h2 class="text-lg font-semibold print:text-xs tracking-widest  ">  Date: <span class="ps-5 text-gray-500">{invoice.date}</span></h2>
+                                <h2 class="text-lg font-semibold print:text-xs tracking-widest  ">  Date:  </h2>
                             </div>
                             <div className='flex'>
-                                <h2 class="text-lg font-semibold print:text-xs tracking-widest  ">Due Date: <span class="ps-5 text-gray-500">{invoice.due_date}</span></h2>
+                                <h2 class="text-lg font-semibold print:text-xs tracking-widest  ">Due Date:   </h2>
                             </div>
 
                             <div className='flex'>
-                                <h2 class="text-lg font-semibold print:text-xs tracking-widest  ">Truck Details: <span class="ps-5 text-gray-500">{invoice.track_details}</span></h2>
+                                <h2 class="text-lg font-semibold print:text-xs tracking-widest  ">Truck Details:  </h2>
+                            </div>
+                            </div>
+                         
+
+                            <div className='text-right flex-col justify-end  flex-1'>
+                            <div className=''>
+                                <h2 class="text-lg font-semibold print:text-xs tracking-widest  ">    <span class="ps-5 text-gray-500">{invoice.date}</span></h2>
+                            </div>
+                            <div className=''>
+                                <h2 class="text-lg font-semibold print:text-xs tracking-widest  "> <span class="ps-5 text-gray-500">{invoice.due_date}</span></h2>
+                            </div>
+                            <div className=''>
+                                <h2 class="text-lg font-semibold print:text-xs tracking-widest  ">   <span class="  text-gray-500">{invoice.track_details}</span></h2>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -140,9 +155,9 @@ Lusaka</h3> */}
                             <h1 class="text-xl  print:text-xs mt-5 font-semibold">Order issued and approved by:
 </h1>
 
-                            <p class="text-sm  print:text-xs font-normal">Issued by: {invoice.issued_by_name}</p>
+                            {/* <p class="text-sm  print:text-xs font-normal">Issued by: {invoice.issued_by_name}</p> */}
 
-                            <p class="text-sm mt-5 print:text-xs font-normal">Approved By:                                    </p>
+                            <p class="text-sm mt-5 print:text-xs border-b-2 pt-8 font-normal">                                  </p>
                         </div>
 
                         <div>

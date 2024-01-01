@@ -46,9 +46,9 @@ class SupplierController extends Controller
             // Validate the incoming request data
             $validatedData = $request->validate([
                 'name' => 'required|string',
-                'address' => 'required|string',
-                'contact'=> 'required|string',
-                'tpin'=> 'required|string',
+                'address' => 'string|nullable',
+                'contact'=> 'string|nullable',
+                'tpin'=> 'string|nullable',
 
             ]);
 

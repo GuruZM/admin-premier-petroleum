@@ -64,7 +64,7 @@ function Index({auth}) {
                   label="Firstname"
                   placeholder=""
                   className="border-none outline-none  "
-                   {...register('firstname', { required: true })}
+                   {...register('firstname')}
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
 
@@ -75,7 +75,7 @@ function Index({auth}) {
                   label="Lastname"
                   placeholder=""
                   className="   "
-                   {...register('lastname', { required: true })}
+                   {...register('lastname')}
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
 
@@ -97,7 +97,7 @@ function Index({auth}) {
                   label="Contact"
                   placeholder=""
                   className="   "
-                   {...register('contact', { required: true })}
+                   {...register('contact')}
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
 
@@ -108,7 +108,7 @@ function Index({auth}) {
                   label="Address"
                   placeholder=""
                   className="   "
-                   {...register('address', { required: true })}
+                   {...register('address')}
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
 

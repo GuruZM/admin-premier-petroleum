@@ -20,7 +20,7 @@ class DeliveryNoteController extends Controller
         ->join('customers', 'customers.id', '=', 'delivery_notes.client')
         ->select(
             'delivery_notes.*',
-            'customers.firstname as client',
+            'customers.company_name as client',
             'invoices.number as invoice_number'
             
         )
@@ -55,6 +55,7 @@ class DeliveryNoteController extends Controller
                 'date' => 'required',
                 'issue_date'=> 'required|string',
                 'invoice'=> 'nullable',
+                'number'=>'required'
             ]);
 
           
@@ -64,6 +65,7 @@ class DeliveryNoteController extends Controller
                  "date" => $validatedData['date'],
                  "client"=> $validatedData['client'],
                  "invoice_number"=> $validatedData['invoice'] ? $validatedData['invoice'] : 0,
+                 "number"=>$validatedData['number'],
                  "items" => json_encode($validatedData['items'])
                 ]); 
 

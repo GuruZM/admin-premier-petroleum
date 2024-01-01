@@ -6,9 +6,10 @@ import { PlusIcon } from '@/Components/icons/PlusIcon';
 import { fetchCustomers } from '@/Redux/slices/customerSlice';
 import { useDispatch,useSelector } from "react-redux";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { Select, SelectSection, Input, SelectItem , Button, Divider} from "@nextui-org/react";
 import axios from '@/Axios/axiosConfig';
+import { router } from '@inertiajs/react';
 
 function Create({auth}) {
 
@@ -100,6 +101,7 @@ function Create({auth}) {
         axios.post('/invoices',data).then((res)=>{
             console.log('res :',res);
             toast.success('Invoice Added Successfully')
+            router.visit('/invoices')
             reset()
           }).catch((err)=>{
             console.log('err :',err);
@@ -176,7 +178,7 @@ function Create({auth}) {
                 {
                     clients.map((client) => (
                         <SelectItem key={client.id} value={client.id}>
-                        {client.firstname+" "+client.lastname}
+                        {client.company_name}
                         </SelectItem>
                     ))
                 }

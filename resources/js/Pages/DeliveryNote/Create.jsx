@@ -32,6 +32,7 @@ function Create({auth}) {
           client: 0,
           date: new Date().toISOString().slice(0, 10),
           issue_date: new Date().toISOString().slice(0, 10),
+          number:'',
           items: items,
       },
     });
@@ -144,7 +145,7 @@ const invoices = useSelector((state) => state.invoices.invoices);
                 {
                     clients.map((client) => (
                         <SelectItem key={client.id} value={client.id}>
-                        {client.firstname+" "+client.lastname}
+                        {client.company_name}
                         </SelectItem>
                     ))
                 }
@@ -179,7 +180,16 @@ const invoices = useSelector((state) => state.invoices.invoices);
               />
             </div>
           </div>
-
+          <Input
+                   style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
+                key="date"
+                type="text"
+                label="Number"
+                labelPlacement="outside"
+                className='my-4 py-4'
+                startContent="🗓️"
+                {...register("number")}
+              />
           
 
           {/* Item List Section */}

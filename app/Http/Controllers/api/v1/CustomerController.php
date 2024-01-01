@@ -48,11 +48,11 @@ class CustomerController extends Controller
         try {
             // Validate the incoming request data
             $validatedData = $request->validate([
-                'firstname' => 'required|string',
-                'lastname' => 'required|string',
+                'firstname' => 'string|nullable',
+                'lastname' => 'string|nullable',
                 'company_name'=> 'required|string',
-                'contact'=> 'required|string',
-                'address'=> 'required|string',
+                'contact'=> 'string|nullable',
+                'address'=> 'string|nullable',
             ]);
 
             // Create a new customer

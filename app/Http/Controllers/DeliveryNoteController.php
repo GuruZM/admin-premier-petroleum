@@ -37,7 +37,7 @@ class DeliveryNoteController extends Controller
         $deliveryNoteData = DeliveryNote::join('invoices', 'delivery_notes.invoice_number', '=', 'invoices.id')
         ->where('delivery_notes.id', '=', $deliveryNote->id) 
         ->join('customers','customers.id','=','delivery_notes.client')
-    ->select('delivery_notes.*', 'invoices.number as invoice_number','customers.firstname as client' )
+    ->select('delivery_notes.*', 'invoices.number as invoice_number','customers.company_name as client' )
         ->first();
         return inertia('DeliveryNote/Show', [
             'deliveryNote' => $deliveryNoteData,

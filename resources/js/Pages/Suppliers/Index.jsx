@@ -8,7 +8,7 @@ import { fetchSuppliers } from '@/Redux/slices/supplierSlice';
 import { useForm,  Controller, set,  } from 'react-hook-form';
 import { useSelector,useDispatch } from 'react-redux';
 import axios from '../../Axios/axiosConfig';
-
+import {toast} from 'sonner'
 function Index({auth}) {
 
   const INITIAL_VISIBLE_COLUMNS = ["name","address", "contact", "tpin"];
@@ -24,15 +24,11 @@ function Index({auth}) {
   }, [dispatch])
 
 
- 
-
-
   const onSubmit = async (data) => {
-   
- 
+    
     axios.post('/suppliers',data).then((res)=>{
     
-      // toast.success('Supplier Added Successfully')
+       toast.success('Supplier Added Successfully')
       onOpenChange()
       dispatch(fetchSuppliers())
       reset()
@@ -72,7 +68,7 @@ function Index({auth}) {
                   label="Address"
                   placeholder=""
                   className="   "
-                   {...register('address', { required: true })}
+                   {...register('address')}
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
 
@@ -83,7 +79,7 @@ function Index({auth}) {
                   label="Contact"
                   placeholder=""
                   className="   "
-                   {...register('contact', { required: true })}
+                   {...register('contact')}
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
 
@@ -94,7 +90,7 @@ function Index({auth}) {
                   label="Tpin"
                   placeholder=""
                   className="   "
-                   {...register('tpin', { required: true })}
+                   {...register('tpin')}
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
 

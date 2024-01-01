@@ -7,7 +7,7 @@ import { Link } from '@inertiajs/react';
 import Footer from '@/Components/Footer';
 import Sidebar from '@/Components/SideBar';
 import { ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from 'sonner';
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
@@ -17,7 +17,10 @@ export default function Authenticated({ user, header, children }) {
           <Sidebar user={user} />
         <main className="print:bg-white max-h-fit relative md:ml-64 bg-gray-200 ">
             <div className="px-10 print:py-0 print:px-0 md:px-10 py-10 md:py-10 mx-auto w-full h-full min-h-screen">
-                <ToastContainer/>
+            <Toaster 
+           position='top-right'
+        richColors
+           />
                 {children}
             </div>
             <Footer/>

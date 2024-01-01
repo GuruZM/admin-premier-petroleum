@@ -88,7 +88,7 @@ Lusaka</h3> */}
 
                         <div className='  flex flex-col print:text-xs items-end'>
                             <div className='flex'>
-                                <h2 class="text-lg font-bold print:text-xs tracking-widest  ">Delivery Note No <span class="ps-5 text-gray-500"> {deliveryNote.date} </span></h2>
+                                <h2 class="text-lg font-bold print:text-xs tracking-widest  ">Delivery Note No: <span class=" text-gray-500"> {deliveryNote.number} </span></h2>
                             </div>
                             <div className='flex'>
                                 <h2 class="text-lg font-bold print:text-xs tracking-widest  ">Date Issue: <span class="ps-5 text-gray-500"> {deliveryNote.issue_date}</span></h2>
