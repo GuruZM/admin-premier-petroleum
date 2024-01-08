@@ -28,8 +28,6 @@ const goodsReceivedColumns = [
 ];
 
 
-
-
 const supplierColumns = [
   {name: "ID", uid: "id", sortable: true},
   {name: "NAME", uid: "name", sortable: true},
@@ -85,6 +83,7 @@ const transportExpenseColumns = [
 const invoiceColumns = [
   {name: "ID", uid: "id", sortable: true},
   {name: "INVOICE NUMBER", uid: "number", sortable: true},
+  {name: "STATUS", uid: "status", sortable: true},
   {name: "TRACK NUMBER", uid: "track_details", sortable: true},
   {name: "DATE", uid: "date", sortable: true},
   {name: "DUE DATE", uid: "due_date", sortable: true},

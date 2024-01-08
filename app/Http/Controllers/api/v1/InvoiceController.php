@@ -25,6 +25,22 @@ class InvoiceController extends Controller
         }
     }
 
+    public function updateStatus(Request $request, Invoice $invoice)
+    {
+        try {
+ 
+            $invoice->status = "paid";
+            $invoice->save();
+
+            return response()->json(['message' => 'Invoice status updated successfully'], 201);
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            \Log::error('Error updating invoice status: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
+    }
+
     public function show($id)
     {
         // Your code to fetch a specific customer

@@ -11,7 +11,17 @@ use App\Http\Controllers\GoodReceivedController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\FuelExpenseController;
 use App\Http\Controllers\TransportExpenseController;
- 
+use App\Models\Invoice;
+use App\Models\DeliveryNote;
+use App\Models\GoodReceived;
+use App\Models\Customer;
+use App\Models\Supplier;
+use App\Models\FuelExpense;
+use App\Models\TransportExpense;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +44,21 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    // return invoice sum total with status paid 
+    $paidInvoices = Invoice::where('status', 'paid')->sum('total');
+    // return invoice sum total with status unpaid
+    $unpaidInvoices = Invoice::where('status', 'pending')->sum('total');
+    // return invoice sum total 
+    $totalInvoices = Invoice::sum('total');
+
+   
+    return Inertia::render('Dashboard',
+[
+    'paidInvoices' => $paidInvoices,
+    'unpaidInvoices' => $unpaidInvoices,
+    'totalInvoices' => $totalInvoices,
+]
+);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

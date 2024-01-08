@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-
-export default function Dashboard({ auth }) {
+import DashboardStartCard from '@/Components/DashboardStartCard';
+export default function Dashboard({ auth,paidInvoices,unpaidInvoices,totalInvoices}) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -11,8 +11,10 @@ export default function Dashboard({ auth }) {
 
             <div className="py-12">
                 <div className=" mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">You're logged in!</div>
+                    <div className=" flex flex-col md:flex-row space-y-5 md:space-y-0  md:space-x-5 overflow-hidden   sm:rounded-lg">
+                        <DashboardStartCard stat1={paidInvoices} stat2={unpaidInvoices} stat3={totalInvoices} title="Invoice Stats" desc="Invoice stats as recorded by the system" />
+                        <DashboardStartCard title="Expense Stats" desc="Expense Stats as recorded by the system" />
+                        {/* <DashboardStartCard /> */}
                     </div>
                 </div>
             </div>

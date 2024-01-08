@@ -2,19 +2,40 @@ import React, { useState } from 'react';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import invoicebg from '../../../assets/images/invoicebg.png';
 import { Button } from '@nextui-org/react';
-
-
+import axios from '../../Axios/axiosConfig';
+import {toast} from 'sonner'
 
 const Show = ({auth , invoice}) => {
-  // Logic for handling page reload
-   console.log('invoice is',invoice)
+    
+    const updateInvoiceStatus = () => {
+        try
+        {
+            axios.put(`/invoices/${invoice.id}/status`).then((response) => {
+                // console.log(response);
+                toast.success('Invoice status updated successfully');
+                window.location.reload();
+            });
+        }
+        catch (error)
+        {
+            toast.error('Something went wrong');
+            console.log(error);
+        }
+    }
+    
   return (
     <Authenticated
     user={auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Invoice</h2>}
         className="print:hidden"
     >
-        <div className='text-white  flex justify-end'>
+        <div className='text-white   border-red-500 items-end  flex justify-end'>
+            <div>
+            {
+                invoice.status === 'paid' ? <Button className='bg-green-500 text-white px-3 py-1 rounded-md'>Paid</Button> :<div className='space-x-2'> <Button disabled className='bg-red-500 text-white px-3 '>Unpaid</Button> <Button onClick={updateInvoiceStatus}>Mark As Paid</Button></div>
+            }
+            </div>
+       
         <Button color="primary" endContent={ <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" color='white' class="pe-3 text-white ">
                         <path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zM432 248a24 24 0 1 1 0 48 24 24 0 1 1 0-48z" />
                     </svg>} onClick={() => window.print()} className="bg-primary ml-auto  print:hidden">
@@ -54,7 +75,7 @@ const Show = ({auth , invoice}) => {
                         </div>
 
                         <div>
-                        <h2 class="text-lg font-semibold print:text-sm tracking-widest uppercase">INVOICE NO: {invoice.number}
+                        <h2 class="text-lg font-semibold print:text-sm tracking-widest uppercase">INVOICE NO:#{invoice.number}
 </h2>
                             {/* <p class="text-xl font-semibold">Date: <span class="ps-5 text-gray-500">01 / 02 / 2020</span></p> */}
                         </div>
@@ -128,7 +149,7 @@ Lusaka</h3> */}
         <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium">{item.description}</td>
         <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium">{item.quantity}</td>
         <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium text-center">{item.rate}</td>
-        <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium text-end">{item.amount}</td>
+        <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium text-end">K{item.amount}</td>
     </tr>
 ))}
 

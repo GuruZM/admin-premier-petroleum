@@ -38,6 +38,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('invoices', InvoiceController::class);
+    Route::put('invoices/{invoice}/status', [InvoiceController::class, 'updateStatus']);
     Route::apiResource('delivery-notes', DeliveryNoteController::class);
     Route::apiResource('good-received', GoodReceivedController::class);
     Route::apiResource('suppliers', SupplierController::class);

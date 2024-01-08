@@ -97,9 +97,8 @@ function Create({auth}) {
 
     const onSubmit = async (data) => {
         
-        console.log(data)
         axios.post('/invoices',data).then((res)=>{
-            console.log('res :',res);
+          
             toast.success('Invoice Added Successfully')
             router.visit('/invoices')
             reset()

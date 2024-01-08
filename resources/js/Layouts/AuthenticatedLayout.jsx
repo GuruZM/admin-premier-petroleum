@@ -18,8 +18,8 @@ export default function Authenticated({ user, header, children }) {
         <main className="print:bg-white max-h-fit relative md:ml-64 bg-gray-200 ">
             <div className="px-10 print:py-0 print:px-0 md:px-10 py-10 md:py-10 mx-auto w-full h-full min-h-screen">
             <Toaster 
-           position='top-right'
-        richColors
+            position='top-right'
+            richColors
            />
                 {children}
             </div>

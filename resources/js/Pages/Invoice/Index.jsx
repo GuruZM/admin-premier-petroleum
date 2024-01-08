@@ -10,18 +10,13 @@ import {  router  } from '@inertiajs/react';
 
 function Index({auth}) {
 
-  const INITIAL_VISIBLE_COLUMNS = ["number","track_details","date","due_date","customer_name", "subtotal", "total","issued_by_name","actions"];
-
+  const INITIAL_VISIBLE_COLUMNS = ["number","status","track_details","date","due_date","customer_name", "subtotal", "total","issued_by_name","actions"];
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const dispatch = useDispatch()
   const {invoices, status} = useSelector((state) => state.invoices);
 
-  
-
- 
   useEffect(() => {
     dispatch(fetchInvoices())
-    
   }, [dispatch])
 
 
