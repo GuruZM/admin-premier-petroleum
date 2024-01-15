@@ -27,15 +27,12 @@ function Create({auth}) {
 
      const form = useForm({
         defaultValues: {
-            invoiceNumber: 0,
-            client: 0,
+            tpin: 0,
             date: new Date().toISOString().slice(0, 10),
-            due_date: new Date().toISOString().slice(0, 10),
-            truck_plate: "",
             subtotal: 0,
-            invoicetotal: 0,
-            items: items,
+            total: 0,
             vat: 0,
+            items: items,
         },
       });
       
@@ -74,10 +71,10 @@ function Create({auth}) {
         const items = getValues('items');
         const subtotal = items.reduce((acc , item  ) => acc + item.amount, 0);
         setValue('subtotal', subtotal);
-        const invoicetotal = getValues('subtotal')+(getValues('subtotal') * 0.16);
+        const quotationtotal = getValues('subtotal')+(getValues('subtotal') * 0.16);
         const vat = getValues('subtotal') * 0.16;
         setValue('vat', vat);
-        setValue('invoicetotal', invoicetotal);
+        setValue('total', quotationtotal);
     }
        
     const handleRemove = (index ) => {
@@ -99,14 +96,13 @@ function Create({auth}) {
 
     const onSubmit = async (data) => {
         
-        axios.post('/invoices',data).then((res)=>{
-          
-            toast.success('Invoice Added Successfully')
-            router.visit('/invoices')
+        axios.post('/quotations',data).then((res)=>{
+            toast.success('Quotation Added Successfully')
+            router.visit('/quotations')
             reset()
           }).catch((err)=>{
             console.log('err :',err);
-            toast.error('Failed to create an Invoice')
+            toast.error('Failed to create an Quotation')
           })
     };
 
@@ -121,10 +117,10 @@ function Create({auth}) {
   return (
     <Authenticated
     user={auth.user}
-    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Create Invoice</h2>}
+    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Create Quotation</h2>}
     >
               <motion.div
-        key="createInvoice-sidebar"
+        key="createQuote-sidebar"
         initial={{ x: -500, opacity: 0 }}
         animate={{
           opacity: 1,
@@ -141,7 +137,7 @@ function Create({auth}) {
       >
         <h1 className=" font-semibold dark:text-white  text-3xl">
           {/* {type == 'edit' ? 'Edit' : 'Create'}  */}
-          Create Invoice
+          Create Quotation
         </h1>
         <form
         className="overflow-y-scroll relative scrollbar-hide "
@@ -150,36 +146,24 @@ function Create({auth}) {
         <div className=" ">
           {/* Bill to Section */}
 
-          <h1 className="my-4 mt-5 font-medium">Bill To</h1>
+          {/* <h1 className="my-4 mt-5 font-medium">Bill To</h1> */}
 
           <Divider className="my-5"/>
             
-          <div className=" grid grid-cols-2   gap-3   ">
-          <div className=" mx-1 col-span-1 ">
-
-            <Input
-             style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-              key="invoiceNumber"
-              type="text"
-              label="Invoice No#"
-              labelPlacement="outside"
-              startContent="#"
-              className=" "
-                {...register("invoiceNumber")}
-            />
-          </div>
+          <div className=" grid grid-cols-1   gap-3   ">
+        
             <div className="  col-span-1">
               <Select
                 labelPlacement="outside"
-                label="Client Name"
+                label="Tpin"
                 className=" "
                 startContent="👤"
-                {...register("client")}
+                {...register("tpin")}
               >
                 {
                     clients.map((client) => (
-                        <SelectItem key={client.id} value={client.id}>
-                        {client.company_name}
+                        <SelectItem key={client.tpin} value={client.tpin}>
+                        {client.tpin}
                         </SelectItem>
                     ))
                 }
@@ -194,7 +178,7 @@ function Create({auth}) {
                    style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
                 key="date"
                 type="date"
-                label="Invoice Date"
+                label="Quotation Date"
                 labelPlacement="outside"
                 startContent="🗓️"
                 {...register("date")}
@@ -202,31 +186,10 @@ function Create({auth}) {
              
             </div>
 
-            <div className="flex-1  ">
-            <Input
-                   style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-                key="date"
-                type="date"
-                label="Due Date"
-                labelPlacement="outside"
-                startContent="🗓️"
-                {...register("due_date")}
-              />
-            </div>
+        
           </div>
 
-          <div className=" mx-1 mt-6 flex flex-col ">
-            <Input
-                 style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-              key="transport"
-              type="text"
-              label="Truck Plate Number"
-              labelPlacement="outside"
-              startContent="🚚"
-              className=""
-                {...register("truck_plate")}
-            />
-          </div>
+         
 
           {/* Item List Section */}
 
@@ -253,50 +216,48 @@ function Create({auth}) {
             </div>
           ))}
      
-<div className='flex flex-col text-left   items-end'>
+<div className='flex flex-col   items-end'>
 
-<div className='flex flex-col'>
-<span className='text-sm float-left'>Sub Total</span>
+  <div className='flex flex-col '>
+  <span className='text-sm text-left'>Sub Total</span>
+
+  <input
+                    style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
+              key="Sub Total"
+              type="text"
+              readOnly           
+              className="bg-gray-100 w-fit mt-1 p-2 rounded-xl"
+                {...register("subtotal")}
+            />
+  </div>
           
-          <input
-                              style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-                        key="Sub Total"
-                        type="text"
-                        readOnly
-                         
-                        className="bg-gray-100  mt-1 p-2 rounded-xl w-fit float-right"
-                          {...register("subtotal")}
-                      />
-</div>
 
-
-
-
-<div className='flex my-3 flex-col'>
-<span className='text-sm text-left'>VAT (16%)</span>
-       
+       <div className='flex flex-col my-3'>
+       <span className='text-sm text-left'>VAT (16%)</span>
+        
        <input
                     style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
               key="vat"
               type="text"
-               readOnly
-              className=" bg-gray-100 w-fit mt-1 p-2 rounded-xl  float-right"
-                {...register("vat")}
+                value={"16"}
+              readOnly
+              className="bg-gray-100 w-fit mt-1 p-2 rounded-xl"
+           
             />
-</div>
-            
-            <div className='flex flex-col'>
-            <span className='text-sm'>Invoice Total</span>
-            <input
+       </div>
+     
+     <div className='flex flex-col'>
+     <span className='text-sm text-left'>Quotation Total</span>
+     <input
                     style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
               key="invoiceTotal"
-              isReadOnly
               readOnly
-              className="bg-gray-100 w-fit mt-1 p-2 rounded-xl float-right"
-                {...register("invoicetotal")}
+             
+              className="bg-gray-100 w-fit mt-1 p-2 rounded-xl"
+                {...register("total")}
             />
-            </div>
-         
+     </div>
+        
     <input
     type='hidden'
     

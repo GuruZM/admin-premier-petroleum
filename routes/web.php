@@ -11,6 +11,7 @@ use App\Http\Controllers\GoodReceivedController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\FuelExpenseController;
 use App\Http\Controllers\TransportExpenseController;
+use App\Http\Controllers\QuotationController;
 use App\Models\Invoice;
 use App\Models\DeliveryNote;
 use App\Models\GoodReceived;
@@ -20,6 +21,7 @@ use App\Models\FuelExpense;
 use App\Models\TransportExpense;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Quotation;
 
 
 
@@ -131,7 +133,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/transport-expenses/{transportExpense}/edit', [TransportExpenseController::class, 'edit']);
     Route::put('/transport-expenses/{transportExpense}', [TransportExpenseController::class, 'update']);
     Route::delete('/transport-expenses/{transportExpense}', [TransportExpenseController::class, 'destroy']);
-    
+    // quotations
+    Route::get('/quotations', [QuotationController::class, 'index']);
+    Route::get('/quotations/create', [QuotationController::class, 'create']);
+    Route::post('/quotations', [QuotationController::class, 'store']);
+    Route::get('/quotations/{quotation}', [QuotationController::class, 'show']);
+    Route::get('/quotations/{quotation}/edit', [QuotationController::class, 'edit']);
+    Route::put('/quotations/{quotation}', [QuotationController::class, 'update']);
+    Route::delete('/quotations/{quotation}', [QuotationController::class, 'destroy']);
+
 
 });
 

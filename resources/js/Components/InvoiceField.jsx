@@ -81,27 +81,21 @@ return (
                 <input name='price' type='number' onChange={(e) => { handelOnChange(itemDetails.id, e) }} value={itemDetails.price} min={0} className={` dark:bg-[#1e2139] py-2 max-w-[100px] px-4 border-[.2px] rounded-lg  focus:outline-purple-400 border-gray-300 focus:outline-none dark:border-gray-800`} /> */}
             </div>
 
-            <div className=' flex px-2 flex-1  flex-col items-start'>
-            <Input
+            <div className="w-fit flex flex-col     float-right">
+            <span className='text-sm'>Amount</span>
+            <input
              
              style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
                 type='number'
-                className='bg-white dark:bg-[#1e2139]'
-                isReadOnly={true}
-                label='Amount.'
-                labelPlacement='outside'
-                startContent='K'
-                bgColor='white'
+                className='bg-gray-100 w-fit mt-1 p-2 rounded-xl '
+                 readOnly={true}
+                 
+                 
                 // value={getValues(`items.${index}.total`)}
                {...register(`items.${index}.amount`)}
                 />
                
-                {/* <h1>
-                    Total
-                </h1>
-                <div className=' max-w-[100px] dark:bg-[#1e2139] py-2 px-4 border-[.2px] rounded-lg focus:outline-none   focus:outline-purple-400 border-gray-300 dark:border-gray-800 dark:text-white'>
-                    {itemDetails.total}
-                </div> */}
+           
             </div>
         </div>
         <button 

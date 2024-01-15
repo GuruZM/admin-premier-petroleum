@@ -84,7 +84,7 @@ const invoiceColumns = [
   {name: "ID", uid: "id", sortable: true},
   {name: "INVOICE NUMBER", uid: "number", sortable: true},
   {name: "STATUS", uid: "status", sortable: true},
-  {name: "TRACK NUMBER", uid: "track_details", sortable: true},
+  {name: "TRUCK NUMBER", uid: "track_details", sortable: true},
   {name: "DATE", uid: "date", sortable: true},
   {name: "DUE DATE", uid: "due_date", sortable: true},
   {name: "CUSTOMER", uid: "customer_name", sortable: true},
@@ -92,6 +92,17 @@ const invoiceColumns = [
   {name: "TOTAL", uid:  "total", sortable: true},
   {name: "ISSUED BY", uid: "issued_by_name", sortable: true},
   // {name: "STATUS", uid: "status", sortable: true},
+  {name: "ACTIONS", uid: "actions"},
+];
+
+const quotationColumns = [
+  {name: "ID", uid: "id", sortable: true},
+  {name: "TPIN", uid: "tpin", sortable: true},
+  {name: "DATE", uid: "date", sortable: true},
+  {name: "VAT", uid: "vat", sortable: true},
+  {name: "SUB TOTAL", uid: "sub_total", sortable: true},
+  {name: "TOTAL", uid:  "total", sortable: true},
+ 
   {name: "ACTIONS", uid: "actions"},
 ];
 
@@ -116,4 +127,4 @@ const statusOptions = [
   ];
 
 
-  export {categoryColumns,transportExpenseColumns,fuelExpenseColumns,goodsReceivedColumns,customerColumns,deliveryNoteColumns,supplierColumns,users,productColumns,invoiceColumns,statusOptions};
+  export {categoryColumns,quotationColumns,transportExpenseColumns,fuelExpenseColumns,goodsReceivedColumns,customerColumns,deliveryNoteColumns,supplierColumns,users,productColumns,invoiceColumns,statusOptions};

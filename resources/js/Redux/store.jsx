@@ -4,7 +4,7 @@ import suppliersReducer from './slices/supplierSlice';
 import deliveryNotesReducer from './slices/deliveryNoteSlice';
 import goodsReceivedReducer from './slices/goodsRecievedSlice';
 import invoicesReducer from './slices/invoiceSlice';
-
+import quotationReducer from './slices/quotationSlice';
 
 const rootReducer = combineReducers({
     // Here we will add reducers
@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
     deliveryNotes: deliveryNotesReducer,
     goodsReceived: goodsReceivedReducer,
     invoices: invoicesReducer,
+    quotations: quotationReducer,
 
   });
 const store = configureStore({

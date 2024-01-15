@@ -9,7 +9,7 @@ use App\Http\Controllers\api\v1\GoodReceivedController;
 use App\Http\Controllers\api\v1\SupplierController;
 use App\Http\Controllers\api\v1\FuelExpenseController;
 use App\Http\Controllers\api\v1\TransportExpenseController;
-
+use App\Http\Controllers\api\v1\QuotationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -44,4 +44,5 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('suppliers', SupplierController::class);
     Route::resource('fuel_expenses', FuelExpenseController::class);
     Route::resource('transport_expenses', TransportExpenseController::class);
+    Route::resource('quotations', QuotationController::class);
 });
