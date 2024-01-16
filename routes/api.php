@@ -10,33 +10,14 @@ use App\Http\Controllers\api\v1\SupplierController;
 use App\Http\Controllers\api\v1\FuelExpenseController;
 use App\Http\Controllers\api\v1\TransportExpenseController;
 use App\Http\Controllers\api\v1\QuotationController;
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
+ 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-// Route::prefix('v1')->middleware('auth:api')->group(function () {
-//     Route::apiResource('customers', CustomerController::class);
-//     Route::apiResource('invoices', InvoiceController::class);
-//     Route::apiResource('delivery-notes', DeliveryNoteController::class);
-//     Route::apiResource('good-received', GoodReceivedController::class);
-//     Route::apiResource('suppliers', SupplierController::class);
-// });
-
-
 Route::prefix('v1')->group(function () {
     Route::apiResource('customers', CustomerController::class);
+    // invoices
     Route::apiResource('invoices', InvoiceController::class);
     Route::put('invoices/{invoice}/status', [InvoiceController::class, 'updateStatus']);
     Route::apiResource('delivery-notes', DeliveryNoteController::class);

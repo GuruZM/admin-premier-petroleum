@@ -10,10 +10,12 @@ import { toast } from 'sonner';
 import { Select, SelectSection, Input, SelectItem , Button, Divider} from "@nextui-org/react";
 import axios from '@/Axios/axiosConfig';
 import { router } from '@inertiajs/react';
-
-function Create({auth}) {
+import InputText from '@/Components/InputText';
+function Create({auth,invoice}) {
 
     const dispatch = useDispatch();
+   
+    
 
     const items = [
         {
@@ -25,27 +27,28 @@ function Create({auth}) {
           },
      ]
 
-     const form = useForm({
+      const form = useForm({
         defaultValues: {
-            invoiceNumber: 0,
-            client: 0,
-            date: new Date().toISOString().slice(0, 10),
-            due_date: new Date().toISOString().slice(0, 10),
-            truck_plate: "",
-            subtotal: 0,
-            invoicetotal: 0,
-            items: items,
-            vat: 0,
+          invoiceNumber: invoice && invoice.number ? invoice.number : 0,
+          client: invoice && invoice.customer ? invoice.customer : 0,
+          date: invoice && invoice.date ? invoice.date : new Date().toISOString().slice(0, 10),
+          due_date: invoice && invoice.due_date ? invoice.due_date : new Date().toISOString().slice(0, 10),
+          truck_plate: invoice && invoice.track_details ? invoice.track_details : "",
+          subtotal: invoice && invoice.subtotal ? invoice.subtotal : 0,
+          invoicetotal: invoice && invoice.total ? invoice.total : 0,
+          items: invoice && invoice.line_items ? JSON.parse(invoice.line_items) : items,
+          vat: invoice && invoice.vat ? invoice.subtotal * 0.16 : 0,
         },
       });
-      
+      const { register,reset,setValue,getValues, handleSubmit } = form;
+
       const { fields, append, remove } = useFieldArray({
         control: form.control,
         name: "items",
     });
 
 
-    const { register,reset,setValue,getValues, handleSubmit } = form;
+   
 
     const handlePriceChange = (index,  e ) => {
 
@@ -95,20 +98,44 @@ function Create({auth}) {
     };
 
     const [isSubmitting, setIsSubmitting] = React.useState(false);
-
-
+ 
     const onSubmit = async (data) => {
-        
-        axios.post('/invoices',data).then((res)=>{
-          
-            toast.success('Invoice Added Successfully')
-            router.visit('/invoices')
-            reset()
-          }).catch((err)=>{
-            console.log('err :',err);
-            toast.error('Failed to create an Invoice')
+      if (invoice && invoice.id) {
+        const formData = new FormData();
+        Object.entries(data).forEach(([key, value]) => {
+          if (key === 'items' && Array.isArray(value)) {
+            formData.append(key, JSON.stringify(value));
+          } else {
+            formData.append(key, value);
+          }
+        });
+        formData.append('_method', 'PUT');
+        axios.post(`/invoices/${invoice.id}`, formData)
+          .then((res) => {
+            console.log('res:', res);
+            toast.success('Invoice Edited Successfully');
+            reset();
+            router.visit('/invoices');
           })
+          .catch((err) => {
+            console.error('err:', err);
+            toast.error('Failed to edit the Invoice');
+          });
+      } else {
+      
+        axios.post('/invoices', data)
+          .then((res) => {
+            toast.success('Invoice Added Successfully');
+            router.visit('/invoices');
+            reset();
+          })
+          .catch((err) => {
+            console.error('err:', err);
+            toast.error('Failed to create an Invoice');
+          });
+      }
     };
+    
 
   
   useEffect(() => {
@@ -157,75 +184,44 @@ function Create({auth}) {
           <div className=" grid grid-cols-2   gap-3   ">
           <div className=" mx-1 col-span-1 ">
 
-            <Input
-             style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-              key="invoiceNumber"
-              type="text"
-              label="Invoice No#"
-              labelPlacement="outside"
-              startContent="#"
-              className=" "
-                {...register("invoiceNumber")}
-            />
+      
+        <InputText title="Inoivce Number" type="text" register={register} name="invoiceNumber" /> 
+            
           </div>
             <div className="  col-span-1">
-              <Select
+          <span>Client</span>
+
+              <select
                 labelPlacement="outside"
                 label="Client Name"
-                className=" "
+                className="bg-gray-100  mt-1 p-2 rounded-xl w-full border-none outline-none focus:ring-0"
                 startContent="👤"
                 {...register("client")}
               >
                 {
                     clients.map((client) => (
-                        <SelectItem key={client.id} value={client.id}>
+                        <option key={client.id} value={client.id}>
                         {client.company_name}
-                        </SelectItem>
+                        </option>
                     ))
                 }
                 
-              </Select>
+              </select>
             </div>
           </div>
 
           <div className=" flex justify-center space-x-5 items-center mt-8 ">
             <div className=" flex-1  ">
-              <Input
-                   style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-                key="date"
-                type="date"
-                label="Invoice Date"
-                labelPlacement="outside"
-                startContent="🗓️"
-                {...register("date")}
-              />
-             
+            <InputText title="Date " className="flex-1" type="date" register={register} name="date" /> 
             </div>
 
             <div className="flex-1  ">
-            <Input
-                   style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-                key="date"
-                type="date"
-                label="Due Date"
-                labelPlacement="outside"
-                startContent="🗓️"
-                {...register("due_date")}
-              />
+            <InputText title="Due Date" className="flex-1" type="date" register={register} name="due_date" /> 
             </div>
           </div>
 
           <div className=" mx-1 mt-6 flex flex-col ">
-            <Input
-                 style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-              key="transport"
-              type="text"
-              label="Truck Plate Number"
-              labelPlacement="outside"
-              startContent="🚚"
-              className=""
-                {...register("truck_plate")}
-            />
+          <InputText title="Truck Plate Number" className="flex-1" type="text" register={register} name="truck_plate" /> 
           </div>
 
           {/* Item List Section */}
@@ -335,7 +331,7 @@ function Create({auth}) {
                type="submit"
                 isLoading={isSubmitting}
             >
-              Submit
+              {invoice ? 'Update' : 'Create'}
             </Button>
           </div>
           

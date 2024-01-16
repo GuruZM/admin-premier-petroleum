@@ -43,7 +43,7 @@ class InvoiceController extends Controller
 
     public function show($id)
     {
-        // Your code to fetch a specific customer
+         //
     }
 
     public function store(Request $request)
@@ -93,11 +93,55 @@ class InvoiceController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Your code to update a specific customer
+         
+        try {
+            $invoice = Invoice::find($id);
+            if (!$invoice) {
+                // Handle the case where the invoice with the given ID is not found
+                return response()->json(['error' => 'Invoice not found'], 404);
+            }
+        
+            $invoice->number = $request->invoiceNumber;
+            $invoice->track_details = $request->truck_plate;
+            $invoice->date = $request->date;
+            $invoice->due_date = $request->due_date;
+            $invoice->customer = $request->client;
+            if (isset($request->items) && is_array($request->items)) {
+                $invoice->items = json_encode($request->items, JSON_UNESCAPED_SLASHES);
+            }
+            $invoice->subtotal = $request->subtotal;
+            $invoice->vat = $request->vat;
+            $invoice->total = $request->invoicetotal;
+            $invoice->issued_by = $request->issued_by;
+            $invoice->approved_by = $request->issued_by;   
+        
+            if ($invoice->save()) {
+                // The save operation was successful
+                return response()->json(['message' => 'Invoice updated successfully']);
+            } else {
+                // Handle the case where the save operation failed
+                return response()->json(['error' => 'Failed to update the invoice'], 500);
+            }
+        } catch (\Exception $e) {
+            // Handle any exceptions that occurred during the update
+            return response()->json(['error' => 'An error occurred while updating the invoice', 'message' => $e->getMessage()], 500);
+        }
+        
+
     }
 
     public function destroy($id)
     {
-        // Your code to delete a specific customer
+ 
+       try {
+        $invoice = Invoice::find($id);
+        if (!$invoice) {
+            return response()->json(['message' => 'Invoice not found'], 404);
+        }
+        $invoice->delete();
+        return response()->json(['message' => 'Invoice deleted successfully']);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'An error occurred while deleting the invoice', 'message' => $e->getMessage()], 500);
+    }
     }
 }

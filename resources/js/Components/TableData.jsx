@@ -12,15 +12,14 @@ import {
   Dropdown,
   DropdownMenu,
   DropdownItem,
- 
   Pagination,
-
   useDisclosure,
  
 } from "@nextui-org/react";
 import {  router , Link } from '@inertiajs/react';
 import { VerticalDotsIcon } from './icons/VerticalDotsIcon';
-function TableData({modelObject,objectColumn,initialColumns,onOpen,baseurl}) {
+import { formatCurrency } from '@/Utils/methods';
+function TableData({modelObject,objectColumn,initialColumns,handleDelete,onOpen,baseurl}) {
  
   // const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [filterValue, setFilterValue] = React.useState("");
@@ -98,7 +97,7 @@ function TableData({modelObject,objectColumn,initialColumns,onOpen,baseurl}) {
             return (
               <div className="flex flex-col">
               {/* <p className="text-bold text-small capitalize">{cellValue}</p> */}
-              <p className="text-bold text-tiny capitalize text-default-400">{obj.description}</p>
+              <p className="text-bold   capitalize ">{obj.description}</p>
             </div>
             );
             
@@ -106,14 +105,14 @@ function TableData({modelObject,objectColumn,initialColumns,onOpen,baseurl}) {
           return (
             <div className="flex flex-col">
               {/* <p className="text-bold text-small capitalize">{cellValue}</p> */}
-              <p className="text-bold text-tiny capitalize text-default-400">{obj.category}</p>
+              <p className="text-bold   capitalize  ">{obj.category}</p>
             </div>
           );
           case "total":
             return (
               <div className="flex flex-col">
                 {/* <p className="text-bold text-small capitalize">{cellValue}</p> */}
-                <p className="text-bold text-tiny capitalize ">K{obj.total}</p>
+                <p className="text-bold capitalize ">{formatCurrency(obj.total)}</p>
               </div>
             );
         case "supplier":
@@ -127,7 +126,7 @@ function TableData({modelObject,objectColumn,initialColumns,onOpen,baseurl}) {
           return (
             <div className="flex flex-col">
             {/* <p className="text-bold text-small capitalize">{cellValue}</p> */}
-            <p className="text-bold text-tiny capitalize text-default-400">K{obj.base_price}</p>
+            <p className="text-bold text-tiny capitalize text-default-400">{formatCurrency(obj.base_price)}</p>
           </div>
           );
         case "actions":
@@ -141,6 +140,14 @@ function TableData({modelObject,objectColumn,initialColumns,onOpen,baseurl}) {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu>
+                <DropdownItem
+                  onClick={() => {
+                    router.visit(`${baseurl+obj.id}/edit`)
+                  }}
+                  >
+                    Edit
+                  </DropdownItem>
+
                   <DropdownItem
                   // href={baseurl+obj.id}
                   onClick={() => {
@@ -149,7 +156,11 @@ function TableData({modelObject,objectColumn,initialColumns,onOpen,baseurl}) {
 
                   >View</DropdownItem>
                   {/* <DropdownItem>Edit</DropdownItem> */}
-                  <DropdownItem>Delete</DropdownItem>
+                  <DropdownItem
+                  onClick={() => {
+                    handleDelete(obj.id)
+                  }}
+                  >Delete</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
