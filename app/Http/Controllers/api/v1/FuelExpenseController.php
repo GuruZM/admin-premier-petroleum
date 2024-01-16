@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\FuelExpense;
 class FuelExpenseController extends Controller
 {
     /**
@@ -12,7 +12,11 @@ class FuelExpenseController extends Controller
      */
     public function index()
     {
-        //
+        //return all fuel expenses
+        $fuelExpenses = FuelExpense::all();
+        return response()->json(
+             $fuelExpenses,
+         200);
     }
 
     /**
@@ -28,7 +32,33 @@ class FuelExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validate and store in the database while surrounding in a try catch block 
+        try {
+            $request->validate([
+                'quantity' => 'required',
+                'price' => 'required',
+                'total' => 'required',
+                'duty'=>'nullable',
+                'status'=>'nullable',
+            ]);
+            $fuelExpense = FuelExpense::create([
+               'quantity'=>$request->quantity,
+                'price'=>$request->price,
+                'total'=>$request->total,
+                'duty'=>$request->duty,
+                'status'=>$request->status,
+            ]);
+            if ($fuelExpense) {
+                return response()->json([
+                    'message' => 'Fuel Expense created successfully',
+                ], 201);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Fuel Expense creation failed!',
+                'error' => $e->getMessage(),
+            ], 409);
+        }
     }
 
     /**

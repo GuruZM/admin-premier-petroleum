@@ -42,7 +42,7 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('delivery-notes', DeliveryNoteController::class);
     Route::apiResource('good-received', GoodReceivedController::class);
     Route::apiResource('suppliers', SupplierController::class);
-    Route::resource('fuel_expenses', FuelExpenseController::class);
-    Route::resource('transport_expenses', TransportExpenseController::class);
+    Route::resource('fuel-expenses', FuelExpenseController::class);
+    Route::resource('transport-expenses', TransportExpenseController::class);
     Route::resource('quotations', QuotationController::class);
 });

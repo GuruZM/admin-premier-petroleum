@@ -53,12 +53,26 @@ Route::get('/dashboard', function () {
     // return invoice sum total 
     $totalInvoices = Invoice::sum('total');
 
-   
+    // get transport expenses where paid and fuel expenses where paid 
+    $paidTransportExpenses = TransportExpense::where('status', 'paid')->sum('total');
+    $paidFuelExpenses = FuelExpense::where('status', 'paid')->sum('total');
+    // add the expenses
+    $paidTotalExpenses = $paidTransportExpenses + $paidFuelExpenses;
+    // do the same for pending expenses
+    $pendingTransportExpenses = TransportExpense::where('status', 'pending')->sum('total');
+    $pendingFuelExpenses = FuelExpense::where('status', 'pending')->sum('total');
+    $pendingTotalExpenses = $pendingTransportExpenses + $pendingFuelExpenses;
+    //get total 
+    $totalExpenses = $paidTotalExpenses + $pendingTotalExpenses;
+
     return Inertia::render('Dashboard',
 [
     'paidInvoices' => $paidInvoices,
     'unpaidInvoices' => $unpaidInvoices,
     'totalInvoices' => $totalInvoices,
+    'totalExpenses' => $totalExpenses,
+    'pendingTotalExpenses' => $pendingTotalExpenses,
+    'paidTotalExpenses' => $paidTotalExpenses,
 ]
 );
 })->middleware(['auth', 'verified'])->name('dashboard');

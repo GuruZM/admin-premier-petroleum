@@ -18,13 +18,13 @@ const DashboardStartCard = ({stat1,stat2,stat3,title,desc}) => {
             <p className='bg-white w-fit px-5 rounded-lg  '>{title}</p> 
     <div class="flex gap-4 py-5">
         <div class="flex-1 px-4 bg-white rounded-lg shadow-lg flex flex-col gap-1 p-2">
-            <small class="text-2xl font-bold py-12   tracking-tight leading-none">{formatCurrency(stat1)}</small><span class="text-xs font-bold text-gray-500">Paid</span>
+            <small class="text-2xl font-bold py-12  tracking-tight leading-none">{formatCurrency(stat1)}</small><span class="text-xs font-bold text-gray-500">Paid</span>
         </div>
         <div class="flex-1 flex bg-white rounded-lg shadow-lg  flex-col gap-1 p-2">
-            <small class="text-2xl font-bold py-12 tracking-tight leading-none">K{stat2}</small><span class="text-xs font-bold text-gray-500">Pending</span>
+            <small class="text-2xl font-bold py-12 tracking-tight leading-none">{formatCurrency(stat2)}</small><span class="text-xs font-bold text-gray-500">Pending</span>
         </div>
-        <div class="flex-1 hidden bg-white rounded-lg shadow-lg  lg:flex flex-col gap-1 p-2">
-            <small class="text-2xl font-bold py-12 tracking-tight leading-none">K{stat3}</small><span class="text-xs font-bold text-gray-500">Total</span>
+        <div class="flex-1 hidden bg-white rounded-lg shadow-lg lg:flex flex-col gap-1 p-2">
+            <small class="text-2xl font-bold py-12 tracking-tight leading-none">{formatCurrency(stat3)}</small><span class="text-xs font-bold text-gray-500">Total</span>
         </div>
     </div>
     {/* <div class="bg-orange-500 p-2 rounded-lg">

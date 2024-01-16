@@ -5,18 +5,13 @@ import AddModal from '@/Components/AddModal'
 import {  useDisclosure,Input ,SelectSection,Select,  SelectItem , Button,Divider} from "@nextui-org/react";
 import { fuelExpenseColumns } from '@/Utils/tableStructure/columns';
 import { fetchSuppliers } from '@/Redux/slices/supplierSlice';
-import { useForm,  Controller, set,  } from 'react-hook-form';
+import { useForm,  Controller, set, get,  } from 'react-hook-form';
 import { useSelector,useDispatch } from 'react-redux';
 import axios from '../../Axios/axiosConfig';
 
 const INITIAL_VISIBLE_COLUMNS = ["quantity","price", "total","status", "duty","actions"];
 
-
-
 function index({auth}) {
-
-
-     
 
 const { register,reset, handleSubmit,setValue,watch, getValues,formState} = useForm();
 const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -37,7 +32,28 @@ const calculateTotal = () => {
   setValue('total', total);
 };
 
+// multiply quantity and price to get total
+const handleQuantityChange = () => {
+  const quantity = getValues('quantity');
+  const price = getValues('price');
+  const total = quantity * price;
+  setValue('total', total);
+  calculateDuty();
+};
+// handle price change 
+const handlePriceChange = () => {
+  const quantity = getValues('quantity');
+  const price = getValues('price');
+  const total = quantity * price;
+  setValue('total', total);
+};
 
+// calculate duty
+const calculateDuty = () => {
+  const quantity = getValues('quantity');
+  const duty = 180000/quantity;
+  setValue('duty', duty);
+};
 
 const onSubmit = async (data) => {
    
@@ -74,7 +90,7 @@ const onSubmit = async (data) => {
                   label="Quantity"
                   placeholder=""
                   className="border-none outline-none  "
-                  {...register('quantity', { onChange: calculateTotal })}
+                  {...register('quantity', { onChange: handleQuantityChange })}
                   //  {...register('quantity', { required: true })}
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
@@ -91,31 +107,35 @@ const onSubmit = async (data) => {
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
 
-<Input 
+<div>
+<small className='font-semibold'>Total</small>
+<input 
         style={{border:"none"}}
                   type='number'
                   labelPlacement='outside'
                   label="Total"
                   readOnly
-                  placeholder=""
-                  disabled
-                  className="   "
+                  className="bg-gray-100 w-full p-2 rounded-xl"
                    {...register('total', { required: true })}
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
+</div>
 
-<Input 
+                <div>
+                <small className='font-semibold'>Duty</small>
+<input
         style={{border:"none"}}
                   type='number'
-                  labelPlacement='outside'
-                  label="Duty"
-
+                
+              
                   placeholder=""
-                  className="   "
+                  className="bg-gray-100 w-full p-2 rounded-xl"
                   readOnly
                    {...register('duty', { required: true })}
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
+                </div>
+
 
  
 
@@ -124,17 +144,19 @@ const onSubmit = async (data) => {
                 label="Status"
                 className=" "
                 startContent="👤"
-                {...register("status")}
+                {...register("status",{required:true})}
               >
                
                         <SelectItem
                         id='pending'
                         value="pending"
+                        key='pending'
                         >
                           Pending 
                         </SelectItem>
                 
                         <SelectItem
+                        key='paid'
                         id='paid'
                         value="paid"
                         >

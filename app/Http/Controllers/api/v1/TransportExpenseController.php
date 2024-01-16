@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\TransportExpense;
 class TransportExpenseController extends Controller
 {
     /**
@@ -12,7 +12,11 @@ class TransportExpenseController extends Controller
      */
     public function index()
     {
-        //
+        //return all transport expenses
+        $transportExpenses = TransportExpense::all();
+        return response()->json(
+             $transportExpenses,
+         200);
     }
 
     /**
@@ -28,7 +32,31 @@ class TransportExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validate and store in the database and surround the request in a try catch block
+        try {
+            $request->validate([
+                'quantity' => 'required',
+                'price' => 'required',
+                'total' => 'required',
+                'status'=>'nullable',
+            ]);
+            $transportExpense = TransportExpense::create([
+                'quantity'=>$request->quantity,
+                'price'=>$request->price,
+                'total'=>$request->total,
+                'status'=>$request->status,
+            ]);
+            if ($transportExpense) {
+                return response()->json([
+                    'message' => 'Transport Expense created successfully',
+                ], 201);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Transport Expense creation failed!',
+                'error' => $e->getMessage(),
+            ], 409);
+        }
     }
 
     /**
