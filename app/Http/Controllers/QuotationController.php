@@ -45,7 +45,7 @@ class QuotationController extends Controller
        
         
         $quotation = Quotation::join('customers', 'quotations.customer_id', '=', 'customers.id')
-        ->select('quotations.*', 'customers.*') 
+        ->select('quotations.*', 'customers.company_name as company_name', 'customers.tpin as customer_tpin') 
         ->where('quotations.id', $id)
         ->first();
       

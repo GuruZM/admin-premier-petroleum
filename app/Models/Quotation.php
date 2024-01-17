@@ -8,7 +8,7 @@ use App\Models\Customer;
 class Quotation extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'tpin', 'date', 'items', 'total', 'vat', 'subtotal'];
+    protected $fillable = ['title', 'customer_id', 'date', 'items', 'total', 'vat', 'subtotal'];
 
     public function customer()
     {

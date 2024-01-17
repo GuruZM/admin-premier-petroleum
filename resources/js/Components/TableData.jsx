@@ -115,6 +115,13 @@ function TableData({modelObject,objectColumn,initialColumns,handleDelete,onOpen,
                 <p className="text-bold capitalize ">{formatCurrency(obj.total)}</p>
               </div>
             );
+            case "company_name":
+              return (
+                <div className="flex flex-col">
+                  {/* <p className="text-bold text-small capitalize">{cellValue}</p> */}
+                  <p className="text-bold capitalize ">{obj.company_name}</p>
+                </div>
+              );
             case "price":
               return (
                 <div className="flex flex-col">

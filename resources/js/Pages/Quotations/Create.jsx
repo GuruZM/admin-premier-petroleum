@@ -41,7 +41,7 @@ function Create({auth,quotation}) {
        
     const form = useForm({
       defaultValues: {
-        tpin: quotation ? parseInt(quotation.tpin) : 0,
+        customer_id: quotation ? parseInt(quotation.customer_id) : 0,
         date: quotation ? quotation.date : new Date().toISOString().slice(0, 10),
         subtotal: quotation ? quotation.subtotal : 0,
         total: quotation ? quotation.total : 0,
@@ -136,7 +136,7 @@ function Create({auth,quotation}) {
         formData.append('_method', 'PUT');
         axios.post(`/quotations/${quotation.id}/`, formData)
           .then((res) => {
-            console.log('res :',res);
+            
             toast.success('Quotation Edited Successfully');
             router.visit('/quotations');
             reset();
@@ -149,6 +149,7 @@ function Create({auth,quotation}) {
         // If quotation is not set, send to add
         axios.post('/quotations', data)
           .then((res) => {
+            
             toast.success('Quotation Added Successfully');
             router.visit('/quotations');
             reset();
@@ -208,10 +209,11 @@ function Create({auth,quotation}) {
         
             <div className="  col-span-1">
               <select
-                
+                type="number"
                 className="bg-gray-100  mt-1 p-2 rounded-xl w-full border-none outline-none focus:ring-0"
-                {...register("tpin")}
+                {...register("customer_id")}
               >
+               
                 {
                     clients.map((client) => (
                         <option key={client.id} value={client.id}>

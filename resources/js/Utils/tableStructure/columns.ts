@@ -98,7 +98,7 @@ const invoiceColumns = [
 
 const quotationColumns = [
   {name: "ID", uid: "id", sortable: true},
-  {name: "TPIN", uid: "tpin", sortable: true},
+  {name: "CUSTOMER", uid: "company_name", sortable: true},
   {name: "DATE", uid: "date", sortable: true},
   {name: "VAT", uid: "vat", sortable: true},
   {name: "SUB TOTAL", uid: "sub_total", sortable: true},

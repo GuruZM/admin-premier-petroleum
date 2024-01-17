@@ -11,7 +11,7 @@ import axios from '@/Axios/axiosConfig';
 import { toast } from 'sonner';
 function Index({auth}) {
 
-  const INITIAL_VISIBLE_COLUMNS = ["tpin","date","vat", "subtotal", "total","actions"];
+  const INITIAL_VISIBLE_COLUMNS = ["company_name","date","vat", "subtotal", "total","actions"];
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const dispatch = useDispatch()
 
