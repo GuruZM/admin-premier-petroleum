@@ -61,8 +61,7 @@ const handleDelete = async (id) => {
     
   try {        
       if(confirm("are you sure you want to delete this Record")){
-       const response = await axios.delete(`/fuel-expenses/${id}`);
-         
+       const response = await axios.delete(`/fuel-expenses/${id}`);      
        toast.success("Record Deleted")
        dispatch(fetchFuelExpense());
       }else{
