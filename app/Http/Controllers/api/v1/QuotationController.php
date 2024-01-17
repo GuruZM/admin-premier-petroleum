@@ -20,6 +20,7 @@ class QuotationController extends Controller
         $quotations = Quotation::join('customers', 'quotations.customer_id', '=', 'customers.id')
         ->select('quotations.*', 'customers.name as customer_name', 'customers.tpin as customer_tpin')
         ->get();
+        // $quotations=Quotation::all();
         return response()->json(
              $quotations,
          200);

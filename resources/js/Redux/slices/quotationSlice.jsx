@@ -5,6 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const fetchQuotations = createAsyncThunk('quotations/fetchAll', async () => {
     try {
       const response = await axios.get('/quotations'); // Replace with your API endpoint
+     console.log('response :',response);
       return response.data;
     } catch (error) {
       throw error; 
