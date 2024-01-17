@@ -12,7 +12,7 @@ import TextInput from '@/Components/TextInput';
 import { useForm,  Controller, set,  } from 'react-hook-form';
 import axios from '../../Axios/axiosConfig';
 
-const INITIAL_VISIBLE_COLUMNS = ["firstname","lastname", "company_name", "contact", "address",'actions'];
+const INITIAL_VISIBLE_COLUMNS = ["firstname","tpin","lastname", "company_name", "contact", "address",'actions'];
 
 function Index({auth}) {
   
@@ -104,6 +104,16 @@ function Index({auth}) {
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
 
+<InputBox
+        style={{border:"none"}}
+              
+                  labelPlacement='outside'
+                  label="Tpin"
+                  placeholder=""
+                  className="   "
+                   {...register('tpin' )}
+                  startContent={<span className="text-default-400 text-small"></span>}
+                />
 <InputBox
         style={{border:"none"}}
               

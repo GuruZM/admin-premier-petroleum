@@ -14,7 +14,12 @@ class QuotationController extends Controller
     public function index()
     {
         //return all quotations
-        $quotations = Quotation::all();
+        // $quotations = Quotation::join('customers', 'quotations.customer_id', '=', 'customers.id')
+        // ->select('quotations.', 'quotations.field1', 'quotations.field2', 'customers.name', 'customers.email')
+        // ->get();
+        $quotations = Quotation::join('customers', 'quotations.customer_id', '=', 'customers.id')
+        ->select('quotations.*', 'customers.name as customer_name', 'customers.tpin as customer_tpin')
+        ->get();
         return response()->json(
              $quotations,
          200);
@@ -38,7 +43,7 @@ class QuotationController extends Controller
         try {
             $request->validate([
             
-                'tpin'=>'nullable|string',
+                'customer_id'=>'nullable|string',
                 'date'=>'nullable|date',
                 'items'=>'required',
                 'total'=>'required',
@@ -47,7 +52,7 @@ class QuotationController extends Controller
             ]);
             $quotation = Quotation::create([
  
-                'tpin' => $request->tpin,
+                'customer_id' => $request->tpin,
                 'date' => $request->date,
                 'items' => json_encode($request->items),
                 'total' => $request->total,
@@ -97,7 +102,7 @@ class QuotationController extends Controller
         // return $id;
         try {
             $request->validate([
-                'tpin' => 'nullable|string',
+                'customer_id' => 'nullable|string',
                 'date' => 'nullable|date',
                 'items' => 'required',
                 'total' => 'required',
@@ -118,7 +123,7 @@ class QuotationController extends Controller
             }
 
             $quotation->update([
-                'tpin' => $request->tpin,
+                'customer_id' => $request->tpin,
                 'date' => $request->date,
                 'items' =>  $request->items,
                 'total' => $request->total,

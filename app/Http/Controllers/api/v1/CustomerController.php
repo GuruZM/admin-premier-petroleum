@@ -51,6 +51,7 @@ class CustomerController extends Controller
                 'firstname' => 'string|nullable',
                 'lastname' => 'string|nullable',
                 'company_name'=> 'required|string',
+                'tpin'=> 'nullable|string',
                 'contact'=> 'string|nullable',
                 'address'=> 'string|nullable',
             ]);

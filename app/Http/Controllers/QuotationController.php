@@ -43,10 +43,12 @@ class QuotationController extends Controller
     public function show(string $id)
     {
        
-        $quotation = Quotation::join('customers', 'quotations.tpin', '=', 'customers.tpin')
-        ->select('quotations.*', 'customers.*')
+        
+        $quotation = Quotation::join('customers', 'quotations.customer_id', '=', 'customers.id')
+        ->select('quotations.*', 'customers.*') 
         ->where('quotations.id', $id)
         ->first();
+      
         return inertia('Quotations/Show',[
             'quotation' => $quotation,
             'status'=> session('status')

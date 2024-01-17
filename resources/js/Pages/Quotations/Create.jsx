@@ -214,8 +214,8 @@ function Create({auth,quotation}) {
               >
                 {
                     clients.map((client) => (
-                        <option key={client.tpin} value={client.tpin}>
-                        {client.tpin}
+                        <option key={client.id} value={client.id}>
+                        {client.company_name}
                         </option>
                     ))
                 }
