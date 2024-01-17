@@ -34,11 +34,7 @@ class GoodReceivedController extends Controller
      */
     public function store(Request $request)
     {
-        // return response()->json([
-        //     'message' => 'Good Received created successfully',
-        //     'data' => $request->all()
-        // ]
-        // );
+       
 
         try {
             // Validate the incoming request data
@@ -47,7 +43,7 @@ class GoodReceivedController extends Controller
                 'date'=> 'required|string',
                 'received_by'=> 'required|string',
                 'checked_by'=> 'required|string',
-                'order_reference'=> 'required|string',
+                'order_ref'=> 'required|string',
                 'items'=> 'required',
                 'goods_condition'=> 'required|string',
 
@@ -60,7 +56,7 @@ class GoodReceivedController extends Controller
                 'date' => $validatedData['date'],
                 'received_by' => $validatedData['received_by'],
                 'checked_by' => $validatedData['checked_by'],
-                'order_reference' => $validatedData['order_reference'],
+                'order_reference' => $validatedData['order_ref'],
                 'items' => json_encode($validatedData['items']),
                 'goods_condition' => $validatedData['goods_condition'],
             ]    
@@ -97,7 +93,7 @@ class GoodReceivedController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       
+       return $request->all();
         try {
             // Validate the incoming request data
             $validatedData = $request->validate([

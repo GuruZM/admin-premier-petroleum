@@ -198,6 +198,7 @@ function Create({auth,invoice}) {
                 startContent="👤"
                 {...register("client")}
               >
+                <option value=""></option>
                 {
                     clients.map((client) => (
                         <option key={client.id} value={client.id}>

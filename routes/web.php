@@ -47,19 +47,20 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $currentDate = Date::now();
+    $currentMonth = now()->month; 
     // return invoice sum total with status paid 
-    $paidInvoices = Invoice::whereDate('created_at', $currentDate)->where('status', 'paid')->sum('total');
-    $unpaidInvoices = Invoice::whereDate('created_at', $currentDate)->where('status', 'pending')->sum('total');
-    $totalInvoices = Invoice::whereDate('created_at', $currentDate)->sum('total');
+    $paidInvoices = Invoice::whereMonth('created_at', $currentMonth)->where('status', 'paid')->sum('total');
+    $unpaidInvoices = Invoice::whereMonth('created_at', $currentMonth)->where('status', 'pending')->sum('total');
+    $totalInvoices = Invoice::whereMonth('created_at', $currentMonth)->sum('total');
  
-    $paidTransportExpenses = TransportExpense::whereDate('created_at', $currentDate)->where('status', 'paid')->sum('total');
-    $paidFuelExpenses = FuelExpense::whereDate('created_at', $currentDate)->where('status', 'paid')->sum('total');
- 
+  
+        $paidTransportExpenses = TransportExpense::whereMonth('created_at', $currentMonth)->where('status', 'paid')->sum('total');
+        $paidFuelExpenses = FuelExpense::whereMonth('created_at', $currentMonth)->where('status', 'paid')->sum('total');
+        
     $paidTotalExpenses = $paidTransportExpenses + $paidFuelExpenses;
-    
-    $pendingTransportExpenses = TransportExpense::whereDate('created_at', $currentDate)->where('status', 'pending')->sum('total');
-    $pendingFuelExpenses = FuelExpense::whereDate('created_at', $currentDate)->where('status', 'pending')->sum('total');
+
+    $pendingTransportExpenses = TransportExpense::whereMonth('created_at', $currentMonth)->where('status', 'pending')->sum('total');
+    $pendingFuelExpenses = FuelExpense::whereMonth('created_at', $currentMonth)->where('status', 'pending')->sum('total');
     $pendingTotalExpenses = $pendingTransportExpenses + $pendingFuelExpenses;
   
     $totalExpenses = $paidTotalExpenses + $pendingTotalExpenses;
