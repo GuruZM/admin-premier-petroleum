@@ -6,7 +6,7 @@ import {  useDisclosure,Input ,Divider,Button,Select,SelectItem} from "@nextui-o
 import { useSelector,useDispatch } from 'react-redux';
 import { deliveryNoteColumns } from '@/Utils/tableStructure/columns';
 import { fetchDeliveryNotes } from '@/Redux/slices/deliveryNoteSlice';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { fetchInvoices } from '@/Redux/slices/invoiceSlice';
 import { useForm,  Controller, set,  } from 'react-hook-form';
 import axios from '../../Axios/axiosConfig';
@@ -23,11 +23,29 @@ function Index({auth}) {
   const { deliveryNotes, status, error } = useSelector((state) => state.deliveryNotes);
   const { invoices } = useSelector((state) => state.invoices);
 
+
   useEffect(() => {
     dispatch(fetchDeliveryNotes())
     dispatch(fetchInvoices())
     
   }, [])
+
+  const handleDelete = async (id) => {
+    try {        
+        if(confirm("are you sure you want to delete this Record")){
+         const response = await axios.delete(`/delivery-notes/${id}`);
+          console.log(response)
+         toast.success("Record Deleted")
+         dispatch(fetchDeliveryNotes());
+        }else{
+        toast.error("Request Cancelled")
+        }
+    } catch (error) {
+
+        toast("Somthing Went Wrong")
+      console.error('Error deleting:', error.response?.data?.error || error.message);
+    }
+  };
 
   
   const onSubmit = async (data) => {
@@ -50,97 +68,18 @@ function Index({auth}) {
     router.visit('/delivery-notes/create')
   }
 
+  
+
   return (
     <Authenticated
     user={auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Delivery Note</h2>}
     >
-     <ContentLayout onOpen={redi} baseurl={baseurl} title="Delivery Note" tableObject={deliveryNotes} tableColumns={deliveryNoteColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
+     <ContentLayout onOpen={redi} baseurl={baseurl} title="Delivery Note" handleDelete={handleDelete} tableObject={deliveryNotes} tableColumns={deliveryNoteColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
         <AddModal 
           onOpenChange={onOpenChange} isOpen={isOpen} title="Add Delivery Note" isSubmitting={false}
         >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='space-y-8'>
-
          
-        <Input
-         style={{ border: "none", outline: "none", ":focus": { outline: "none" } }}
-              
-                  labelPlacement='outside'
-                  label="Address"
-                  placeholder=""
-                  className="border-none outline-none  "
-                   {...register('address', { required: true })}
-                  startContent={<span className="text-default-400 text-small"></span>}
-                />
-                   <Input
-         style={{ border: "none", outline: "none", ":focus": { outline: "none" } }}
-              
-                  labelPlacement='outside'
-                  label="Title"
-                  placeholder=""
-                  className="border-none outline-none  "
-                   {...register('title', { required: true })}
-                  startContent={<span className="text-default-400 text-small"></span>}
-                />
-                   <Input
-         style={{ border: "none", outline: "none", ":focus": { outline: "none" } }}
-              
-                  labelPlacement='outside'
-                  label="Number"
-                  placeholder=""
-                  className="border-none outline-none  "
-                   {...register('number', { required: true })}
-                  startContent={<span className="text-default-400 text-small"></span>}
-                />
-
-<Input
-         style={{ border: "none", outline: "none", ":focus": { outline: "none" } }}
-              
-                  labelPlacement='outside'
-                  type='date'
-                  label="Issue Date"
-                  placeholder=""
-                  className="border-none outline-none  "
-                   {...register('issue_date', { required: true })}
-                  startContent={<span className="text-default-400 text-small"></span>}
-                />
-                   <Select
-                labelPlacement="outside"
-                label="Invoice Number"
-                className=" "
-                startContent=""
-                {...register("invoice_number")}
-              >
-                {
-                    invoices.map((invoice) => (
-                        <SelectItem key={invoice.id} value={invoice.number}>
-                        {invoice.number}
-                        </SelectItem>
-                    ))
-                }
-                
-              </Select>
-                  <Divider className='my-5'/>
-                <div className="buttonSection flex  justify-end gap-1">
-                  <Button 
-                
-                color="danger" variant="flat"  onPress={()=>{
-              
-                  onOpenChange()  
-                }}>
-                  Close
-                </Button>
-
-                <Button 
-                isLoading={formState.isSubmitting}
-                type='submit'
-                color="primary" >
-                 Submit
-                </Button>
-                </div>
-                </div>
-        </form>
         </AddModal>
 
     </Authenticated>

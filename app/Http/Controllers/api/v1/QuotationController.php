@@ -94,7 +94,47 @@ class QuotationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // return $id;
+        try {
+            $request->validate([
+                'tpin' => 'nullable|string',
+                'date' => 'nullable|date',
+                'items' => 'required',
+                'total' => 'required',
+                'vat' => 'nullable',
+                'subtotal' => 'nullable',
+            ]);
+        
+            $quotation = Quotation::find($id);
+        
+            if (!$quotation) {
+                return response()->json([
+                    'error' => 'Quotation not found',
+                ], 404);
+            }
+        
+            if (isset($request->items) && is_array($request->items)) {
+                $invoice->items = json_encode($request->items, JSON_UNESCAPED_SLASHES);
+            }
+
+            $quotation->update([
+                'tpin' => $request->tpin,
+                'date' => $request->date,
+                'items' =>  $request->items,
+                'total' => $request->total,
+                'vat' => $request->vat,
+                'subtotal' => $request->subtotal,
+            ]);
+        
+            return response()->json([
+                'message' => 'Quotation updated successfully',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error updating quotation: ' . $e->getMessage(),
+            ], 500);
+        }
+        
     }
 
     /**
@@ -102,6 +142,25 @@ class QuotationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //delete quotation
+        $quotation = Quotation::find($id);
+        try {
+            if ($quotation) {
+                $quotation->delete();
+                return response()->json([
+                    'message' => 'Quotation deleted successfully',
+                ], 201);
+            } else {
+                return response()->json([
+                    'message' => 'Error deleting quotation',
+                ], 201);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'An error occurred while deleting the quotation',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+        
     }
 }

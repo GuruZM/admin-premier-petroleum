@@ -5,10 +5,11 @@ import AddModal from '@/Components/AddModal'
 import {  useDisclosure,Input ,SelectSection,Select,  SelectItem , Button,Divider} from "@nextui-org/react";
 import { fuelExpenseColumns } from '@/Utils/tableStructure/columns';
 import { fetchSuppliers } from '@/Redux/slices/supplierSlice';
+import {fetchFuelExpense} from '@/Redux/slices/fuelExpenseSlice';
 import { useForm,  Controller, set, get,  } from 'react-hook-form';
 import { useSelector,useDispatch } from 'react-redux';
 import axios from '../../Axios/axiosConfig';
-
+import { toast } from 'sonner';
 const INITIAL_VISIBLE_COLUMNS = ["quantity","price", "total","status", "duty","actions"];
 
 function index({auth}) {
@@ -17,10 +18,10 @@ const { register,reset, handleSubmit,setValue,watch, getValues,formState} = useF
 const {isOpen, onOpen, onOpenChange} = useDisclosure();
 const dispatch = useDispatch()
 const { suppliers, status, error } = useSelector((state) => state.suppliers);
+const { fuelExpenses } = useSelector((state) => state.fuelExpenses);
 
 useEffect(() => {
-  // dispatch(fetchSuppliers())
-  
+  dispatch(fetchFuelExpense())
 }, [dispatch])
 
 const calculateTotal = () => {
@@ -55,19 +56,35 @@ const calculateDuty = () => {
   setValue('duty', duty);
 };
 
+
+const handleDelete = async (id) => {
+    
+  try {        
+      if(confirm("are you sure you want to delete this Record")){
+       const response = await axios.delete(`/fuel-expenses/${id}`);
+         
+       toast.success("Record Deleted")
+       dispatch(fetchFuelExpense());
+      }else{
+      toast.error("Request Cancelled")
+      }
+  } catch (error) {
+
+      toast("Somthing Went Wrong")
+    console.error('Error deleting:', error.response?.data?.error || error.message);
+  }
+};
+
 const onSubmit = async (data) => {
-   
-    console.log('data :',data);
     axios.post('/fuel-expenses',data).then((res)=>{
       console.log('res :',res);
-      // toast.success('Supplier Added Successfully')
+      toast.success('Fuel Expense Successfully')
       onOpenChange()
-      // dispatch(fetchSuppliers())
+      dispatch(fetchFuelExpense());
       reset()
     }).catch((err)=>{
-    
       console.log('err :',err);
-      toast.error('Failed to add Supplier')
+      toast.error('Something Went Wrong')
     })
   }
 
@@ -76,7 +93,7 @@ const onSubmit = async (data) => {
     user={auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Fuel Expense</h2>}
         >
-                 <ContentLayout onOpen={onOpen} title="Fuel Expenses" tableObject={suppliers} tableColumns={fuelExpenseColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
+                 <ContentLayout onOpen={onOpen} title="Fuel Expenses" handleDelete={handleDelete} tableObject={fuelExpenses} tableColumns={fuelExpenseColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
         <AddModal 
           onOpenChange={onOpenChange} isOpen={isOpen} title="Add Expense" isSubmitting={false}
         >

@@ -25,6 +25,7 @@ use App\Models\Quotation;
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,23 +47,21 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    $currentDate = Date::now();
     // return invoice sum total with status paid 
-    $paidInvoices = Invoice::where('status', 'paid')->sum('total');
-    // return invoice sum total with status unpaid
-    $unpaidInvoices = Invoice::where('status', 'pending')->sum('total');
-    // return invoice sum total 
-    $totalInvoices = Invoice::sum('total');
-
-    // get transport expenses where paid and fuel expenses where paid 
-    $paidTransportExpenses = TransportExpense::where('status', 'paid')->sum('total');
-    $paidFuelExpenses = FuelExpense::where('status', 'paid')->sum('total');
-    // add the expenses
+    $paidInvoices = Invoice::whereDate('created_at', $currentDate)->where('status', 'paid')->sum('total');
+    $unpaidInvoices = Invoice::whereDate('created_at', $currentDate)->where('status', 'pending')->sum('total');
+    $totalInvoices = Invoice::whereDate('created_at', $currentDate)->sum('total');
+ 
+    $paidTransportExpenses = TransportExpense::whereDate('created_at', $currentDate)->where('status', 'paid')->sum('total');
+    $paidFuelExpenses = FuelExpense::whereDate('created_at', $currentDate)->where('status', 'paid')->sum('total');
+ 
     $paidTotalExpenses = $paidTransportExpenses + $paidFuelExpenses;
-    // do the same for pending expenses
-    $pendingTransportExpenses = TransportExpense::where('status', 'pending')->sum('total');
-    $pendingFuelExpenses = FuelExpense::where('status', 'pending')->sum('total');
+    
+    $pendingTransportExpenses = TransportExpense::whereDate('created_at', $currentDate)->where('status', 'pending')->sum('total');
+    $pendingFuelExpenses = FuelExpense::whereDate('created_at', $currentDate)->where('status', 'pending')->sum('total');
     $pendingTotalExpenses = $pendingTransportExpenses + $pendingFuelExpenses;
-    //get total 
+  
     $totalExpenses = $paidTotalExpenses + $pendingTotalExpenses;
 
     return Inertia::render('Dashboard',

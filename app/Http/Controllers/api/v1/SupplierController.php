@@ -94,6 +94,20 @@ class SupplierController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //try catch and delete supplier 
+        try {
+            // Find the customer to delete
+            $supplier = Supplier::find($id);
+
+            // Delete the customer
+            $supplier->delete();
+
+            return response()->json(['message' => 'Supplier deleted successfully'], 200);
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            \Log::error('Error deleting Supplier: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
     }
 }

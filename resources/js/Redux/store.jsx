@@ -5,7 +5,8 @@ import deliveryNotesReducer from './slices/deliveryNoteSlice';
 import goodsReceivedReducer from './slices/goodsRecievedSlice';
 import invoicesReducer from './slices/invoiceSlice';
 import quotationReducer from './slices/quotationSlice';
-
+import fuelExpenseSlice from './slices/fuelExpenseSlice';
+import transportSlice from './slices/transportSlice';
 const rootReducer = combineReducers({
     // Here we will add reducers
     customers: customersReducer,
@@ -14,6 +15,8 @@ const rootReducer = combineReducers({
     goodsReceived: goodsReceivedReducer,
     invoices: invoicesReducer,
     quotations: quotationReducer,
+    fuelExpenses: fuelExpenseSlice,
+    transport: transportSlice
 
   });
 const store = configureStore({

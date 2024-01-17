@@ -15,7 +15,7 @@ return (
                 <InputText
                register={register}
                name={`items.${index}.description`}
-                onChange={(event)=>(handleQuantityChange(index,event))}
+              
                title='Description'
                className='w-full flex-1'
                 />

@@ -57,7 +57,11 @@ class GoodReceivedController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $goodsrecieved = GoodReceived::find($id);
+        return inertia('GoodsReceived/Create', [
+            'goodsRecieved' => $goodsrecieved,
+            'status'=> session('status')
+        ]);
     }
 
     /**

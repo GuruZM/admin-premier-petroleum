@@ -11,7 +11,7 @@ import axios from '../../Axios/axiosConfig';
 import {toast} from 'sonner'
 function Index({auth}) {
 
-  const INITIAL_VISIBLE_COLUMNS = ["name","address", "contact", "tpin"];
+  const INITIAL_VISIBLE_COLUMNS = ["name","address", "contact", "tpin",'actions'];
 
   const { register,reset, handleSubmit, getValues,formState} = useForm();
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -24,27 +24,42 @@ function Index({auth}) {
   }, [dispatch])
 
 
+
   const onSubmit = async (data) => {
     
     axios.post('/suppliers',data).then((res)=>{
-    
        toast.success('Supplier Added Successfully')
       onOpenChange()
       dispatch(fetchSuppliers())
       reset()
-    }).catch((err)=>{
-    
-     
+    }).catch((err)=>{ 
       toast.error('Failed to add Supplier')
     })
   }
 
+  const handleDelete = async (id) => {
+    
+    try {        
+        if(confirm("are you sure you want to delete this Record")){
+         const response = await axios.delete(`/suppliers/${id}`);
+        
+         toast.success("Record Deleted")
+         dispatch(fetchSuppliers())
+        }else{
+        toast.error("Request Cancelled")
+        }
+    } catch (error) {
+  
+        toast("Somthing Went Wrong")
+      console.error('Error deleting:', error.response?.data?.error || error.message);
+    }
+  };
   return (
     <Authenticated
     user={auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Suppliers</h2>}
         >
-     <ContentLayout onOpen={onOpen} title="Suppliers" tableObject={suppliers} tableColumns={supplierColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
+     <ContentLayout onOpen={onOpen} title="Suppliers" handleDelete={handleDelete} tableObject={suppliers} tableColumns={supplierColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
         <AddModal 
           onOpenChange={onOpenChange} isOpen={isOpen} title="Add Supplier" isSubmitting={false}
         >

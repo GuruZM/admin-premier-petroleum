@@ -45,6 +45,20 @@ class DeliveryNoteController extends Controller
         ]);
     }
 
+    public function edit(string $id)
+    {
+        $deliveryNote = DeliveryNote::find($id);
+        $deliveryNoteData = DeliveryNote::join('invoices', 'delivery_notes.invoice_number', '=', 'invoices.id')
+        ->where('delivery_notes.id', '=', $deliveryNote->id) 
+        ->join('customers','customers.id','=','delivery_notes.client')
+       ->select('delivery_notes.*', 'invoices.number as invoice_number','invoices.id as invoice_id','customers.company_name as client','customers.id as client_id' )
+        ->first();
+        return inertia('DeliveryNote/Create', [
+            'deliveryNote' => $deliveryNoteData,
+            'status'=> session('status')
+        ]);
+    }
+
     public function store(Request $request)
     {
         // Your code for the store method

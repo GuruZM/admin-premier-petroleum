@@ -42,7 +42,15 @@ class QuotationController extends Controller
      */
     public function show(string $id)
     {
-        //
+       
+        $quotation = Quotation::join('customers', 'quotations.tpin', '=', 'customers.tpin')
+        ->select('quotations.*', 'customers.*')
+        ->where('quotations.id', $id)
+        ->first();
+        return inertia('Quotations/Show',[
+            'quotation' => $quotation,
+            'status'=> session('status')
+        ]);
     }
 
     /**
@@ -50,7 +58,15 @@ class QuotationController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // $quotation = Quotation::join('customers', 'quotations.tpin', '=', 'customers.tpin')
+        // ->select('quotations.*', 'customers.*')
+        // ->where('quotations.id', $id)
+        // ->first();
+        $quotation = Quotation::find($id);
+            return inertia('Quotations/Create',[
+                'quotation' => $quotation,
+                'status'=> session('status')
+            ]);
     }
 
     /**

@@ -148,7 +148,7 @@ function Create({auth,invoice}) {
   return (
     <Authenticated
     user={auth.user}
-    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Create Invoice</h2>}
+    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{invoice ? "Edit" : "Create"} Invoice</h2>}
     >
               <motion.div
         key="createInvoice-sidebar"
@@ -168,7 +168,7 @@ function Create({auth,invoice}) {
       >
         <h1 className=" font-semibold dark:text-white  text-3xl">
           {/* {type == 'edit' ? 'Edit' : 'Create'}  */}
-          Create Invoice
+          {invoice ? "Edit" : "Create"} Invoice
         </h1>
         <form
         className="overflow-y-scroll relative scrollbar-hide "

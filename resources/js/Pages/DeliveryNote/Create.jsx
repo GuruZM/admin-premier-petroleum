@@ -6,14 +6,14 @@ import { PlusIcon } from '@/Components/icons/PlusIcon';
 import { fetchCustomers } from '@/Redux/slices/customerSlice';
 import { useDispatch,useSelector } from "react-redux";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { toast } from 'react-toastify';
 import { Select, SelectSection, Input, SelectItem , Button, Divider} from "@nextui-org/react";
 import { fetchInvoices } from '@/Redux/slices/invoiceSlice';
 import { router } from '@inertiajs/react';
 import axios from '@/Axios/axiosConfig';
+import InputText from '@/Components/InputText';
+import {toast} from 'sonner'
 
-
-function Create({auth}) {
+function Create({auth, deliveryNote}) {
 
 
   const dispatch = useDispatch();
@@ -26,16 +26,18 @@ function Create({auth}) {
         },
    ]
 
-   const form = useForm({
-      defaultValues: {
-          invoice: 0,
-          client: 0,
-          date: new Date().toISOString().slice(0, 10),
-          issue_date: new Date().toISOString().slice(0, 10),
-          number:'',
-          items: items,
-      },
-    });
+ 
+
+  const form = useForm({
+    defaultValues: {
+      invoice: deliveryNote ? deliveryNote.invoice_id : 0,
+      client: deliveryNote ? deliveryNote.client_id : 0,
+      date: deliveryNote ? deliveryNote.date : new Date().toISOString().slice(0, 10),
+      issue_date: deliveryNote ? deliveryNote.issue_date : new Date().toISOString().slice(0, 10),
+      number: deliveryNote ? deliveryNote.number : '',
+      items: deliveryNote ? JSON.parse(deliveryNote.items) : items,
+    },
+  });
     
     const { fields, append, remove } = useFieldArray({
       control: form.control,
@@ -44,7 +46,6 @@ function Create({auth}) {
 
 
   const { register,reset,setValue,getValues, handleSubmit } = form;
-
 
   const handleRemove = (index ) => {
       remove(index);
@@ -61,17 +62,42 @@ function Create({auth}) {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
 
+ 
   const onSubmit = async (data) => {
-      axios.post('/delivery-notes',data).then((res)=>{
-          toast.success('Delivery Note Added Successfully')
-          reset()
+    if (deliveryNote && deliveryNote.id) {  
+        const formData = new FormData();
+        Object.entries(data).forEach(([key, value]) => {
+          if (key === 'items' && Array.isArray(value)) {
+            formData.append(key, JSON.stringify(value));
+          } else {
+            formData.append(key, value);
+          }
+        });
+        formData.append('_method', 'PUT');
+        axios.post(`/delivery-notes/${deliveryNote.id}`, formData)
+        .then((res) => {   
+          toast.success('Delivery Note Edited Successfully');
+          reset();
           router.visit('/delivery-notes');
-        }).catch((err)=>{
-          console.log('err :',err);
-          toast.error('Failed to create a Delivery Note')
         })
+        .catch((err) => {
+          console.error('Error editing delivery note:', err);
+          toast.error('Failed to edit delivery note');
+        });
+    } else {
+      // If deliveryNote is not set, send to add
+      axios.post('/delivery-notes', data)
+        .then((res) => {
+          toast.success('Delivery Note Added Successfully');
+          reset();
+          router.visit('/delivery-notes');
+        })
+        .catch((err) => {
+          console.error('Error adding delivery note:', err);
+          toast.error('Failed to add delivery note');
+        });
+    }
   };
-
 
 useEffect(() => {
   dispatch(fetchCustomers());
@@ -84,7 +110,7 @@ const invoices = useSelector((state) => state.invoices.invoices);
   return (
     <Authenticated
     user={auth.user}
-        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Delivery Notes</h2>}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{deliveryNote ? "Edit Delivery Note" : "Create Delivery Note"}</h2>}
             >
         <motion.div
         key="createDeliverynote-sidebar"
@@ -103,8 +129,8 @@ const invoices = useSelector((state) => state.invoices.invoices);
         className="  scrollbar-hide flex flex-col dark:text-white dark:bg-[#141625] bg-white my-5  md:pl-[50px] py-16 px-6 h-screen md:w-full md:rounded-r-3xl"
       >
         <h1 className=" font-semibold dark:text-white  text-3xl">
-          {/* {type == 'edit' ? 'Edit' : 'Create'}  */}
-          Create Delivery Note
+         
+          {deliveryNote ? "Edit Delivery Note" : "Create Delivery Note"}
         </h1>
         <form
         className="overflow-y-scroll relative scrollbar-hide "
@@ -117,82 +143,77 @@ const invoices = useSelector((state) => state.invoices.invoices);
             
           <div className=" grid grid-cols-2   gap-3   ">
           <div className=" mx-1 col-span-1">
-              <Select
+            <span>Invoice Number</span>
+              <select
                 labelPlacement="outside"
                 label="Select Invoice"
-                className=" "
+                className="bg-gray-100  mt-1 p-2 rounded-xl w-full border-none outline-none focus:ring-0"
                 startContent="⚅"
                 {...register("invoice")}
               >
                 {
                     invoices.map((invoice) => (
-                        <SelectItem key={invoice.id} value={invoice.id}>
+                        <option key={invoice.id} value={invoice.id}>
                         {invoice.number}
-                        </SelectItem>
+                        </option>
                     ))
                 }
                 
-              </Select>
+              </select>
             </div>
             <div className="  col-span-1">
-              <Select
+              <span>Client</span>
+              <select
                 labelPlacement="outside"
                 label="Client Name"
-                className=" "
+                className="bg-gray-100  mt-1 p-2 rounded-xl w-full border-none outline-none focus:ring-0"
                 startContent="👤"
                 {...register("client")}
               >
                 {
                     clients.map((client) => (
-                        <SelectItem key={client.id} value={client.id}>
+                        <option key={client.id} value={client.id}>
                         {client.company_name}
-                        </SelectItem>
+                        </option>
                     ))
                 }
                 
-              </Select>
+              </select>
             </div>
           </div>
 
           <div className=" flex justify-center space-x-5 items-center mt-8 ">
             <div className=" flex-1  ">
-              <Input
-                   style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-                key="date"
+              
+              <InputText
+               title="Delivery Note Date"
                 type="date"
-                label="Delivery Note Date"
-                labelPlacement="outside"
-                startContent="🗓️"
-                {...register("date")}
-              />
+                register={register}
+                name="date"
+                /> 
              
             </div>
 
             <div className="flex-1  ">
-            <Input
-                   style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-                key="date"
+             
+               <InputText
+               title="Issue Date"
                 type="date"
-                label="Issue Date"
-                labelPlacement="outside"
-                startContent="🗓️"
-                {...register("issue_date")}
-              />
+                register={register}
+                name="issue_date"
+                /> 
             </div>
           </div>
-          <Input
-                   style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-                key="date"
+           <div className='py-3'>
+           <InputText
+               title="Number"
                 type="text"
-                label="Number"
-                labelPlacement="outside"
-                className='my-4 py-4'
-                startContent="🗓️"
-                {...register("number")}
-              />
-          
-
-          {/* Item List Section */}
+                register={register}
+                name="number"
+                /> 
+           </div>
+         
+ 
 
           <h2 className=" font-medium text-gray-500 mt-10 ">Item List</h2>
                     

@@ -15,19 +15,19 @@ import { fetchSuppliers } from "@/Redux/slices/supplierSlice";
 import { useForm, Controller, set } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "../../Axios/axiosConfig";
-
+import {fetchTransportExpense} from '@/Redux/slices/transportSlice'
+import { toast } from "sonner";
 const INITIAL_VISIBLE_COLUMNS = ["quantity", "price", "status", "actions"];
 
 function Index({ auth }) {
     const { register, reset,setValue, handleSubmit, getValues, formState } = useForm();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const dispatch = useDispatch();
-    const { suppliers, status, error } = useSelector(
-        (state) => state.suppliers
+        const { transportExpense } = useSelector(
+        (state) => state.transport
     );
-
     useEffect(() => {
-        dispatch(fetchSuppliers());
+        dispatch(fetchTransportExpense());
     }, [dispatch]);
 
     const onSubmit = async (data) => {
@@ -35,16 +35,35 @@ function Index({ auth }) {
         axios
             .post("/transport-expenses", data)
             .then((res) => {            
-                toast.success('Supplier Added Successfully')
+                toast.success('Fuel Expense Added Successfully')
                 onOpenChange();
-                dispatch(fetchSuppliers());
+                dispatch(fetchTransportExpense());
                 reset();
             })
             .catch((err) => {
                 console.log("err :", err);
-                toast.error("Failed to add Supplier");
+                toast.error("Something Went wrong");
             });
     };
+
+    const handleDelete = async (id) => {
+    
+        try {        
+            if(confirm("are you sure you want to delete this Record")){
+             const response = await axios.delete(`/transport-expenses/${id}`);
+              console.log(response)
+             toast.success("Record Deleted")
+             dispatch(fetchTransportExpense());
+            }else{
+            toast.error("Request Cancelled")
+            }
+        } catch (error) {
+      
+            toast("Somthing Went Wrong")
+          console.error('Error deleting:', error.response?.data?.error || error.message);
+        }
+      };
+      
 
     const calculateTotal = () => {      
         const quantity = getValues("quantity");
@@ -65,9 +84,10 @@ function Index({ auth }) {
             <ContentLayout
                 onOpen={onOpen}
                 title="Transport Expenses"
-                tableObject={suppliers}
+                tableObject={transportExpense}
                 tableColumns={transportExpenseColumns}
                 initialColumns={INITIAL_VISIBLE_COLUMNS}
+                handleDelete={handleDelete}
             />
             <AddModal
                 onOpenChange={onOpenChange}

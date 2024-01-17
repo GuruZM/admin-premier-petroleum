@@ -96,6 +96,21 @@ class CustomerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //try catch and delete the customer
+        try {
+            // Get the customer by id
+            $customer = Customer::find($id);
+            if (!$customer) {
+                return response()->json(['error' => 'Customer not found'], 404);
+            }
+            // Delete the customer
+            $customer->delete();
+            return response()->json(['message' => 'Customer deleted successfully']);
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            \Log::error('Error deleting customer: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
     }
 }

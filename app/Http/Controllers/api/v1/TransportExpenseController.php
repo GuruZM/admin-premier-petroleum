@@ -88,6 +88,19 @@ class TransportExpenseController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //try catch and delete transport expense
+        try {
+            $transportExpense = TransportExpense::find($id);
+            if ($transportExpense->delete()) {
+                return response()->json([
+                    'message' => 'Transport Expense deleted successfully',
+                ], 201);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Transport Expense deletion failed!',
+                'error' => $e->getMessage(),
+            ], 409);
+        }
     }
 }

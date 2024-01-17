@@ -10,10 +10,12 @@ import { toast } from 'sonner';
 import { Select, SelectSection, Input, SelectItem , Button, Divider} from "@nextui-org/react";
 import axios from '@/Axios/axiosConfig';
 import { router } from '@inertiajs/react';
+import InputText from '@/Components/InputText';
 
-function Create({auth}) {
-
+function Create({auth,quotation}) {
+  const clients = useSelector((state) => state.customers.customers);
     const dispatch = useDispatch();
+    console.log('quotation :',quotation);
 
     const items = [
         {
@@ -25,16 +27,29 @@ function Create({auth}) {
           },
      ]
 
-     const form = useForm({
-        defaultValues: {
-            tpin: 0,
-            date: new Date().toISOString().slice(0, 10),
-            subtotal: 0,
-            total: 0,
-            vat: 0,
-            items: items,
-        },
-      });
+    //  const form = useForm({
+    //     defaultValues: {
+    //         tpin: 0,
+    //         date: new Date().toISOString().slice(0, 10),
+    //         subtotal: 0,
+    //         total: 0,
+    //         vat: 0,
+    //         items: items,
+    //     },
+    //   });
+
+       
+    const form = useForm({
+      defaultValues: {
+        tpin: quotation ? parseInt(quotation.tpin) : 0,
+        date: quotation ? quotation.date : new Date().toISOString().slice(0, 10),
+        subtotal: quotation ? quotation.subtotal : 0,
+        total: quotation ? quotation.total : 0,
+        vat: quotation ? parseFloat(quotation.subtotal) * 0.16 : 0,
+        items: quotation ? JSON.parse(quotation.items) : items,
+      },
+    });
+  
       
       const { fields, append, remove } = useFieldArray({
         control: form.control,
@@ -94,16 +109,55 @@ function Create({auth}) {
     const [isSubmitting, setIsSubmitting] = React.useState(false);
 
 
-    const onSubmit = async (data) => {
+    // const onSubmit = async (data) => {
         
-        axios.post('/quotations',data).then((res)=>{
-            toast.success('Quotation Added Successfully')
-            router.visit('/quotations')
-            reset()
-          }).catch((err)=>{
-            console.log('err :',err);
-            toast.error('Failed to create an Quotation')
+    //     axios.post('/quotations',data).then((res)=>{
+    //         toast.success('Quotation Added Successfully')
+    //         router.visit('/quotations')
+    //         reset()
+    //       }).catch((err)=>{
+    //         console.log('err :',err);
+    //         toast.error('Failed to create an Quotation')
+    //       })
+    // };
+
+
+    const onSubmit = async (data) => {
+
+      if (quotation && quotation.id) {
+        const formData = new FormData();
+        Object.entries(data).forEach(([key, value]) => {
+          if (key === 'items' && Array.isArray(value)) {
+            formData.append(key, JSON.stringify(value));
+          } else {
+            formData.append(key, value);
+          }
+        });
+        formData.append('_method', 'PUT');
+        axios.post(`/quotations/${quotation.id}/`, formData)
+          .then((res) => {
+            console.log('res :',res);
+            toast.success('Quotation Edited Successfully');
+            router.visit('/quotations');
+            reset();
           })
+          .catch((err) => {
+            console.error('Error editing quotation:', err);
+            toast.error('Failed to edit quotation');
+          });
+      } else {
+        // If quotation is not set, send to add
+        axios.post('/quotations', data)
+          .then((res) => {
+            toast.success('Quotation Added Successfully');
+            router.visit('/quotations');
+            reset();
+          })
+          .catch((err) => {
+            console.error('Error adding quotation:', err);
+            toast.error('Failed to add quotation');
+          });
+      }
     };
 
   
@@ -111,13 +165,13 @@ function Create({auth}) {
     dispatch(fetchCustomers());
   }, [dispatch]);
 
-  const clients = useSelector((state) => state.customers.customers);
+
 
 
   return (
     <Authenticated
     user={auth.user}
-    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Create Quotation</h2>}
+    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{quotation ? "Edit" : "Create"} Quotation</h2>}
     >
               <motion.div
         key="createQuote-sidebar"
@@ -137,7 +191,7 @@ function Create({auth}) {
       >
         <h1 className=" font-semibold dark:text-white  text-3xl">
           {/* {type == 'edit' ? 'Edit' : 'Create'}  */}
-          Create Quotation
+          {quotation ? "Edit" : "Create"} Quotation
         </h1>
         <form
         className="overflow-y-scroll relative scrollbar-hide "
@@ -153,28 +207,26 @@ function Create({auth}) {
           <div className=" grid grid-cols-1   gap-3   ">
         
             <div className="  col-span-1">
-              <Select
-                labelPlacement="outside"
-                label="Tpin"
-                className=" "
-                startContent="👤"
+              <select
+                
+                className="bg-gray-100  mt-1 p-2 rounded-xl w-full border-none outline-none focus:ring-0"
                 {...register("tpin")}
               >
                 {
                     clients.map((client) => (
-                        <SelectItem key={client.tpin} value={client.tpin}>
+                        <option key={client.tpin} value={client.tpin}>
                         {client.tpin}
-                        </SelectItem>
+                        </option>
                     ))
                 }
                 
-              </Select>
+              </select>
             </div>
           </div>
 
           <div className=" flex justify-center space-x-5 items-center mt-8 ">
             <div className=" flex-1  ">
-              <Input
+              {/* <Input
                    style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
                 key="date"
                 type="date"
@@ -182,8 +234,13 @@ function Create({auth}) {
                 labelPlacement="outside"
                 startContent="🗓️"
                 {...register("date")}
+              /> */}
+             <InputText 
+             title="Date"
+              type="date"
+              register={register}
+              name="date"
               />
-             
             </div>
 
         
@@ -242,7 +299,7 @@ function Create({auth}) {
                 value={"16"}
               readOnly
               className="bg-gray-100 w-fit mt-1 p-2 rounded-xl"
-           
+                {...register("vat")}
             />
        </div>
      
@@ -296,7 +353,7 @@ function Create({auth}) {
                type="submit"
                 isLoading={isSubmitting}
             >
-              Submit
+              {quotation ? "Update" : "Create"} 
             </Button>
           </div>
           

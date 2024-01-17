@@ -13,8 +13,6 @@ class DeliveryNoteController extends Controller
      */
     public function index()
     {
-        // $deliveryNotesWithInvoices = DeliveryNote::with('invoice') // Assuming the relationship is named 'invoice'
-        // ->get();
       
         $deliveryNotesWithInvoicesAndCustomers = DeliveryNote::join('invoices', 'delivery_notes.invoice_number', '=', 'invoices.id')
         ->join('customers', 'customers.id', '=', 'delivery_notes.client')
@@ -99,7 +97,40 @@ class DeliveryNoteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //try catch and store the data
+        // return response()->json([
+        //     'request'=> $request->all(),
+        //     'message'=> 'success'
+        // ]);
+        try{
+            $validatedData = $request->validate([
+                'client' => 'required',
+                'items' => 'required',
+                'date' => 'required',
+                'issue_date'=> 'required|string',
+                'invoice'=> 'nullable',
+                'number'=>'required'
+            ]);
+            $deliveryNote = DeliveryNote::find($id);
+            if (isset($request->items) && is_array($request->items)) {
+                $validatedData['items'] = json_encode($request->items, JSON_UNESCAPED_SLASHES);
+            }
+            
+            $deliveryNote->issue_date = $validatedData['issue_date'];
+            $deliveryNote->date = $validatedData['date'];
+            $deliveryNote->client = $validatedData['client'];
+            $deliveryNote->invoice_number = $validatedData['invoice'] ? $validatedData['invoice'] : 0;
+            $deliveryNote->number = $validatedData['number'];
+            $deliveryNote->items =  $validatedData['items'];
+            $deliveryNote->save();
+
+            return response()->json(['message' => 'Delivery Note updated successfully'], 200);
+
+        }catch(\Exception $e){
+            \Log::error('Error updating Delivery Note: ' . $e->getMessage());
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
+
     }
 
     /**
@@ -107,6 +138,14 @@ class DeliveryNoteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //delete delivery note
+        try{
+            $deliveryNote = DeliveryNote::find($id);
+            $deliveryNote->delete();
+            return response()->json(['message' => 'Delivery Note deleted successfully'], 200);
+        }catch(\Exception $e){
+            \Log::error('Error deleting Delivery Note: ' . $e->getMessage());
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
     }
 }

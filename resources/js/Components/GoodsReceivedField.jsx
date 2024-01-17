@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Divider, Input, Select, SelectItem } from '@nextui-org/react'
 import { useDispatch,useSelector } from 'react-redux'
+import InputText from './InputText'
  
 export function GoodsReceivedField({register,index,handleRemove,getValues}) {
 return (
@@ -10,14 +11,15 @@ return (
         <div className=' flex flex-wrap  w-full   '>
 
         <div className=' flex px-2   flex-1  flex-col items-start'>
-                <Input
-                 style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-                type='text'
-                label='Order Ref.'
-                labelPlacement='outside'
-                startContent='🧮'
-                {...register(`items.${index}.order_ref`)}
+              
+                <InputText
+                title='Order Ref.'
+                name={`items.${index}.order_ref`}
+                register={register}
+                errors={getValues().items[index].order_ref}
                 />
+                {/* <h1>
+                    Qty.
                 {/* <h1>
                     Qty.
                 </h1>
@@ -25,14 +27,15 @@ return (
             </div>
 
             <div className=' flex px-2   flex-1  flex-col items-start'>
-                <Input
-                 style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-                type='number'
-                label='Qty.'
-                labelPlacement='outside'
-                startContent='🧮'
-                {...register(`items.${index}.quantity`)}
+                
+                <InputText
+                title='Quantity'
+                name={`items.${index}.quantity`}
+                register={register}
+                errors={getValues().items[index].quantity}
                 />
+                {/* <h1>
+                    Qty.
                 {/* <h1>
                     Qty.
                 </h1>
@@ -42,14 +45,18 @@ return (
                 
                 
             <div className=' flex px-2   flex-1  flex-col items-start'>
-                <Input
-                 style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-                type='text'
-                label='Description.'
-                labelPlacement='outside'
-                startContent='🧮'
-                {...register(`items.${index}.description`)}
+               
+                <InputText
+                title='Description'
+                name={`items.${index}.description`}
+                register={register}
+                errors={getValues().items[index].description}
                 />
+                {/* <h1>
+                    Qty.
+                {/* <h1>
+                    Qty.
+
                 {/* <h1>
                     Qty.
                 </h1>

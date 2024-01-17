@@ -90,6 +90,20 @@ class FuelExpenseController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //try catch and delete fuel expense 
+        try {
+            $fuelExpense = FuelExpense::find($id);
+            if ($fuelExpense) {
+                $fuelExpense->delete();
+                return response()->json([
+                    'message' => 'Fuel Expense deleted successfully',
+                ], 201);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Fuel Expense deletion failed!',
+                'error' => $e->getMessage(),
+            ], 409);
+        }
     }
 }

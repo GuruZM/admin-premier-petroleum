@@ -7,6 +7,9 @@ import { goodsReceivedColumns } from '@/Utils/tableStructure/columns';
 import AddModal from '@/Components/AddModal';
 import ContentLayout from '@/Components/contentLayout';
 import {  router  } from '@inertiajs/react';
+import axios from '@/Axios/axiosConfig';
+import { toast } from 'sonner';
+
 
 function Index({auth}) {
 
@@ -21,6 +24,23 @@ function Index({auth}) {
     
   }, [dispatch])
 
+  const handleDelete = async (id) => {
+    
+    try {        
+        if(confirm("Are you sure you want to delete this Record")){
+         const response = await axios.delete(`/good-received/${id}`);
+          console.log(response)
+         toast.success("Record Deleted")
+         dispatch(fetchGoodsReceived());
+        }else{
+        toast.error("Request Cancelled")
+        }
+    } catch (error) {
+
+        toast("Somthing Went Wrong")
+      console.error('Error deleting:', error.response?.data?.error || error.message);
+    }
+  };
   
   const redi = () => {
     router.visit('/good-received/create')
@@ -31,14 +51,11 @@ function Index({auth}) {
     user={auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Goods Recieved</h2>}
     >
-      <ContentLayout onOpen={redi} baseurl={baseurl} title="Goods Received" tableObject={goodsReceived} tableColumns={goodsReceivedColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
+      <ContentLayout onOpen={redi} baseurl={baseurl} title="Goods Received" handleDelete={handleDelete} tableObject={goodsReceived} tableColumns={goodsReceivedColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
         <AddModal 
           onOpenChange={onOpenChange} isOpen={isOpen} title="Add Goods" isSubmitting={false}
         >
-        <form >
-          form
-          as
-        </form>
+       
         </AddModal>
     </Authenticated>
   )

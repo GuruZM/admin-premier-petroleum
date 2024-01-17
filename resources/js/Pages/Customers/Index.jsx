@@ -12,7 +12,7 @@ import TextInput from '@/Components/TextInput';
 import { useForm,  Controller, set,  } from 'react-hook-form';
 import axios from '../../Axios/axiosConfig';
 
-const INITIAL_VISIBLE_COLUMNS = ["firstname","lastname", "company_name", "contact", "address"];
+const INITIAL_VISIBLE_COLUMNS = ["firstname","lastname", "company_name", "contact", "address",'actions'];
 
 function Index({auth}) {
   
@@ -22,7 +22,6 @@ function Index({auth}) {
 
   useEffect(() => {
     dispatch(fetchCustomers())
-    
   }, [])
 
 
@@ -34,7 +33,7 @@ function Index({auth}) {
    
      
     axios.post('/customers',data).then((res)=>{
-      console.log('res :',res);
+    
       toast.success('Customer Added Successfully')
       onOpenChange()
       dispatch(fetchCustomers())
@@ -45,13 +44,28 @@ function Index({auth}) {
       toast.error('Failed to add Customer')
     })
   }
+  const handleDelete = async (id) => {
+    
+    try {        
+        if(confirm("are you sure you want to delete this Record")){
+         const response = await axios.delete(`/customers/${id}`);
 
-  console.log('customers :',customers);
+         toast.success("Record Deleted")
+         dispatch(fetchCustomers())
+        }else{
+        toast.error("Request Cancelled")
+        }
+    } catch (error) {
+  
+        toast("Somthing Went Wrong")
+      console.error('Error deleting:', error.response?.data?.error || error.message);
+    }
+  };
   return (
     <Authenticated
     user={auth.user}
       header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Customers</h2>}> 
-        <ContentLayout onOpen={onOpen} title="Customers" tableObject={customers} tableColumns={customerColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
+        <ContentLayout onOpen={onOpen} title="Customers" handleDelete={handleDelete} tableObject={customers} tableColumns={customerColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
         <AddModal 
           onOpenChange={onOpenChange} isOpen={isOpen} title="Add Customer" isSubmitting={false}
         >
