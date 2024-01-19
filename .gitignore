@@ -5,6 +5,7 @@
 /public/storage
 /storage/*.key
 .env
+/resources/js/Axios/axiosConfig.jsx
 .env.backup
 .env.production
 .phpunit.result.cache
