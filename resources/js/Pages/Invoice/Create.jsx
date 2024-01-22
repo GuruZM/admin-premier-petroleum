@@ -56,7 +56,7 @@ function Create({auth,invoice}) {
         setValue(`items.${index}.rate`, value);
         const qty = getValues(`items.${index}.quantity`);
         const price = getValues(`items.${index}.rate`);
-        const total = qty * price;
+        const total = roundToDecimalPlaces(qty * price,3);
         setValue(`items.${index}.amount`, total);
         setInvoiceTotal()
     } 
@@ -68,17 +68,21 @@ function Create({auth,invoice}) {
         setValue(`items.${index}.quantity`, value);
         const qty = getValues(`items.${index}.quantity`);
         const price = getValues(`items.${index}.rate`);
-        const total = qty * price;
+        const total = roundToDecimalPlaces(qty * price,3);
         setValue(`items.${index}.amount`, total);
         setInvoiceTotal()
     }
 
+    const roundToDecimalPlaces = (number, decimalPlaces) => {
+      const factor = Math.pow(10, decimalPlaces);
+      return Math.round(number * factor) / factor;
+    };
     const setInvoiceTotal = () => {
         const items = getValues('items');
-        const subtotal = items.reduce((acc , item  ) => acc + item.amount, 0);
+        const subtotal = roundToDecimalPlaces(items.reduce((acc , item  ) => acc + item.amount, 0),3);
         setValue('subtotal', subtotal);
-        const invoicetotal = getValues('subtotal')+(getValues('subtotal') * 0.16);
-        const vat = getValues('subtotal') * 0.16;
+        const invoicetotal = roundToDecimalPlaces(getValues('subtotal')+(getValues('subtotal') * 0.16),3);
+        const vat = roundToDecimalPlaces(getValues('subtotal') * 0.16,3);
         setValue('vat', vat);
         setValue('invoicetotal', invoicetotal);
     }

@@ -3,6 +3,8 @@ import { Divider, Input, Select, SelectItem } from '@nextui-org/react'
 import { useDispatch,useSelector } from 'react-redux'
 import InputText from './InputText'
 export function InvoiceField({register,index,handleRemove,handlePriceChange,getValues,handleQuantityChange}) {
+ 
+
 return (
     <div>
 
@@ -39,6 +41,7 @@ return (
             <div className=' flex px-2 flex-1  flex-col items-start'>
             <InputText
             type='number'
+            step=".02"
             pattern="^\d*(\.\d{0,2})?$"
               name={`items.${index}.rate`}
                 onChange={(event)=>(handlePriceChange(index,event))}    

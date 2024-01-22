@@ -14,8 +14,26 @@ import InputText from '@/Components/InputText';
 const INITIAL_VISIBLE_COLUMNS = ["quantity","price", "total","status", "duty","actions"];
 
 function index({auth}) {
+const [record, setRecord] = React.useState({});
+const { register,reset, handleSubmit,setValue,watch, getValues,formState} = useForm(
+{
+  defaultValues: {
+    quantity: record.quantity ? record.quantity : 0,
+    price: record.price ? record.price : 0,
+    exchange_rate: record.exchange_rate ? record.exchange_rate : 0,
+    total: record.total ? record.total : 0,
+    status: record.status ? record.status : "pending",
+    duty:0
+  },
+}
+);
 
-const { register,reset, handleSubmit,setValue,watch, getValues,formState} = useForm();
+const editRecord = (obj) => {
+  console.log('obj :',obj);
+  setRecord(obj);
+  onOpen()
+}
+
 const {isOpen, onOpen, onOpenChange} = useDisclosure();
 const dispatch = useDispatch()
 const { suppliers, status, error } = useSelector((state) => state.suppliers);
@@ -43,7 +61,7 @@ const handleQuantityChange = () => {
   setValue('total', total);
   calculateDuty();
 };
-// handle price change 
+ 
 const handlePriceChange = () => {
   const quantity = getValues('quantity');
   const price = getValues('price');
@@ -94,7 +112,7 @@ const onSubmit = async (data) => {
     user={auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Fuel Expense</h2>}
         >
-                 <ContentLayout onOpen={onOpen} title="Fuel Expenses" handleDelete={handleDelete} tableObject={fuelExpenses} tableColumns={fuelExpenseColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
+                 <ContentLayout onOpen={onOpen} editRecord={editRecord} title="Fuel Expenses" baseurl="none" handleDelete={handleDelete} tableObject={fuelExpenses} tableColumns={fuelExpenseColumns} initialColumns={INITIAL_VISIBLE_COLUMNS}/>    
         <AddModal 
           onOpenChange={onOpenChange} isOpen={isOpen} title="Add Expense" isSubmitting={false}
         >

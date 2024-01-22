@@ -19,7 +19,7 @@ import {
 import {  router , Link } from '@inertiajs/react';
 import { VerticalDotsIcon } from './icons/VerticalDotsIcon';
 import { formatCurrency } from '@/Utils/methods';
-function TableData({modelObject,objectColumn,initialColumns,handleDelete,onOpen,baseurl}) {
+function TableData({modelObject,objectColumn,editRecord,initialColumns,handleDelete,onOpen,baseurl}) {
  
   // const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [filterValue, setFilterValue] = React.useState("");
@@ -163,20 +163,25 @@ function TableData({modelObject,objectColumn,initialColumns,handleDelete,onOpen,
                 <DropdownMenu>
                 <DropdownItem
                   onClick={() => {
+                    baseurl == "none" ?  
+                      editRecord(obj)
+                     :
                     router.visit(`${baseurl+obj.id}/edit`)
                   }}
                   >
                     Edit
                   </DropdownItem>
 
-                  <DropdownItem
-                  // href={baseurl+obj.id}
-                  onClick={() => {
-                    router.visit(`${baseurl+obj.id}`)
-                  }}
-
-                  >View</DropdownItem>
-                  {/* <DropdownItem>Edit</DropdownItem> */}
+                  { baseurl == "none" ? null :
+                     <DropdownItem
+                     onClick={() => {
+                       router.visit(`${baseurl+obj.id}`)
+                     }}
+   
+                     >View</DropdownItem>
+                   
+                  }
+                 
                   <DropdownItem
                   onClick={() => {
                     handleDelete(obj.id)
@@ -261,8 +266,6 @@ function TableData({modelObject,objectColumn,initialColumns,handleDelete,onOpen,
               <Dropdown>
                 <DropdownTrigger className="hidden sm:flex">
                   <Button
-                  //  endContent={<ChevronDownIcon className="text-small" />}
-                  
                   variant="flat">
                     Columns
                   </Button>

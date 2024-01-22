@@ -21,14 +21,46 @@ import InputText from "@/Components/InputText";
 const INITIAL_VISIBLE_COLUMNS = ["quantity", "price", "status", "actions"];
 
 function Index({ auth }) {
+    const [record, setRecord] = React.useState({});
     const { register, reset, setValue, handleSubmit, getValues, formState } =
-        useForm();
+        useForm({
+            defaultValues: {
+                quantity: record.quantity || 0,
+                price: record.price || 0,
+                exchange_rate: record.exchange_rate || 0,
+                total: record.total || 0,
+                status: "pending",
+            },
+        });
+
+        useEffect(() => {
+            // if (Object.keys(record).length > 0) {
+            //     console.log('record :',record);
+            //     onOpen();
+            //   }
+          }, [record]);
+          
+    
+  const editRecord = (obj) => {
+    console.log("Editing record:", obj);
+    setRecord(obj, () => {
+      // Check if the record has values before opening the model
+      if (Object.keys(obj).length > 0) {
+        onOpen();
+      }
+    });
+  };
+
+
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const dispatch = useDispatch();
     const { transportExpense } = useSelector((state) => state.transport);
     useEffect(() => {
         dispatch(fetchTransportExpense());
     }, [dispatch]);
+
+
+
 
     const onSubmit = async (data) => {
         axios
@@ -85,7 +117,9 @@ function Index({ auth }) {
         >
             <ContentLayout
                 onOpen={onOpen}
+                editRecord={editRecord}
                 title="Transport Expenses"
+                baseurl="none"
                 tableObject={transportExpense}
                 tableColumns={transportExpenseColumns}
                 initialColumns={INITIAL_VISIBLE_COLUMNS}
