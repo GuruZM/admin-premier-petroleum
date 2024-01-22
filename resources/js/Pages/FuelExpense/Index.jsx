@@ -10,6 +10,7 @@ import { useForm,  Controller, set, get,  } from 'react-hook-form';
 import { useSelector,useDispatch } from 'react-redux';
 import axios from '../../Axios/axiosConfig';
 import { toast } from 'sonner';
+import InputText from '@/Components/InputText';
 const INITIAL_VISIBLE_COLUMNS = ["quantity","price", "total","status", "duty","actions"];
 
 function index({auth}) {
@@ -28,8 +29,9 @@ const calculateTotal = () => {
   console.log('watch :',watch('quantity'));
   const quantity = watch('quantity');
   const price = watch('price');
-  const total = quantity * price;
-  console.log('total :',watch('total'));
+  const exchange_rate = watch('exchange_rate');
+  const total = (quantity * price) * exchange_rate;
+  // console.log('total :',watch('total'));
   setValue('total', total);
 };
 
@@ -99,55 +101,62 @@ const onSubmit = async (data) => {
 
 <form onSubmit={handleSubmit(onSubmit)}>
         <div className='flex flex-col space-y-8'>
-        <Input 
+        <InputText 
          style={{ border: "none", outline: "none", ":focus": { outline: "none" } }}
                   type='number'
-                  labelPlacement='outside'
-                  label="Quantity"
-                  placeholder=""
+                  title="Quantity"
                   className="border-none outline-none  "
-                  {...register('quantity', { onChange: handleQuantityChange })}
-                  //  {...register('quantity', { required: true })}
+                  register={register}
+                  name="quantity"
+                  onChange={handleQuantityChange}
+         
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
 
-<Input 
+<InputText 
         style={{border:"none"}}
                   type='number'
-                  labelPlacement='outside'
-                  label="Price"
+                  title="Price"
                   placeholder=""
                   className="   "
-                {...register('price', {required: true, onChange: calculateTotal })}
-                  //  {...register('price', { required: true })}
-                  startContent={<span className="text-default-400 text-small"></span>}
+                 register={register}
+                  name="price"
+                  onChange={calculateTotal}
+              
+                  
+                />
+
+<InputText 
+        style={{border:"none"}}
+                  type='number'
+                  title="Exchange Rate"
+                  placeholder=""
+                  className="   "
+                 register={register}
+                  name="exchange_rate"
+                  onChange={calculateTotal}           
                 />
 
 <div>
-<small className='font-semibold'>Total</small>
-<input 
-        style={{border:"none"}}
-                  type='number'
-                  labelPlacement='outside'
-                  label="Total"
+          <InputText 
+                  title="Total"
                   readOnly
                   className="bg-gray-100 w-full p-2 rounded-xl"
-                   {...register('total', { required: true })}
+                  register={register}
+                  name="total"
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
 </div>
 
                 <div>
-                <small className='font-semibold'>Duty</small>
-<input
+ 
+<InputText
         style={{border:"none"}}
                   type='number'
-                
-              
-                  placeholder=""
-                  className="bg-gray-100 w-full p-2 rounded-xl"
+                  title="Duty"
+                  register={register}
+                  name="duty"
                   readOnly
-                   {...register('duty', { required: true })}
                   startContent={<span className="text-default-400 text-small"></span>}
                 />
                 </div>
@@ -155,31 +164,31 @@ const onSubmit = async (data) => {
 
  
 
-<Select
+<select
                 labelPlacement="outside"
                 label="Status"
-                className=" "
+                className=" bg-gray-100 flex-1 mt-1 p-2 rounded-xl w-full border-none outline-none focus:ring-0 "
                 startContent="👤"
                 {...register("status",{required:true})}
               >
                
-                        <SelectItem
+                        <option
                         id='pending'
                         value="pending"
                         key='pending'
                         >
                           Pending 
-                        </SelectItem>
+                        </option>
                 
-                        <SelectItem
+                        <option
                         key='paid'
                         id='paid'
                         value="paid"
                         >
                           Paid
-                        </SelectItem>
+                        </option>
                 
-              </Select>
+              </select>
 
 <Divider className='my-5'/>
                 <div className="buttonSection flex  justify-end gap-1">

@@ -15,27 +15,26 @@ import { fetchSuppliers } from "@/Redux/slices/supplierSlice";
 import { useForm, Controller, set } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "../../Axios/axiosConfig";
-import {fetchTransportExpense} from '@/Redux/slices/transportSlice'
+import { fetchTransportExpense } from "@/Redux/slices/transportSlice";
 import { toast } from "sonner";
+import InputText from "@/Components/InputText";
 const INITIAL_VISIBLE_COLUMNS = ["quantity", "price", "status", "actions"];
 
 function Index({ auth }) {
-    const { register, reset,setValue, handleSubmit, getValues, formState } = useForm();
+    const { register, reset, setValue, handleSubmit, getValues, formState } =
+        useForm();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const dispatch = useDispatch();
-        const { transportExpense } = useSelector(
-        (state) => state.transport
-    );
+    const { transportExpense } = useSelector((state) => state.transport);
     useEffect(() => {
         dispatch(fetchTransportExpense());
     }, [dispatch]);
 
     const onSubmit = async (data) => {
- 
         axios
             .post("/transport-expenses", data)
-            .then((res) => {            
-                toast.success('Fuel Expense Added Successfully')
+            .then((res) => {
+                toast.success("Fuel Expense Added Successfully");
                 onOpenChange();
                 dispatch(fetchTransportExpense());
                 reset();
@@ -47,28 +46,31 @@ function Index({ auth }) {
     };
 
     const handleDelete = async (id) => {
-    
-        try {        
-            if(confirm("are you sure you want to delete this Record")){
-             const response = await axios.delete(`/transport-expenses/${id}`);
-              console.log(response)
-             toast.success("Record Deleted")
-             dispatch(fetchTransportExpense());
-            }else{
-            toast.error("Request Cancelled")
+        try {
+            if (confirm("are you sure you want to delete this Record")) {
+                const response = await axios.delete(
+                    `/transport-expenses/${id}`
+                );
+                console.log(response);
+                toast.success("Record Deleted");
+                dispatch(fetchTransportExpense());
+            } else {
+                toast.error("Request Cancelled");
             }
         } catch (error) {
-      
-            toast("Somthing Went Wrong")
-          console.error('Error deleting:', error.response?.data?.error || error.message);
+            toast("Somthing Went Wrong");
+            console.error(
+                "Error deleting:",
+                error.response?.data?.error || error.message
+            );
         }
-      };
-      
+    };
 
-    const calculateTotal = () => {      
+    const calculateTotal = () => {
         const quantity = getValues("quantity");
         const price = getValues("price");
-        const total = quantity * price; 
+        const exchange_rate = getValues("exchange_rate");
+        const total = quantity * price * exchange_rate;
         setValue("total", total);
     };
 
@@ -97,75 +99,54 @@ function Index({ auth }) {
             >
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col space-y-8">
-                        <Input
-                            style={{
-                                border: "none",
-                                outline: "none",
-                                ":focus": { outline: "none" },
-                            }}
+                        <InputText
                             type="number"
                             labelPlacement="outside"
-                            label="Quantity"
-                            placeholder=""
-                            className="border-none outline-none  "
-                            {...register("quantity", {
-                                onChange: calculateTotal,
-                            })}
-                            startContent={
-                                <span className="text-default-400 text-small"></span>
-                            }
+                            title="Quantity"
+                            register={register}
+                            name="quantity"
+                            onChange={calculateTotal}
                         />
 
-                        <Input
-                            style={{ border: "none" }}
+                        <InputText
                             type="number"
                             labelPlacement="outside"
-                            label="Price"
-                            placeholder=""
-                            className="   "
-                            {...register("price", {
-                                required: true,
-                                onChange: calculateTotal,
-                            })}
-                            //  {...register('price', { required: true })}
-                            startContent={
-                                <span className="text-default-400 text-small"></span>
-                            }
+                            title="Price"
+                            register={register}
+                            name="price"
+                            onChange={calculateTotal}
+                        />
+                        <InputText
+                            type="number"
+                            labelPlacement="outside"
+                            title="Exchange Rate"
+                            register={register}
+                            name="exchange_rate"
+                            onChange={calculateTotal}
                         />
 
-<div>
-<small className='font-semibold'>Total</small>
-<input 
-        style={{border:"none"}}
-                  type='number'
-                  labelPlacement='outside'
-                  label="Total"
-                  readOnly
-                  className="bg-gray-100 w-full p-2 rounded-xl"
-                   {...register('total', { required: true })}
-                  startContent={<span className="text-default-400 text-small"></span>}
-                />
-</div>
+                        <InputText
+                            title="Total"
+                            readOnly
+                            register={register}
+                            name="total"
+                        />
 
-                        <Select
+                        <select
                             labelPlacement="outside"
                             label="Status"
-                            className=" "
+                            className=" bg-gray-100 flex-1 mt-1 p-2 rounded-xl w-full border-none outline-none focus:ring-0"
                             startContent="👤"
                             {...register("status")}
                         >
-                            <SelectItem
-                                id="pending"
-                                value="pending"
-                                key="pending"
-                            >
+                            <option id="pending" value="pending" key="pending">
                                 Pending
-                            </SelectItem>
+                            </option>
 
-                            <SelectItem id="paid" value="paid" key="paid">
+                            <option id="paid" value="paid" key="paid">
                                 Paid
-                            </SelectItem>
-                        </Select>
+                            </option>
+                        </select>
 
                         <Divider className="my-5" />
                         <div className="buttonSection flex  justify-end gap-1">
