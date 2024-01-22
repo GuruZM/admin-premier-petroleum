@@ -38,11 +38,12 @@ return (
 
             <div className=' flex px-2 flex-1  flex-col items-start'>
             <InputText
+            type='number'
+            pattern="^\d*(\.\d{0,2})?$"
               name={`items.${index}.rate`}
                 onChange={(event)=>(handlePriceChange(index,event))}    
                 register={register}
                 title='Rate'
-
                 />
         
             </div>

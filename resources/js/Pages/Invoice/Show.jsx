@@ -238,7 +238,7 @@ Lusaka</h3> */}
                             </div>
 
                             <div class="flex flex-wrap justify-between gap-6 mb-5">
-                                <div>
+                            <div>
                                     <h1 class="text-xl print:text-xs font-semibold">
                                         BANKING DETAILS:
                                     </h1>
@@ -250,11 +250,21 @@ Lusaka</h3> */}
                                         Payment to: PREMIER PETROLEUM LIMITED
                                     </p>
                                     <p class="text-sm  print:text-xs font-normal">
-                                        Account No. 9130005329888
+                                    Account No: 9130005329888 (ZMW)
+                                    </p>
+
+                                    <p class="text-sm  print:text-xs font-normal">
+                                    Account No: 9130005451004 (USD)
+                                    </p>
+                                    <p class="text-sm  print:text-xs font-normal">
+                                    Branch Code: 040002 
+                                    </p>
+                                    <p class="text-sm  print:text-xs font-normal">
+                                    Swift Code: SBICZMLX
                                     </p>
 
                                     <h1 class="text-xl  print:text-xs mt-5 font-semibold">
-                                        Order issued and approved by:
+                                        Prepared by:
                                     </h1>
 
                                     {/* <p class="text-sm  print:text-xs font-normal">Issued by: {invoice.issued_by_name}</p> */}

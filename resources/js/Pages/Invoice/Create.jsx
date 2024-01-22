@@ -52,7 +52,7 @@ function Create({auth,invoice}) {
 
     const handlePriceChange = (index,  e ) => {
 
-        const value = parseInt(e.target.value)
+        const value = parseFloat(e.target.value)
         setValue(`items.${index}.rate`, value);
         const qty = getValues(`items.${index}.quantity`);
         const price = getValues(`items.${index}.rate`);
