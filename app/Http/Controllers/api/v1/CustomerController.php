@@ -89,7 +89,33 @@ class CustomerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //update customer data while surrounding in a try catch block
+        try {
+            // Validate the incoming request data
+         
+            // Get the customer by id
+            $customer = Customer::find($id);
+            if (!$customer) {
+                return response()->json(['error' => 'Customer not found'], 404);
+            }
+            // Update the customer
+            $customer->update([
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'company_name'=> $request->company_name,
+                'tpin'=> $request->tpin,
+                'contact'=> $request->contact,
+                'address'=> $request->address,
+            ]
+            );
+
+            return response()->json(['message' => 'Customer updated successfully']);
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            \Log::error('Error updating customer: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
     }
 
     /**

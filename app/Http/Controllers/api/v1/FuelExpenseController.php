@@ -82,7 +82,27 @@ class FuelExpenseController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //update the resource while surrounding in a try catch block
+        try {
+            $fuelExpense = FuelExpense::find($id);
+            if ($fuelExpense) {
+                $fuelExpense->update([
+                    'quantity'=>$request->quantity,
+                    'price'=>$request->price,
+                    'total'=>$request->total,
+                    'duty'=>$request->duty,
+                    'status'=>$request->status,
+                ]);
+                return response()->json([
+                    'message' => 'Fuel Expense updated successfully',
+                ], 201);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Fuel Expense update failed!',
+                'error' => $e->getMessage(),
+            ], 409);
+        }
     }
 
     /**

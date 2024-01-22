@@ -27,17 +27,10 @@ function Create({auth,quotation}) {
           },
      ]
 
-    //  const form = useForm({
-    //     defaultValues: {
-    //         tpin: 0,
-    //         date: new Date().toISOString().slice(0, 10),
-    //         subtotal: 0,
-    //         total: 0,
-    //         vat: 0,
-    //         items: items,
-    //     },
-    //   });
-
+     const roundToDecimalPlaces = (number, decimalPlaces) => {
+      const factor = Math.pow(10, decimalPlaces);
+      return Math.round(number * factor) / factor;
+    };
        
     const form = useForm({
       defaultValues: {
@@ -61,11 +54,11 @@ function Create({auth,quotation}) {
 
     const handlePriceChange = (index,  e ) => {
 
-        const value = parseInt(e.target.value)
+        const value = parseFloat(e.target.value)
         setValue(`items.${index}.rate`, value);
         const qty = getValues(`items.${index}.quantity`);
         const price = getValues(`items.${index}.rate`);
-        const total = qty * price;
+        const total = roundToDecimalPlaces(qty * price,3);
         setValue(`items.${index}.amount`, total);
         setInvoiceTotal()
     } 
@@ -77,7 +70,7 @@ function Create({auth,quotation}) {
         setValue(`items.${index}.quantity`, value);
         const qty = getValues(`items.${index}.quantity`);
         const price = getValues(`items.${index}.rate`);
-        const total = qty * price;
+        const total = roundToDecimalPlaces(qty * price,3);
         setValue(`items.${index}.amount`, total);
         setInvoiceTotal()
     }
@@ -87,7 +80,7 @@ function Create({auth,quotation}) {
         const subtotal = items.reduce((acc , item  ) => acc + item.amount, 0);
         setValue('subtotal', subtotal);
         const quotationtotal = getValues('subtotal')+(getValues('subtotal') * 0.16);
-        const vat = getValues('subtotal') * 0.16;
+        const vat = roundToDecimalPlaces(getValues('subtotal') * 0.16,3);
         setValue('vat', vat);
         setValue('total', quotationtotal);
     }
@@ -107,21 +100,7 @@ function Create({auth,quotation}) {
     };
 
     const [isSubmitting, setIsSubmitting] = React.useState(false);
-
-
-    // const onSubmit = async (data) => {
-        
-    //     axios.post('/quotations',data).then((res)=>{
-    //         toast.success('Quotation Added Successfully')
-    //         router.visit('/quotations')
-    //         reset()
-    //       }).catch((err)=>{
-    //         console.log('err :',err);
-    //         toast.error('Failed to create an Quotation')
-    //       })
-    // };
-
-
+ 
     const onSubmit = async (data) => {
 
       if (quotation && quotation.id) {
@@ -199,9 +178,7 @@ function Create({auth,quotation}) {
         onSubmit={form.handleSubmit(onSubmit)}> 
         <div className="  ">
         <div className=" ">
-          {/* Bill to Section */}
-
-          {/* <h1 className="my-4 mt-5 font-medium">Bill To</h1> */}
+        
 
           <Divider className="my-5"/>
             

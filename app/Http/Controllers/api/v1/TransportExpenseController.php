@@ -80,7 +80,25 @@ class TransportExpenseController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+     
+        try {
+          
+            $transportExpense = TransportExpense::find($id);
+            $transportExpense->quantity = $request->quantity;
+            $transportExpense->price = $request->price;
+            $transportExpense->total = $request->total;
+            $transportExpense->status = $request->status;
+            if ($transportExpense->save()) {
+                return response()->json([
+                    'message' => 'Transport Expense updated successfully',
+                ], 201);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Transport Expense update failed!',
+                'error' => $e->getMessage(),
+            ], 409);
+        }
     }
 
     /**
@@ -88,7 +106,7 @@ class TransportExpenseController extends Controller
      */
     public function destroy(string $id)
     {
-        //try catch and delete transport expense
+
         try {
             $transportExpense = TransportExpense::find($id);
             if ($transportExpense->delete()) {

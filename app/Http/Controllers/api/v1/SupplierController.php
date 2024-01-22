@@ -86,7 +86,26 @@ class SupplierController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //update  supplier surrounded in a try catch block
+        try {
+            // Validate the incoming request data
+            
+            // Update the customer
+            $supplier = Supplier::find($id);
+            $supplier->update([
+                'name' => $request->name,
+                'address' => $request->address,
+                'contact'=> $request->contact,
+                'tpin'=> $request->tpin,
+            ]);
+
+            return response()->json(['message' => 'Supplier updated successfully'], 200);
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            \Log::error('Error updating Supplier: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
     }
 
     /**

@@ -21,34 +21,16 @@ import InputText from "@/Components/InputText";
 const INITIAL_VISIBLE_COLUMNS = ["quantity", "price", "status", "actions"];
 
 function Index({ auth }) {
-    const [record, setRecord] = React.useState({});
+    const [record, setRecord] = React.useState(null);
     const { register, reset, setValue, handleSubmit, getValues, formState } =
-        useForm({
-            defaultValues: {
-                quantity: record.quantity || 0,
-                price: record.price || 0,
-                exchange_rate: record.exchange_rate || 0,
-                total: record.total || 0,
-                status: "pending",
-            },
-        });
+        useForm();
 
-        useEffect(() => {
-            // if (Object.keys(record).length > 0) {
-            //     console.log('record :',record);
-            //     onOpen();
-            //   }
-          }, [record]);
-          
-    
   const editRecord = (obj) => {
-    console.log("Editing record:", obj);
-    setRecord(obj, () => {
-      // Check if the record has values before opening the model
-      if (Object.keys(obj).length > 0) {
-        onOpen();
-      }
+        setRecord(obj.id);
+    Object.entries(obj).forEach(([key, value]) => {
+        setValue(key, value);
     });
+    onOpen()
   };
 
 
@@ -60,23 +42,26 @@ function Index({ auth }) {
     }, [dispatch]);
 
 
-
-
     const onSubmit = async (data) => {
-        axios
-            .post("/transport-expenses", data)
-            .then((res) => {
-                toast.success("Fuel Expense Added Successfully");
-                onOpenChange();
-                dispatch(fetchTransportExpense());
-                reset();
-            })
-            .catch((err) => {
-                console.log("err :", err);
-                toast.error("Something Went wrong");
-            });
-    };
-
+        try {
+          if (record) {
+             
+           const response = await axios.put(`/transport-expenses/${record}`,data);
+            console.log(response);
+            toast.success('Transport Expense Updated Successfully');
+            setRecord(null);
+          } else {
+            await axios.post('/transport-expenses', data);
+            toast.success('Transport Expense Added Successfully');
+          }
+          onOpenChange();
+          dispatch(fetchTransportExpense());
+          reset();
+        } catch (error) {
+          console.error('Error:', error);
+          toast.error('Something Went Wrong');
+        }
+      };
     const handleDelete = async (id) => {
         try {
             if (confirm("are you sure you want to delete this Record")) {
@@ -128,7 +113,7 @@ function Index({ auth }) {
             <AddModal
                 onOpenChange={onOpenChange}
                 isOpen={isOpen}
-                title="Add Transport Expense"
+                title={record ? "Edit Transport Expense" : "Add Transport Expense"}
                 isSubmitting={false}
             >
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -188,6 +173,7 @@ function Index({ auth }) {
                                 color="danger"
                                 variant="flat"
                                 onPress={() => {
+                                    setRecord(null);
                                     onOpenChange();
                                 }}
                             >
@@ -199,7 +185,7 @@ function Index({ auth }) {
                                 type="submit"
                                 color="primary"
                             >
-                                Submit
+                               {record ? 'Update' : 'Create'}
                             </Button>
                         </div>
                     </div>
