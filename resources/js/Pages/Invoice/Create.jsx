@@ -82,7 +82,7 @@ function Create({auth,invoice}) {
         const subtotal = roundToDecimalPlaces(items.reduce((acc , item  ) => acc + item.amount, 0),3);
         setValue('subtotal', subtotal);
         const invoicetotal = roundToDecimalPlaces(getValues('subtotal')+(getValues('subtotal') * 0.16),3);
-        const vat = roundToDecimalPlaces(getValues('subtotal') * 0.16,3);
+        const vat = roundToDecimalPlaces(getValues('subtotal') * 0.16,2);
         setValue('vat', vat);
         setValue('invoicetotal', invoicetotal);
     }
