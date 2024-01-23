@@ -4,12 +4,12 @@ import invoicebg from "../../../assets/images/invoicebg.png";
 import { Button } from "@nextui-org/react";
 import axios from "../../Axios/axiosConfig";
 import { toast } from "sonner";
-
+import { formatCurrency } from "@/Utils/methods";
 const Show = ({ auth, invoice }) => {
     const updateInvoiceStatus = () => {
         try {
             axios.put(`/invoices/${invoice.id}/status`).then((response) => {
-                // console.log(response);
+         
                 toast.success("Invoice status updated successfully");
                 window.location.reload();
             });
@@ -18,6 +18,12 @@ const Show = ({ auth, invoice }) => {
             console.log(error);
         }
     };
+
+
+    const roundToDecimalPlaces = (number, decimalPlaces) => {
+        const factor = Math.pow(10, decimalPlaces);
+        return Math.round(number * factor) / factor;
+      };
 
     return (
         <Authenticated
@@ -228,7 +234,7 @@ Lusaka</h3> */}
                                                             {item.rate}
                                                         </td>
                                                         <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium text-end">
-                                                            K{item.amount}
+                                                            {formatCurrency(item.amount)}
                                                         </td>
                                                     </tr>
                                                 )
@@ -289,14 +295,14 @@ Lusaka</h3> */}
                                         </div>
                                         <div className="">
                                             <h4 class="ps-7  print:text-xs pb-1 text-base font-bold text-end">
-                                                ZMW {invoice.subtotal}
+                                                {formatCurrency(invoice.subtotal)}
                                             </h4>
                                             <h4 class="ps-7  print:text-xs pb-4 text-base font-bold text-end">
                                                 {" "}
-                                                {invoice.subtotal * 0.16}
+                                                {formatCurrency(roundToDecimalPlaces(invoice.subtotal * 0.16,2))}
                                             </h4>
                                             <h4 class="py-3  print:text-xs bg-prime-orange text-white font-extrabold text-end  pr-5 ">
-                                                ZMW {invoice.total}
+                                                {formatCurrency(invoice.total)}
                                             </h4>
                                         </div>
                                     </div>
