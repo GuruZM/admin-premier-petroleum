@@ -7,6 +7,9 @@ import invoicesReducer from './slices/invoiceSlice';
 import quotationReducer from './slices/quotationSlice';
 import fuelExpenseSlice from './slices/fuelExpenseSlice';
 import transportSlice from './slices/transportSlice';
+import newsletterSlice from './slices/newsletterSlice';
+
+
 const rootReducer = combineReducers({
     // Here we will add reducers
     customers: customersReducer,
@@ -16,7 +19,9 @@ const rootReducer = combineReducers({
     invoices: invoicesReducer,
     quotations: quotationReducer,
     fuelExpenses: fuelExpenseSlice,
-    transport: transportSlice
+    transport: transportSlice,
+    newsletter: newsletterSlice,
+
 
   });
 const store = configureStore({

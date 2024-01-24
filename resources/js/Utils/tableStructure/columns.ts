@@ -36,7 +36,9 @@ const supplierColumns = [
   {name: "TPIN", uid: "tpin", sortable: true},
   {name: "ACTIONS", uid: "actions"},
 ];
-
+const newsletterColumns = [
+  {name: "SUBSCRIBER EMAIL", uid: "email", sortable: true},
+];
 const customerColumns = [
   {name: "ID", uid: "id", sortable: true},
   {name: "FIRSTNAME", uid: "firstname", sortable: true},
@@ -128,4 +130,4 @@ const statusOptions = [
   ];
 
 
-  export {categoryColumns,quotationColumns,transportExpenseColumns,fuelExpenseColumns,goodsReceivedColumns,customerColumns,deliveryNoteColumns,supplierColumns,users,productColumns,invoiceColumns,statusOptions};
+  export {categoryColumns,newsletterColumns,quotationColumns,transportExpenseColumns,fuelExpenseColumns,goodsReceivedColumns,customerColumns,deliveryNoteColumns,supplierColumns,users,productColumns,invoiceColumns,statusOptions};

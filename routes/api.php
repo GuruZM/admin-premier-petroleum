@@ -10,14 +10,14 @@ use App\Http\Controllers\api\v1\SupplierController;
 use App\Http\Controllers\api\v1\FuelExpenseController;
 use App\Http\Controllers\api\v1\TransportExpenseController;
 use App\Http\Controllers\api\v1\QuotationController;
- 
+use App\Http\Controllers\api\v1\SubscriberController;
+use App\Http\Controllers\api\v1\NewsletterController; 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::prefix('v1')->group(function () {
     Route::apiResource('customers', CustomerController::class);
-    // invoices
     Route::apiResource('invoices', InvoiceController::class);
     Route::put('invoices/{invoice}/status', [InvoiceController::class, 'updateStatus']);
     Route::apiResource('delivery-notes', DeliveryNoteController::class);
@@ -26,4 +26,7 @@ Route::prefix('v1')->group(function () {
     Route::resource('fuel-expenses', FuelExpenseController::class);
     Route::resource('transport-expenses', TransportExpenseController::class);
     Route::resource('quotations', QuotationController::class);
+    Route::resource('subscribers', SubscriberController::class);
+    Route::resource('newsletter', NewsletterController::class);
+
 });

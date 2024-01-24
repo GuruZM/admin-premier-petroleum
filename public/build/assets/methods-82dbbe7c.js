@@ -1,0 +1,1 @@
+function a(r,n="ZMW",t="en-US"){return new Intl.NumberFormat(t,{style:"currency",currency:n,minimumFractionDigits:0,maximumFractionDigits:0}).format(r).split(" ")[0]}function c(r,n){const t=Math.pow(10,n);return Math.round(r*t)/t}export{a as f,c as r};

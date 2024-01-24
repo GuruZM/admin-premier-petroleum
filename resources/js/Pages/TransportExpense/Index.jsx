@@ -16,6 +16,7 @@ import { useForm, Controller, set } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "../../Axios/axiosConfig";
 import { fetchTransportExpense } from "@/Redux/slices/transportSlice";
+import { roundToDecimalPlaces } from "@/Utils/methods";
 import { toast } from "sonner";
 import InputText from "@/Components/InputText";
 const INITIAL_VISIBLE_COLUMNS = ["quantity", "price", "status", "actions"];
@@ -87,7 +88,7 @@ function Index({ auth }) {
         const quantity = getValues("quantity");
         const price = getValues("price");
         const exchange_rate = getValues("exchange_rate");
-        const total = quantity * price * exchange_rate;
+        const total = roundToDecimalPlaces((quantity * price) * exchange_rate,3);
         setValue("total", total);
     };
 
@@ -129,6 +130,8 @@ function Index({ auth }) {
 
                         <InputText
                             type="number"
+                            step=".02"
+                            pattern="^\d*(\.\d{0,2})?$"
                             labelPlacement="outside"
                             title="Price"
                             register={register}

@@ -156,6 +156,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/quotations/{quotation}', [QuotationController::class, 'update']);
     Route::delete('/quotations/{quotation}', [QuotationController::class, 'destroy']);
 
+    // newsletter
+    Route::get('/newsletter', [App\Http\Controllers\NewsletterController::class, 'index']);
+
 
 });
 

@@ -19,6 +19,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "../../Axios/axiosConfig";
 import { toast } from "sonner";
 import InputText from "@/Components/InputText";
+import { roundToDecimalPlaces } from "@/Utils/methods";
 const INITIAL_VISIBLE_COLUMNS = [
     "quantity",
     "price",
@@ -64,7 +65,7 @@ function index({ auth }) {
         const quantity = watch("quantity");
         const price = watch("price");
         const exchange_rate = watch("exchange_rate");
-        const total = quantity * price * exchange_rate;
+        const total = roundToDecimalPlaces((quantity * price) * exchange_rate,3);
         // console.log('total :',watch('total'));
         setValue("total", total);
     };
@@ -73,7 +74,7 @@ function index({ auth }) {
     const handleQuantityChange = () => {
         const quantity = getValues("quantity");
         const price = getValues("price");
-        const total = quantity * price;
+        const total = roundToDecimalPlaces(quantity * price,3);
         setValue("total", total);
         calculateDuty();
     };
@@ -182,6 +183,8 @@ function index({ auth }) {
 
                         <InputText
                             style={{ border: "none" }}
+                            step=".02"
+                            pattern="^\d*(\.\d{0,2})?$"
                             type="number"
                             title="Price"
                             placeholder=""

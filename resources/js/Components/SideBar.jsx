@@ -165,7 +165,16 @@ export default function Sidebar({ user }) {
                                     Customers
                                 </Link>
                             </li>
-                            
+                            <li className="rounded-lg mb-2 text-gray-700">
+                                <Link
+                                    href="/newsletter"
+                                    className="flex items-center gap-4 text-sm text-gray-700 font-medium px-4 py-3 rounded-lg"
+                                    // activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                                >
+                                    {/* <Icon name="map" size="2xl" /> */}
+                                   Newsletter
+                                </Link>
+                            </li>
                             {/* 
                             <li className="rounded-lg mb-2 text-gray-700">
                                 <Link
