@@ -29,7 +29,7 @@ const INITIAL_VISIBLE_COLUMNS = [
 ];
 
 function Index({ auth }) {
-    const [record, setRecord] = React.useState({});
+    const [record, setRecord] = React.useState(null);
     const { register, reset, setValue, handleSubmit, getValues, formState } =
         useForm();
     const dispatch = useDispatch();
