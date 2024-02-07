@@ -5,7 +5,9 @@ import { Button } from "@nextui-org/react";
 import axios from "../../Axios/axiosConfig";
 import { toast } from "sonner";
 import { formatCurrency } from "@/Utils/methods";
+
 const Show = ({ auth, invoice }) => {
+    console.log(invoice)
     const updateInvoiceStatus = () => {
         try {
             axios.put(`/invoices/${invoice.id}/status`).then((response) => {

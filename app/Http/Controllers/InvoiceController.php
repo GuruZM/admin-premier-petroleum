@@ -48,7 +48,7 @@ class InvoiceController extends Controller
         $invoiceData = Invoice::join('customers', 'invoices.customer', '=', 'customers.id')
     ->join('users', 'invoices.issued_by', '=', 'users.id')
     ->where('invoices.id', '=', $invoice->id) // Add the where clause here
-    ->select('invoices.*', 'customers.company_name as customer_name','customers.address as customer_address','users.name as issued_by_name')
+    ->select('invoices.*', 'customers.company_name as customer_name','customers.tpin as customer_tpin','customers.address as customer_address','users.name as issued_by_name')
     ->first();
         return inertia('Invoice/Show', [
             'invoice' => $invoiceData,
