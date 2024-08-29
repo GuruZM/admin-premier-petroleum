@@ -53,7 +53,7 @@ class InvoiceController extends Controller
         try {
             // Validate the incoming request data
             $validatedData = $request->validate([
-                'invoiceNumber' => 'required|string',
+                
                 'truck_plate' => 'required|string',
                 'date' => 'required|string',
                 'due_date' => 'required|string',
@@ -66,7 +66,7 @@ class InvoiceController extends Controller
 
             // Create a new customer
             $invoice = Invoice::create([
-                'number' => $validatedData['invoiceNumber'],
+                
                 'track_details' => $validatedData['truck_plate'],
                 'date' => $validatedData['date'],
                 'due_date' => $validatedData['due_date'],
@@ -80,7 +80,9 @@ class InvoiceController extends Controller
                 'bank_details'=>'Name of Bank: STANBIC BANK
                 Payment to: PREMIER PETROLEUM LIMITED
                 Account No. 9130005329888',
-            ]);
+            ]);      
+            $invoice->number = 'INV-' . $invoice->id;
+            $invoice->save();
 
             return response()->json(['message' => 'Invoice created successfully'], 201);
         } catch (\Exception $e) {

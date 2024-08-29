@@ -56,10 +56,14 @@ Route::get('/dashboard', function () {
   
         $paidTransportExpenses = TransportExpense::whereMonth('created_at', $currentMonth)->where('status', 'paid')->sum('total');
         $paidFuelExpenses = FuelExpense::whereMonth('created_at', $currentMonth)->where('status', 'paid')->sum('total');
-        
+        $expenses = [
+            $paidTransportExpenses,
+            $paidFuelExpenses
+        ];
     $paidTotalExpenses = $paidTransportExpenses + $paidFuelExpenses;
 
     $pendingTransportExpenses = TransportExpense::whereMonth('created_at', $currentMonth)->where('status', 'pending')->sum('total');
+    
     $pendingFuelExpenses = FuelExpense::whereMonth('created_at', $currentMonth)->where('status', 'pending')->sum('total');
     $pendingTotalExpenses = $pendingTransportExpenses + $pendingFuelExpenses;
   
@@ -71,6 +75,7 @@ Route::get('/dashboard', function () {
     'unpaidInvoices' => $unpaidInvoices,
     'totalInvoices' => $totalInvoices,
     'totalExpenses' => $totalExpenses,
+   'expenses'=>$expenses,
     'pendingTotalExpenses' => $pendingTotalExpenses,
     'paidTotalExpenses' => $paidTotalExpenses,
 ]
@@ -158,6 +163,9 @@ Route::middleware(['auth'])->group(function () {
 
     // newsletter
     Route::get('/newsletter', [App\Http\Controllers\NewsletterController::class, 'index']);
+
+    // Print 
+    Route::post('/invoice/print', [InvoiceController::class, 'printinvoice']);
 
 
 });

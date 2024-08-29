@@ -1,76 +1,87 @@
-import { Link, Head } from '@inertiajs/react';
-import fuel from '../../assets/images/fuel2.jpg';
-import {Input ,Button} from "@nextui-org/react";
-import TextInput from '@/Components/TextInput';
+import { Link, Head } from "@inertiajs/react";
+import fuel from "../../assets/images/fuel2.jpg";
+import { Input, Button } from "@nextui-org/react";
+import TextInput from "@/Components/TextInput";
 export default function Welcome({ auth }) {
     return (
         <>
             <Head title="Welcome" />
             <div class="  min-h-screen  mx-auto">
-			<div class="flex justify-center   ">
-			 
-				<div class="w-full   h-screen flex">
-				 
-					<div
-						class="w-full   bg-cover  hidden lg:block lg:w-1/2  bg-black rounded-l-lg"
-						Style={`background-image: url(${fuel});`}
-					>
-                        <div className='h-full bg-black/50'>
-
+                <div class="flex justify-center   ">
+                    <div class="w-full   h-screen flex">
+                        <div
+                            class="w-full   bg-cover  hidden lg:block lg:w-1/2  bg-black rounded-l-lg"
+                            Style={`background-image: url(${fuel});`}
+                        >
+                            <div className="h-full bg-black/50"></div>
                         </div>
 
-                    </div>
-				 
-					<div class="w-full flex flex-col justify-center first: lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
-						<h3 class="pt-4 text-2xl text-center">Welcome Back!</h3>
-						<form class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
-							<div class="">
-                           {/* username */}
-                           <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                        <div class="w-full flex flex-col justify-center first: lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
+                            <h3 class="pt-4 text-2xl text-center">
+                                Welcome Back!
+                            </h3>
+                            <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
+                                <div class="">
+                                    {/* username */}
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="email"
+                                            value="Email"
+                                        />
 
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        isFocused={true}
-                        onChange={(e) => setData('email', e.target.value)}
-                    />
+                                        <TextInput
+                                            id="email"
+                                            type="email"
+                                            name="email"
+                                            value={data.email}
+                                            className="mt-1 block w-full"
+                                            autoComplete="username"
+                                            isFocused={true}
+                                            onChange={(e) =>
+                                                setData("email", e.target.value)
+                                            }
+                                        />
 
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
-
-							</div>
-							<div class="mb-4">
-                            {/* <Input
+                                        <InputError
+                                            message={errors.email}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    {/* <Input
       isRequired
       type="email"
       label="Email"
       defaultValue="junior@nextui.org"
       className="max-w-xs"
     /> */}
-							</div>
-							<div class="mb-4">
-								<input class="mr-2 leading-tight" type="checkbox" id="checkbox_id" />
-								<label class="text-sm" for="checkbox_id">
-									Remember Me
-								</label>
-							</div>
-							<div class="mb-6 text-center">
-                            <Button color="primary" className='w-full' variant="shadow">
-       Login
-      </Button> 
-							</div>
-							<hr class="mb-6 border-t" />
-							 
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+                                </div>
+                                <div class="mb-4">
+                                    <input
+                                        class="mr-2 leading-tight"
+                                        type="checkbox"
+                                        id="checkbox_id"
+                                    />
+                                    <label class="text-sm" for="checkbox_id">
+                                        Remember Me
+                                    </label>
+                                </div>
+                                <div class="mb-6 text-center">
+                                    <Button
+                                        color="primary"
+                                        className="w-full"
+                                        variant="shadow"
+                                    >
+                                        Login
+                                    </Button>
+                                </div>
+                                <hr class="mb-6 border-t" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {/* <div className="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
                 <div className="sm:fixed sm:top-0 sm:right-0 p-6 text-end">
                     {auth.user ? (

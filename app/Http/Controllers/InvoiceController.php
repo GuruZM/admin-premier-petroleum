@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Invoice;
+use App\Models\User;
+use App\Models\Customer;
+use Illuminate\Http\Response;   
 use Inertia\Inertia;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class InvoiceController extends Controller
 {
@@ -56,7 +61,47 @@ class InvoiceController extends Controller
         ]);
     }
 
-
+    public function printinvoice(Request $request)
+    {
+            // dd($request->all());
+            try {
+    
+                // $serializedData = $request->query('data');
+                $id = $request->input('id');
+                 $invoice = Invoice::with(['customer', 'issuedBy'])->find($id);
+                 $customer = Customer::find($invoice->customer);
+                 $invoice->customer = $customer;
+                 $dompdf = new Dompdf();
+                 $options = new Options();
+                 $options->set('isHtml5ParserEnabled', true);
+                 $dompdf->setOptions($options);
+                 $user = User::find($invoice->issued_by);
+                $invoice->user = $user;
+        
+                $invoice->line_items = json_decode($invoice->line_items,true);
+                        $html =  view('print.invoice',
+                        [
+                            'invoice' => $invoice,
+                        ]
+                        )->render();
+                        // return view('print.invoice', [
+                        //     'invoice' => $invoice,
+                        // ]);
+                        $dompdf->loadHtml($html);
+ 
+                        $dompdf->setPaper('A4', 'portrait');
+                        $dompdf->render();
+                        $output = $dompdf->output();
+        
+                     return new Response($output, 200, [
+                          'Content-Type' => 'application/pdf',
+                          'Content-Disposition' => 'inline; filename="Invoice.pdf"',
+                      ]);
+                    
+                } catch (\Exception $e) {
+                    return response()->json(['message' => 'Failed to retrieve invoice', 'error' => $e->getMessage()], 500);
+                }
+    }
     public function store(Request $request)
     {
         // Your code to store a new customer

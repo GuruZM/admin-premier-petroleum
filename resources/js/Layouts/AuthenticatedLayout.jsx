@@ -1,30 +1,44 @@
-import { useState } from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link } from '@inertiajs/react';
-import Footer from '@/Components/Footer';
-import Sidebar from '@/Components/SideBar';
-import { ToastContainer } from 'react-toastify';
-import { Toaster } from 'sonner';
+import { useState } from "react";
+import ApplicationLogo from "@/Components/ApplicationLogo";
+import Dropdown from "@/Components/Dropdown";
+import NavLink from "@/Components/NavLink";
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import { Link } from "@inertiajs/react";
+import Footer from "@/Components/Footer";
+import Sidebar from "@/Components/SideBar";
+import { ToastContainer } from "react-toastify";
+import AdminNavbar from "@/Components/AdminNavbar";
+
+import { Toaster } from "sonner";
 export default function Authenticated({ user, header, children }) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-
+    const [showingNavigationDropdown, setShowingNavigationDropdown] =
+        useState(false);
+    const [showSidebar, setShowSidebar] = useState("left-0");
     return (
+        <div className="relative bg-gray-200 pt-5   border-red-500 min-h-screen   flex flex-col   ">
+            <div
+                id="nav"
+                className="flex-1 min-h-4/5 flex justify-center      w-11/12 mx-auto  border-pink-500"
+            >
+                <Sidebar
+                    user={user}
+                    showSidebar={showSidebar}
+                    setShowSidebar={setShowSidebar}
+                />
 
-        <div className='relative'>
-          <Sidebar user={user} />
-        <main className="print:bg-white max-h-fit relative md:ml-64 bg-gray-200 ">
-            <div className="px-10 print:py-0 print:px-0 md:px-10 py-10 md:py-10 mx-auto w-full h-full min-h-screen">
-            <Toaster 
-            position='top-right'
-            richColors
-           />
-                {children}
+                <div className=" w-full md:pl-5">
+                    <AdminNavbar
+                        user={user}
+                        showSidebar={showSidebar}
+                        setShowSidebar={setShowSidebar}
+                    />
+                    <main className="print:bg-white min-h-fit    border-yellow-500  relative  bg-gray-200 ">
+                        <Toaster position="top-right" richColors />
+                        {children}
+                    </main>
+                </div>
             </div>
-            <Footer/>
-        </main>
+            <Footer />
         </div>
     );
 }
