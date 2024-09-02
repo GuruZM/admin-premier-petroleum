@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import {
     useDisclosure,
     Divider,
@@ -41,11 +41,13 @@ function Index({ auth, duties }) {
                 // If record is set and has an ID, update the existing customer
                 await axios.put(`/duties/${record}`, data);
                 toast.success("Duty Fees Updated Successfully");
+                router.visit("/duties");
                 reset();
                 setRecord(null);
             } else {
                 // If record is not set or doesn't have an ID, add a new customer
                 await axios.post("/duties", data);
+                router.visit("/duties");
                 toast.success("Duty Fees Added Successfully");
             }
 
