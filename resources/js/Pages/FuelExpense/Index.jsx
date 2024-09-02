@@ -64,8 +64,7 @@ function index({ auth }) {
         console.log("watch :", watch("quantity"));
         const quantity = watch("quantity");
         const price = watch("price");
-        const exchange_rate = watch("exchange_rate");
-        const total = roundToDecimalPlaces((quantity * price) * exchange_rate,3);
+        const total = roundToDecimalPlaces(quantity * price, 3);
         // console.log('total :',watch('total'));
         setValue("total", total);
     };
@@ -74,7 +73,7 @@ function index({ auth }) {
     const handleQuantityChange = () => {
         const quantity = getValues("quantity");
         const price = getValues("price");
-        const total = roundToDecimalPlaces(quantity * price,3);
+        const total = roundToDecimalPlaces(quantity * price, 3);
         setValue("total", total);
         calculateDuty();
     };
@@ -163,7 +162,7 @@ function index({ auth }) {
                 isSubmitting={false}
             >
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex flex-col space-y-8">
+                    <div className="flex flex-col space-y-4">
                         <InputText
                             style={{
                                 border: "none",
@@ -191,10 +190,10 @@ function index({ auth }) {
                             className="   "
                             register={register}
                             name="price"
-                            onChange={calculateTotal}
+                            onChange={handlePriceChange}
                         />
 
-                        <InputText
+                        {/* <InputText
                             style={{ border: "none" }}
                             type="number"
                             title="Exchange Rate"
@@ -203,7 +202,7 @@ function index({ auth }) {
                             register={register}
                             name="exchange_rate"
                             onChange={calculateTotal}
-                        />
+                        /> */}
 
                         <div>
                             <InputText
@@ -267,7 +266,7 @@ function index({ auth }) {
                                 type="submit"
                                 color="primary"
                             >
-                               {record ? "Update" : "Create"}
+                                {record ? "Update" : "Create"}
                             </Button>
                         </div>
                     </div>

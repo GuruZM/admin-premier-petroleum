@@ -1,4 +1,4 @@
-export function formatCurrency(amount, currencyCode = "ZMW", locale = "en-US") {
+export function formatCurrency(amount, currencyCode = "USD", locale = "en-US") {
     // Use Intl.NumberFormat to format the currency
     const formattedAmount = new Intl.NumberFormat(locale, {
         style: "currency",

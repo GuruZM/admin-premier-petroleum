@@ -21,19 +21,18 @@ import { toast } from "sonner";
 import InputText from "@/Components/InputText";
 const INITIAL_VISIBLE_COLUMNS = ["quantity", "price", "status", "actions"];
 
-function Index({ auth }) {
+function Index({ auth, invoice_quantity }) {
     const [record, setRecord] = React.useState(null);
     const { register, reset, setValue, handleSubmit, getValues, formState } =
         useForm();
 
-  const editRecord = (obj) => {
+    const editRecord = (obj) => {
         setRecord(obj.id);
-    Object.entries(obj).forEach(([key, value]) => {
-        setValue(key, value);
-    });
-    onOpen()
-  };
-
+        Object.entries(obj).forEach(([key, value]) => {
+            setValue(key, value);
+        });
+        onOpen();
+    };
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const dispatch = useDispatch();
@@ -42,27 +41,28 @@ function Index({ auth }) {
         dispatch(fetchTransportExpense());
     }, [dispatch]);
 
-
     const onSubmit = async (data) => {
         try {
-          if (record) {
-             
-           const response = await axios.put(`/transport-expenses/${record}`,data);
-            console.log(response);
-            toast.success('Transport Expense Updated Successfully');
-            setRecord(null);
-          } else {
-            await axios.post('/transport-expenses', data);
-            toast.success('Transport Expense Added Successfully');
-          }
-          onOpenChange();
-          dispatch(fetchTransportExpense());
-          reset();
+            if (record) {
+                const response = await axios.put(
+                    `/transport-expenses/${record}`,
+                    data
+                );
+                console.log(response);
+                toast.success("Transport Expense Updated Successfully");
+                setRecord(null);
+            } else {
+                await axios.post("/transport-expenses", data);
+                toast.success("Transport Expense Added Successfully");
+            }
+            onOpenChange();
+            dispatch(fetchTransportExpense());
+            reset();
         } catch (error) {
-          console.error('Error:', error);
-          toast.error('Something Went Wrong');
+            console.error("Error:", error);
+            toast.error("Something Went Wrong");
         }
-      };
+    };
     const handleDelete = async (id) => {
         try {
             if (confirm("are you sure you want to delete this Record")) {
@@ -87,8 +87,7 @@ function Index({ auth }) {
     const calculateTotal = () => {
         const quantity = getValues("quantity");
         const price = getValues("price");
-        const exchange_rate = getValues("exchange_rate");
-        const total = roundToDecimalPlaces((quantity * price) * exchange_rate,3);
+        const total = roundToDecimalPlaces(quantity * price, 3);
         setValue("total", total);
     };
 
@@ -114,11 +113,33 @@ function Index({ auth }) {
             <AddModal
                 onOpenChange={onOpenChange}
                 isOpen={isOpen}
-                title={record ? "Edit Transport Expense" : "Add Transport Expense"}
+                title={
+                    record ? "Edit Transport Expense" : "Add Transport Expense"
+                }
                 isSubmitting={false}
             >
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex flex-col space-y-8">
+                    <div className="flex flex-col space-y-4">
+                        <select
+                            labelPlacement="outside"
+                            label="Status"
+                            className=" bg-gray-100 flex-1 mt-1 p-2 rounded-xl w-full border-none outline-none focus:ring-0"
+                            startContent="👤"
+                            onChange={(e) =>
+                                setValue("quantity", e.target.value)
+                            }
+                        >
+                            {invoice_quantity.map((invoice) => (
+                                <option
+                                    id="pending"
+                                    value={invoice.quantity}
+                                    key="pending"
+                                >
+                                    {invoice.invoice_number}
+                                </option>
+                            ))}
+                        </select>
+
                         <InputText
                             type="number"
                             labelPlacement="outside"
@@ -136,14 +157,6 @@ function Index({ auth }) {
                             title="Price"
                             register={register}
                             name="price"
-                            onChange={calculateTotal}
-                        />
-                        <InputText
-                            type="number"
-                            labelPlacement="outside"
-                            title="Exchange Rate"
-                            register={register}
-                            name="exchange_rate"
                             onChange={calculateTotal}
                         />
 
@@ -188,7 +201,7 @@ function Index({ auth }) {
                                 type="submit"
                                 color="primary"
                             >
-                               {record ? 'Update' : 'Create'}
+                                {record ? "Update" : "Create"}
                             </Button>
                         </div>
                     </div>

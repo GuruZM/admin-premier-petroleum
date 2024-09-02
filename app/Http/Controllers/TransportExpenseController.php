@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TransportExpense;
 use Inertia\Inertia;
-
+use App\Models\Invoice;
 class TransportExpenseController extends Controller
 {
     /**
@@ -14,8 +14,25 @@ class TransportExpenseController extends Controller
     public function index()
     {
         // return inertia view
+
+
+        $invoice = Invoice::selectRaw('number, line_items')->get();
+       
+
+        $invoce_quantity = [];
+ 
+        foreach($invoice as $value){
+            $invoice_quantity[] = [
+                'invoice_number' => $value->number,
+                'quantity' => json_decode($value->line_items, true)[0]['quantity']
+            ];
+        }
+ 
+                    
+
         return inertia('TransportExpense/Index', [
             'transport_expenses' => TransportExpense::all(),
+            'invoice_quantity' => $invoice_quantity,
             'status'=> session('status')
         ]);
 

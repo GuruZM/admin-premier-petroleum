@@ -14,6 +14,7 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/invoice/print',
         '/quotation/print',
-        'delivery-notes/print'
+        '/delivery-note/print',
+        '/goods-recieved/print'
     ];
 }

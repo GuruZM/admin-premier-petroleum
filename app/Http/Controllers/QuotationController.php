@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Quotation;
+use App\Models\User;
+use App\Models\Customer;
+use Illuminate\Http\Response;   
+use Dompdf\Dompdf;
+use Dompdf\Options;
 class QuotationController extends Controller
 {
     /**
@@ -71,6 +76,45 @@ class QuotationController extends Controller
             ]);
     }
 
+    public function printquotation(Request $request)
+    {
+            // dd($request->all());
+            try {
+    
+                // $serializedData = $request->query('data');
+                $id = $request->input('id');
+                 $quotation = Quotation::with(['customer', 'issuedBy'])->find($id);
+                 $customer = Customer::find($quotation->customer_id);
+                 $quotation->customer = $customer;
+                 $dompdf = new Dompdf();
+                 $options = new Options();
+                 $options->set('isHtml5ParserEnabled', true);
+                 $dompdf->setOptions($options);
+                 $user = User::find($quotation->issued_by);
+            
+        
+                $quotation->line_items = json_decode($quotation->items,true);
+                        $html =  view('print.quotation',
+                        [
+                            'quotation' => $quotation,
+                        ]
+                        )->render();
+                      
+                        $dompdf->loadHtml($html);
+ 
+                        $dompdf->setPaper('A4', 'portrait');
+                        $dompdf->render();
+                        $output = $dompdf->output();
+        
+                     return new Response($output, 200, [
+                          'Content-Type' => 'application/pdf',
+                          'Content-Disposition' => 'inline; filename="Quotation.pdf"',
+                      ]);
+                    
+                } catch (\Exception $e) {
+                    return response()->json(['message' => 'Failed to retrieve invoice', 'error' => $e->getMessage()], 500);
+                }
+    }
     /**
      * Update the specified resource in storage.
      */

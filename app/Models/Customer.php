@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Quotation;
+use App\Models\User;
 class Customer extends Model
 {
     protected $fillable = [
@@ -16,6 +17,8 @@ class Customer extends Model
         'tpin'
     ];
     use HasFactory;
+
+  
 
     public function quotations()
     {

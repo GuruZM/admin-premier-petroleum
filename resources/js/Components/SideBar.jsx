@@ -210,7 +210,7 @@ export default function Sidebar({ user, showSidebar, setShowSidebar }) {
                                         }
                                         subtitle={
                                             <small className=" italic">
-                                                Fuel, Transport
+                                                Fuel, Transport, etc...
                                             </small>
                                         }
                                         title={
@@ -239,6 +239,26 @@ export default function Sidebar({ user, showSidebar, setShowSidebar }) {
                                                 >
                                                     {/* <Icon name="toc" size="2xl" /> */}
                                                     Transport
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link
+                                                    href="/clearance-fees"
+                                                    className="flex items-center gap-4 text-sm text-gray-700 font-medium px-4 py-3 rounded-lg"
+                                                    // activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                                                >
+                                                    {/* <Icon name="toc" size="2xl" /> */}
+                                                    Clearance Fees
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link
+                                                    href="/duties"
+                                                    className="flex items-center gap-4 text-sm text-gray-700 font-medium px-4 py-3 rounded-lg"
+                                                    // activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                                                >
+                                                    {/* <Icon name="toc" size="2xl" /> */}
+                                                    Duty
                                                 </Link>
                                             </li>
                                             <li></li>

@@ -4,10 +4,24 @@ import quotationbg from "../../../assets/images/quotationbg.png";
 import { Button } from "@nextui-org/react";
 import axios from "../../Axios/axiosConfig";
 import { toast } from "sonner";
+import { Head } from "@inertiajs/react";
 import { formatCurrency } from "@/Utils/methods";
 const Show = ({ auth, quotation }) => {
-    console.log('quote',quotation );
-  
+    const handlePrint = (id) => {
+        // const serializedData = JSON.stringify(Data);
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/quotation/print";
+        form.target = "_blank"; // Open in a new tab
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "id";
+        input.value = id;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+    };
 
     return (
         <Authenticated
@@ -19,224 +33,162 @@ const Show = ({ auth, quotation }) => {
             }
             className="print:hidden"
         >
-            <div className="text-white   border-red-500 items-end  flex justify-end">
-                <Button
-                    color="primary"
-                    endContent={
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            height="1em"
-                            viewBox="0 0 512 512"
-                            color="white"
-                            class="pe-3 text-white "
-                        >
-                            <path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zM432 248a24 24 0 1 1 0 48 24 24 0 1 1 0-48z" />
-                        </svg>
-                    }
-                    onClick={() => window.print()}
-                    className="bg-primary ml-auto  print:hidden"
-                >
-                    Print
-                </Button>
-            </div>
-
-            <section class="py-2 print:py-0 print:min-h-full overflow-hidden relative">
-                <div class="inline-block absolute 2xl:end-60 bottom-3 xl:bottom-auto"></div>
-
-                <div class="containe mx-auto">
+            <Head title="Quotion" />
+            <div class="w-full p-5 bg-white px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10">
+                <div class="mb-5 pb-5 flex justify-between items-center border-b border-gray-200 dark:border-neutral-700">
                     <div>
-                        <div class="flex     gap-6   relative ">
-                            <div className="  w-full">
-                                <img
-                                    src={quotationbg}
-                                    className="w-full"
-                                    alt=""
-                                    srcset=""
-                                />
-                            </div>
-                            {/* <h4 class="text-5xl font-semibold uppercase tracking-widest text-white float-right">Invoice</h4> */}
-                        </div>
-                        <div class="bg-white md:p-16 p-10">
-                            <div class="flex   items-center justify-between gap-6">
-                                <div class="  gap-3">
-                                    <h2 class="text-lg print:text-sm font-semibold tracking-widest uppercase">
-                                        PREMIER PETROLEUM LIMITED
-                                    </h2>
-                                    <h3 class="text-lg tracking-widest uppercase print:text-sm">
-                                        TPIN: 2566221102
-                                    </h3>
-                                    {/* <div>
-                                <h4 class="text-lg font-semibold">Dwyane Clark</h4>
-                                <p class="w-52 text-sm font-medium text-gray-500 mt-2">24 Dummy Street Area, Location, Lorem Ipsum, 570xx59x</p>
-                            </div> */}
-                                </div>
+                        <h2 class="text-2xl font-semibold text-gray-800 dark:text-neutral-200">
+                            Quotation
+                        </h2>
+                    </div>
 
-                                <div>
-                                    <h2 class="text-lg font-bold print:font-bold print:text-sm tracking-widest uppercase">
-                                        PREMIER PETROLEUM
-                                    </h2>
-                                    <p class="text-xl print:text-xs ">
-                                        4 on Bishops Road Kabulonga
-                                        <br />
-                                        Bishops Office Park, Suite GF05 Block C
-                                        <br />
-                                        10101 Lusaka Zambia
-                                        <br />
-                                        Business ID: 120210025710
-                                        <br />
-                                        Tax Id: :2566221102
-                                        <br />
-                                        sales@premier-petroleum.com
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="grid print:grid-cols-3 grid-cold-1   md:grid-cols-3 gap-5  print:gap-8 mt-14">
-                                <div>
-                                    <h2 class="text-lg print:text-xs font-semibold tracking-widest ">
-                                        Quotation To: 
-                                        {quotation.company_name}
-                                    </h2>
-                                    <h3 class="text-lg print:text-xs tracking-widest uppercase">
-                                        TPIN:
-                                        {quotation.tpin}
-                                    </h3>
-                                </div>
-
-                                <div>
-                                  
-                                </div>
-
-                                <div className="  flex flex-row   items-start print:text-xs ">
-                                    <div className="">
-                                        <div className="flex">
-                                            <h2 class="text-lg font-semibold print:text-xs tracking-widest  ">
-                                                {" "}
-                                                Date:{" "}
-                                            </h2>
-                                        </div>
-                                       
-                                    </div>
-
-                                    <div className="text-right flex-col justify-end  flex-1">
-                                        <div className="">
-                                            <h2 class="text-lg font-semibold print:text-xs tracking-widest  ">
-                                                {" "}
-                                                <span class="ps-5 text-gray-500">
-                                                    {quotation.date}
-                                                </span>
-                                            </h2>
-                                        </div>
-                                      
-                                      
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="overflow-x-auto">
-                                <table class="border-gray-400 table-auto w-full text-sm mt-14 mb-12 whitespace-pre">
-                                    <thead>
-                                        <tr className="bg-prime-blue text-white">
-                                            <th class="p-4 print:text-xs  font-bold   uppercase tracking-widest text-lg   text-start">
-                                                NO.
-                                            </th>
-                                            <th class="p-4 print:text-xs  font-bold   uppercase tracking-widest text-lg  text-start">
-                                                {" "}
-                                                Description
-                                            </th>
-                                            <th class="p-4  print:text-xs  font-bold  uppercase tracking-widest text-lg   text-start">
-                                                Quantity
-                                            </th>
-                                            <th class="p-4 print:text-xs  font-bold   pe-7 uppercase tracking-widest text-lg  text-center">
-                                                Rate
-                                            </th>
-                                            <th class="p-4 print:text-xs   font-bold  uppercase tracking-widest text-lg   text-end">
-                                                Amount
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="bg-white">
-                                                                       
-                            {quotation.items && JSON.parse(quotation.items).map((item, index) => (
-    <tr key={index} className={index % 2 === 0 ? "bg-gray-200" : "bg-white"}>
-        <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium">{index + 1}</td>
-        <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium">{item.description}</td>
-        <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium">{item.quantity}</td>
-        <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium text-center">{item.rate}</td>
-        <td class="p-5 print:text-xs border-b border-gray-400 text-base font-medium text-end">{formatCurrency(item.amount)}</td>
-    </tr>
-))}
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div class="flex flex-wrap justify-between gap-6 mb-5">
-                                <div>
-                                    <h1 class="text-xl print:text-xs font-semibold">
-                                        BANKING DETAILS:
-                                    </h1>
-
-                                    <p class="text-sm  print:text-xs font-normal pt-2">
-                                        Name of Bank: STANBIC BANK
-                                    </p>
-                                    <p class="text-sm  print:text-xs font-normal">
-                                        Payment to: PREMIER PETROLEUM LIMITED
-                                    </p>
-                                    <p class="text-sm  print:text-xs font-normal">
-                                    Account No: 9130005329888 (ZMW)
-                                    </p>
-
-                                    <p class="text-sm  print:text-xs font-normal">
-                                    Account No: 9130005451004 (USD)
-                                    </p>
-                                    <p class="text-sm  print:text-xs font-normal">
-                                    Branch Code: 040002 
-                                    </p>
-                                    <p class="text-sm  print:text-xs font-normal">
-                                    Swift Code: SBICZMLX
-                                    </p>
-
-                                    <h1 class="text-xl  print:text-xs mt-5 font-semibold">
-                                        Prepared by:
-                                    </h1>
-
-                                    {/* <p class="text-sm  print:text-xs font-normal">Issued by: {invoice.issued_by_name}</p> */}
-
-                                    <p class="text-sm mt-5 print:text-xs border-b-2 pt-8 font-normal">
-                                        {" "}
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <div class="flex flex-wrap items-center justify-end">
-                                        <div>
-                                            <h2 class="pb-1  print:text-xs text-base font-bold uppercase">
-                                                Sub total:
-                                            </h2>
-                                            <h2 class="pb-4  print:text-xs text-base font-bold uppercase">
-                                                Value ADDED TAX (16%):
-                                            </h2>
-                                            <h2 class=" py-3  print:text-xs text-white font-extrabold bg-prime-orange   border-gray-500 pl-5  ">
-                                                Total:
-                                            </h2>
-                                        </div>
-                                        <div className="">
-                                            <h4 class="ps-7  print:text-xs pb-1 text-base font-bold text-end">{formatCurrency(quotation.subtotal)}</h4>
-                                    <h4 class="ps-7  print:text-xs pb-4 text-base font-bold text-end"> {formatCurrency(quotation.subtotal * 0.16)}</h4>
-                                    <h4 class="py-3  print:text-xs bg-prime-orange text-white font-extrabold text-end  pr-5 "> {formatCurrency(quotation.total)}</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* <hr class="w-40 border border-gray-500 mt-1"/> */}
-                            {/* <h3 class="text-xl font-semibold border-gray-500">Authorised Sign</h3> */}
-                        </div>
-
-                        {/* <div class="bg-indigo-400 p-6 relative rounded-3xl after:-rotate-45 rounded-tr-none rounded-ss-none after:-top-3 after:start-[50%] after:absolute after:border-[25px] after:border-t-indigo-400 after:border-e-indigo-400 after:border-transparent"></div> */}
+                    <div class="inline-flex gap-x-2">
+                        <div className="print:hidden"></div>
+                        <Button
+                            endContent={
+                                <svg
+                                    class="flex-shrink-0 size-4"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <polyline points="6 9 6 2 18 2 18 9" />
+                                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                                    <rect width="12" height="8" x="6" y="14" />
+                                </svg>
+                            }
+                            onClick={() => handlePrint(quotation.id)}
+                            className="bg-black text-white  print:hidden"
+                        >
+                            Print
+                        </Button>
                     </div>
                 </div>
-            </section>
+
+                <div class="grid md:grid-cols-2 gap-3">
+                    <div>
+                        <div class="grid space-y-3">
+                            <dl class="grid sm:flex gap-x-3 text-sm">
+                                <dt class="min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500">
+                                    Billed to:
+                                </dt>
+                                <dd class="text-gray-800 dark:text-neutral-200">
+                                    {quotation.company_name}
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="grid space-y-3">
+                            <dl class="grid sm:flex gap-x-3 text-sm">
+                                <dt class="min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500">
+                                    Date:
+                                </dt>
+                                <dd class="font-medium text-gray-800 dark:text-neutral-200">
+                                    {quotation.date}
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 border border-gray-200 p-4 rounded-lg space-y-4 dark:border-neutral-700">
+                    <div class="hidden sm:grid sm:grid-cols-5">
+                        <div class="sm:col-span-2 text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                            Description
+                        </div>
+                        <div class="text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                            Quantity
+                        </div>
+                        <div class="text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                            Rate
+                        </div>
+                        <div class="text-end text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                            Amount
+                        </div>
+                    </div>
+
+                    <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
+
+                    {quotation.items &&
+                        JSON.parse(quotation.items).map((item, index) => (
+                            <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                                <div class="col-span-full sm:col-span-2">
+                                    <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                        Description
+                                    </h5>
+                                    <p class="font-medium text-gray-800 dark:text-neutral-200">
+                                        {item.description}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                        Quantity
+                                    </h5>
+                                    <p class="text-gray-800 dark:text-neutral-200">
+                                        {item.quantity}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                        Rate
+                                    </h5>
+                                    <p class="text-gray-800 dark:text-neutral-200">
+                                        {item.rate}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                        Amount
+                                    </h5>
+                                    <p class="sm:text-end text-gray-800 dark:text-neutral-200">
+                                        {formatCurrency(item.amount)}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                </div>
+
+                <div class="mt-8 flex sm:justify-end">
+                    <div class="w-full max-w-2xl sm:text-end space-y-2">
+                        <div class="grid grid-cols-2    sm:grid-cols-1 gap-3 sm:gap-2">
+                            <dl class="grid sm:grid-cols-5  text-sm">
+                                <dt class="col-span-3  text-gray-500 dark:text-neutral-500">
+                                    Subotal:
+                                </dt>
+                                <dd class="col-span-2   font-medium text-gray-800 dark:text-neutral-200">
+                                    {formatCurrency(quotation.subtotal)}
+                                </dd>
+                            </dl>
+
+                            <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
+                                <dt class="col-span-3 text-gray-500 dark:text-neutral-500">
+                                    Vat:
+                                </dt>
+                                <dd class="col-span-2 font-medium text-gray-800 dark:text-neutral-200">
+                                    {formatCurrency(quotation.subtotal * 0.16)}
+                                </dd>
+                            </dl>
+
+                            <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
+                                <dt class="col-span-3 text-gray-500 dark:text-neutral-500">
+                                    Total:
+                                </dt>
+                                <dd class="col-span-2 font-medium text-gray-800 dark:text-neutral-200">
+                                    {formatCurrency(quotation.total)}
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </Authenticated>
     );
 };

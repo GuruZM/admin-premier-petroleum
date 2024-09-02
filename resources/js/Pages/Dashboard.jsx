@@ -87,6 +87,7 @@ export default function Dashboard({
                             desc2={"All Invoices unpaid"}
                             figure={paidInvoices}
                             figure2={unpaidInvoices}
+                            figure3={400}
                             stat1={paidInvoices}
                             stat2={unpaidInvoices}
                         />
@@ -118,10 +119,11 @@ export default function Dashboard({
                                 </svg>
                             }
                             label="Expenses"
-                            stat1label={"Fuel"}
+                            stat1label={"Fuel Purchases"}
                             desc1={"All fuel expenses"}
                             desc2={"All fuel expenses"}
-                            stat2label={"Transport"}
+                            fuel={true}
+                            stat2label={"Transport Expenses"}
                             figure={totalInvoices}
                             stat1={paidInvoices}
                             stat2={unpaidInvoices}

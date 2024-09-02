@@ -10,6 +10,11 @@ class Quotation extends Model
     use HasFactory;
     protected $fillable = ['title', 'customer_id', 'date', 'items', 'total', 'vat', 'subtotal'];
 
+    public function issuedBy()
+    {
+        return $this->belongsTo(User::class, 'issued_by');
+    }
+
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'tpin', 'tpin');

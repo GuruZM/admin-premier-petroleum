@@ -12,6 +12,8 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\FuelExpenseController;
 use App\Http\Controllers\TransportExpenseController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\ClearanceFeeController;
+use App\Http\Controllers\DutyController;
 use App\Models\Invoice;
 use App\Models\DeliveryNote;
 use App\Models\GoodReceived;
@@ -22,6 +24,7 @@ use App\Models\TransportExpense;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Quotation;
+
 
 
 
@@ -161,11 +164,32 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/quotations/{quotation}', [QuotationController::class, 'update']);
     Route::delete('/quotations/{quotation}', [QuotationController::class, 'destroy']);
 
+    // clearance fee 
+    Route::get('/clearance-fees', [ClearanceFeeController::class, 'index']);
+    Route::get('/clearance-fees/create', [ClearanceFeeController::class, 'create']);
+    Route::post('/clearance-fees', [ClearanceFeeController::class, 'store']);
+    Route::get('/clearance-fees/{clearanceFee}', [ClearanceFeeController::class, 'show']);
+    Route::get('/clearance-fees/{clearanceFee}/edit', [ClearanceFeeController::class, 'edit']);
+    Route::put('/clearance-fees/{clearanceFee}', [ClearanceFeeController::class, 'update']);
+    Route::delete('/clearance-fees/{clearanceFee}', [ClearanceFeeController::class, 'destroy']);
+
+    //duty
+    Route::get('/duties', [DutyController::class, 'index']);
+    Route::get('/duties/create', [DutyController::class, 'create']);
+    Route::post('/duties', [DutyController::class, 'store']);
+    Route::get('/duties/{duty}', [DutyController::class, 'show']);
+    Route::get('/duties/{duty}/edit', [DutyController::class, 'edit']);
+    Route::put('/duties/{duty}', [DutyController::class, 'update']);
+    Route::delete('/duties/{duty}', [DutyController::class, 'destroy']);
+
     // newsletter
     Route::get('/newsletter', [App\Http\Controllers\NewsletterController::class, 'index']);
 
     // Print 
     Route::post('/invoice/print', [InvoiceController::class, 'printinvoice']);
+    Route::post('/quotation/print', [QuotationController::class, 'printquotation']);
+    Route::post('/delivery-note/print', [DeliveryNoteController::class, 'printdeliverynote']);
+    Route::post('/goods-recieved/print', [GoodReceivedController::class, 'printgoodreceived']);
 
 
 });

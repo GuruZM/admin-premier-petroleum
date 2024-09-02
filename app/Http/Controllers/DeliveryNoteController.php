@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DeliveryNote;
 use Inertia\Inertia;
-
+use App\Models\Customer;
+use Illuminate\Http\Response;   
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class DeliveryNoteController extends Controller
 {
@@ -57,6 +60,46 @@ class DeliveryNoteController extends Controller
             'deliveryNote' => $deliveryNoteData,
             'status'=> session('status')
         ]);
+    }
+
+    public function printdeliverynote(Request $request)
+    {
+            // dd($request->all());
+            try {
+    
+                // $serializedData = $request->query('data');
+                $id = $request->input('id');
+                 $deliveryNote = DeliveryNote::with(['customer'])->find($id);
+                 $customer = Customer::find($deliveryNote->client);
+                 $deliveryNote->customer = $customer;
+                 $dompdf = new Dompdf();
+                 $options = new Options();
+                 $options->set('isHtml5ParserEnabled', true);
+                 $dompdf->setOptions($options);
+             
+            
+        
+                $deliveryNote->line_items = json_decode($deliveryNote->items,true);
+                        $html =  view('print.deliveryNote',
+                        [
+                            'deliveryNote' => $deliveryNote,
+                        ]
+                        )->render();
+                      
+                        $dompdf->loadHtml($html);
+ 
+                        $dompdf->setPaper('A4', 'portrait');
+                        $dompdf->render();
+                        $output = $dompdf->output();
+        
+                     return new Response($output, 200, [
+                          'Content-Type' => 'application/pdf',
+                          'Content-Disposition' => 'inline; filename="delivery-note.pdf"',
+                      ]);
+                    
+                } catch (\Exception $e) {
+                    return response()->json(['message' => 'Failed to retrieve goods recieved', 'error' => $e->getMessage()], 500);
+                }
     }
 
     public function store(Request $request)

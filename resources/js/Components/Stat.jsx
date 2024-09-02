@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
 const Stat = ({
     label,
+    fuel,
     figure,
     desc1,
     desc2,
@@ -22,31 +23,52 @@ const Stat = ({
             </CardHeader>
             <Divider />
             <CardBody className="px-0 flex">
-                <div class="md:max-w-2xl mx-auto bg-white rounded-4xl shadow-8xl">
+                <div class="md:max-w-full   bg-white rounded-4xl shadow-8xl">
                     <div class="flex sm:flex-row flex-col justify-center items-center">
                         <div class="w-full md:flex-1">
-                            <div class="text-center p-8 md:px-16   md:pb-11">
-                                <p class="mb-4 text-black font-semibold leading-normal">
+                            <div class="text-center p-3 md:px-2   flex-1   md:pb-11">
+                                <p class="mb-4 text-black text-center   mx-auto font-semibold leading-normal">
                                     {stat1label}
                                 </p>
-                                <h2 class="mb-4 text-6xl md:text-4xl xl:text-10xl   font-black tracking-px-n leading-none">
-                                    {figure ? figure : "ZMW" + " " + 3000}
+                                <h2 class="mb-4 text-1xl  text-center flex  justify-center md:text-xl xl:text-xl font-black font-heading   leading-none">
+                                    {fuel ? (
+                                        <>
+                                            <span className="flex flex-col">
+                                                <small className="text-sm">
+                                                    Credit
+                                                </small>
+                                                3,000.00
+                                            </span>
+                                            <span className="mx-4">|</span>
+                                            <span className="flex flex-col">
+                                                <small className="text-sm">
+                                                    Cash
+                                                </small>
+                                                4,000.00
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <span className="text-center ">
+                                            3,000.00
+                                        </span>
+                                    )}
                                 </h2>
+
                                 <p class="text-gray-900 font-medium leading-snug">
                                     {desc1}
                                 </p>
                             </div>
                         </div>
-                        <div class="w-auto">
+                        <div class="w-auto md:mx-5  ">
                             <div class="h-px w-14 md:w-px md:h-14 bg-gray-200"></div>
                         </div>
-                        <div class="w-full md:flex-1">
-                            <div class="text-center p-8 md:px-16 md:pt-9 md:pb-11">
+                        <div class="w-full md:flex-1  ">
+                            <div class="text-center p-3 md:px-2 md:pt-9 md:pb-11">
                                 <p class="mb-4 text-black font-semibold leading-normal">
                                     {stat2label}
                                 </p>
-                                <h2 class="mb-4 text-6xl md:text-4xl xl:text-10xl font-black font-heading tracking-px-n leading-none">
-                                    {figure2 ? figure2 : 0}
+                                <h2 class="mb-4 text-1xl md:text-2xl xl:text-10xl   font-black  leading-none">
+                                    {figure ? figure : "3,000.00"}
                                 </h2>
                                 <p class="text-gray-900 font-medium leading-snug">
                                     {desc2}

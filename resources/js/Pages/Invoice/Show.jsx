@@ -45,7 +45,6 @@ const Show = ({ auth, invoice }) => {
         return Math.round(number * factor) / factor;
     };
 
-    console.log(invoice);
     return (
         <Authenticated
             user={auth.user}
