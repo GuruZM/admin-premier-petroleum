@@ -22,7 +22,12 @@ import { useForm, Controller, set } from "react-hook-form";
 import axios from "../../Axios/axiosConfig";
 import InputText from "@/Components/InputText";
 
-const INITIAL_VISIBLE_COLUMNS = ["logistics", "clearing_fee", "zcsa"];
+const INITIAL_VISIBLE_COLUMNS = [
+    "logistics",
+    "clearing_fee",
+    "zcsa",
+    "actions",
+];
 
 function Index({ auth, clearanceFees }) {
     const [record, setRecord] = React.useState(null);
@@ -42,7 +47,6 @@ function Index({ auth, clearanceFees }) {
     const onSubmit = async (data) => {
         try {
             if (record) {
-                // If record is set and has an ID, update the existing customer
                 await axios.put(`/clearance-fees/${record}`, data);
                 toast.success("Clearance Fee Updated Successfully");
                 reset();
@@ -76,7 +80,7 @@ function Index({ auth, clearanceFees }) {
         try {
             if (confirm("are you sure you want to delete this Record")) {
                 const response = await axios.delete(`/clearance-fees/${id}`);
-
+                router.visit("/clearance-fees");
                 toast.success("Record Deleted");
                 dispatch(fetchCustomers());
             } else {

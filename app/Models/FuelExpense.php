@@ -9,5 +9,5 @@ class FuelExpense extends Model
 {
     use HasFactory;
      protected $table = 'fuel_expense';
-    protected $fillable = ['quantity', 'price', 'total', 'status', 'duty'];
+    protected $fillable = ['quantity', 'price','type', 'total', 'status', 'duty'];
 }

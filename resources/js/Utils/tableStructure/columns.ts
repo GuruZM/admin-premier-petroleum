@@ -65,6 +65,7 @@ const fuelExpenseColumns = [
     { name: "PRICE", uid: "price", sortable: true },
     { name: "TOTAL", uid: "total", sortable: true },
     { name: "STATUS", uid: "status", sortable: true },
+    { name: "TYPE", uid: "type", sortable: true },
     { name: "DUTY", uid: "duty", sortable: true },
     { name: "ACTIONS", uid: "actions" },
 ];
@@ -128,6 +129,7 @@ export const clearanceFeesColumns = [
     { name: "LOGISTICS", uid: "logistics" },
     { name: "CLEARING FEE", uid: "clearing_fee" },
     { name: "ZCSA", uid: "zcsa" },
+    { name: "ACTIONS", uid: "actions" },
 ];
 
 export const dutyColumns = [

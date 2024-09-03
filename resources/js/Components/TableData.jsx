@@ -150,7 +150,9 @@ function TableData({
                     <div className="flex flex-col">
                         {/* <p className="text-bold text-small capitalize">{cellValue}</p> */}
                         <p className="text-bold capitalize ">
-                            {formatCurrency(obj.price)}
+                            {obj.price < 1
+                                ? obj.price
+                                : formatCurrency(obj.price)}
                         </p>
                     </div>
                 );

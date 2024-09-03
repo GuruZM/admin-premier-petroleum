@@ -28,4 +28,36 @@ class ClearanceFeeController extends Controller
         }
         
     }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'logistics' => 'required|string|max:255',
+            'clearing_fee' => 'required|numeric',
+            'zcsa' => 'required|string|max:255',
+        ]);
+
+        $clearanceFee = ClearanceFee::find($id);
+
+        if (!$clearanceFee) {
+            return response()->json(['message' => 'Clearance Fee not found'], 404);
+        }
+
+        $clearanceFee->update($request->all());
+
+        return response()->json($clearanceFee);
+    }
+
+    // Remove the specified resource from storage
+    public function destroy($id)
+    {
+        $clearanceFee = ClearanceFee::find($id);
+
+        if (!$clearanceFee) {
+            return response()->json(['message' => 'Clearance Fee not found'], 404);
+        }
+
+        $clearanceFee->delete();
+
+        return response()->json(['message' => 'Clearance Fee deleted successfully']);
+    }
 }

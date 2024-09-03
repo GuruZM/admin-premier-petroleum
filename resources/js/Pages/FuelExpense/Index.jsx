@@ -25,6 +25,7 @@ const INITIAL_VISIBLE_COLUMNS = [
     "price",
     "total",
     "status",
+    "type",
     "duty",
     "actions",
 ];
@@ -192,7 +193,24 @@ function index({ auth }) {
                             name="price"
                             onChange={handlePriceChange}
                         />
+                        <label htmlFor="">
+                            <p className="text-black text-small">Type</p>
+                        </label>
+                        <select
+                            labelPlacement="outside"
+                            label="Status"
+                            className=" bg-gray-100 flex-1 mt-1 p-2 rounded-xl w-full border-none outline-none focus:ring-0 "
+                            startContent="👤"
+                            {...register("type", { required: true })}
+                        >
+                            <option id="credit" value="credit" key="credit">
+                                Credit
+                            </option>
 
+                            <option key="cash" id="cash" value="cash">
+                                Cash
+                            </option>
+                        </select>
                         {/* <InputText
                             style={{ border: "none" }}
                             type="number"

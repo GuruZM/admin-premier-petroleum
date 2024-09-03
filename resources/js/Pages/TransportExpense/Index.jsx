@@ -37,6 +37,8 @@ function Index({ auth, invoice_quantity }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const dispatch = useDispatch();
     const { transportExpense } = useSelector((state) => state.transport);
+
+    console.log("transportExpense :", transportExpense);
     useEffect(() => {
         dispatch(fetchTransportExpense());
     }, [dispatch]);
@@ -151,8 +153,8 @@ function Index({ auth, invoice_quantity }) {
 
                         <InputText
                             type="number"
-                            step=".02"
-                            pattern="^\d*(\.\d{0,2})?$"
+                            step="any"
+                            pattern="^\d*(\.\d+)?$"
                             labelPlacement="outside"
                             title="Price"
                             register={register}

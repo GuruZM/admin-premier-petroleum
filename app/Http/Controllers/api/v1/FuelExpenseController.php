@@ -38,6 +38,7 @@ class FuelExpenseController extends Controller
                 'quantity' => 'required',
                 'price' => 'required',
                 'total' => 'required',
+                'type'=>'required',
                 'duty'=>'nullable',
                 'status'=>'nullable',
             ]);
@@ -45,6 +46,7 @@ class FuelExpenseController extends Controller
                'quantity'=>$request->quantity,
                 'price'=>$request->price,
                 'total'=>$request->total,
+                'type'=>$request->type,
                 'duty'=>$request->duty,
                 'status'=>$request->status,
             ]);
@@ -90,6 +92,7 @@ class FuelExpenseController extends Controller
                     'quantity'=>$request->quantity,
                     'price'=>$request->price,
                     'total'=>$request->total,
+                    'type'=>$request->type,
                     'duty'=>$request->duty,
                     'status'=>$request->status,
                 ]);
