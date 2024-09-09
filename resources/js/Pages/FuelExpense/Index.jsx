@@ -235,7 +235,7 @@ function index({ auth }) {
                             />
                         </div>
 
-                        <div>
+                        {/* <div>
                             <InputText
                                 style={{ border: "none" }}
                                 type="number"
@@ -247,7 +247,7 @@ function index({ auth }) {
                                     <span className="text-default-400 text-small"></span>
                                 }
                             />
-                        </div>
+                        </div> */}
 
                         <select
                             labelPlacement="outside"

@@ -88,7 +88,7 @@ function Create({ auth, invoice }) {
             (parseFloat(value) * 100) / 116,
             3
         );
-        const vat = roundToDecimalPlaces(parseFloat(value) - subtotal, 3);
+        const vat = roundToDecimalPlaces(parseFloat(value) - subtotal, 2);
         const rate = roundToDecimalPlaces(
             subtotal / getValues(`items.${index}.quantity`),
             3

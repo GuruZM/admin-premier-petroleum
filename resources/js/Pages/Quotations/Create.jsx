@@ -107,7 +107,7 @@ function Create({ auth, quotation }) {
         setValue("subtotal", subtotal);
         const quotationtotal =
             getValues("subtotal") + getValues("subtotal") * 0.16;
-        const vat = roundToDecimalPlaces(getValues("subtotal") * 0.16, 3);
+        const vat = roundToDecimalPlaces(getValues("subtotal") * 0.16, 2);
         setValue("vat", vat);
         setValue("total", quotationtotal);
     };
