@@ -31,21 +31,22 @@ export function InvoiceField({
                             type="number"
                             name={`items.${index}.quantity`}
                             register={register}
-                            onChange={(event) =>
-                                handleQuantityChange(index, event)
-                            }
+                            // onChange={(event) =>
+                            //     handleQuantityChange(index, event)
+                            // }
                         />
                     </div>
 
                     <div className=" flex px-2 flex-1  flex-col items-start">
                         <InputText
-                            type="number"
-                            step="any"
-                            pattern="^\d*(\.\d+)?$"
+                            type="text"
+                            // step="any"
+                            // pattern="^\d*(\.\d+)?$"
+                            // pattern="^\d*(\.\d{0,3})?$"
                             name={`items.${index}.rate`}
-                            onChange={(event) =>
-                                handlePriceChange(index, event)
-                            }
+                            // onChange={(event) =>
+                            //     handlePriceChange(index, event)
+                            // }
                             register={register}
                             title="Rate"
                         />

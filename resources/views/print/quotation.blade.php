@@ -167,7 +167,7 @@ p{
             <p class="tpin " style="margin:0">10101 Lusaka</p>
             <p class="tpin " style="margin:0">Zambia</p>
             <p class="tpin " style="margin:0">Business ID: 120210025710</p>
-            <p class="tpin " style="margin:0">Tax ID: 2566221102</p>
+            <p class="tpin " style="margin:0">Tax ID: 2001480298</p>
             <p class="tpin " style="margin:0">sales@premier-petroleum.com</p>
           
         </div>

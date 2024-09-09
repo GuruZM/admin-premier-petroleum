@@ -78,6 +78,29 @@ function Create({ auth, quotation }) {
         setInvoiceTotal();
     };
 
+    const handleTotalChange = (e) => {
+        const index = 0;
+        if (!getValues(`items.${index}.quantity`)) {
+            toast.error("Please enter quantity first");
+            return;
+        }
+
+        const value = parseFloat(e.target.value);
+        const subtotal = roundToDecimalPlaces(
+            (parseFloat(value) * 100) / 116,
+            3
+        );
+        const vat = roundToDecimalPlaces(parseFloat(value) - subtotal, 3);
+        const rate = roundToDecimalPlaces(
+            subtotal / getValues(`items.${index}.quantity`),
+            3
+        );
+        setValue(`items.${index}.rate`, rate);
+        setValue(`items.${index}.amount`, subtotal);
+        setValue(`subtotal`, subtotal);
+        setValue("total", quotationtotal);
+        setValue(`vat`, vat);
+    };
     const setInvoiceTotal = () => {
         const items = getValues("items");
         const subtotal = items.reduce((acc, item) => acc + item.amount, 0);
@@ -253,7 +276,7 @@ function Create({ auth, quotation }) {
                                 </div>
                             ))}
 
-                            <div className="flex flex-col   items-end">
+                            <div className="flex sm:flex-row  flex-col justify-end gap-3  items-center">
                                 <div className="flex flex-col ">
                                     <span className="text-sm text-left">
                                         Sub Total
@@ -286,7 +309,6 @@ function Create({ auth, quotation }) {
                                         }}
                                         key="vat"
                                         type="text"
-                                        value={"16"}
                                         readOnly
                                         className="bg-gray-100 w-fit mt-1 p-2 rounded-xl"
                                         {...register("vat")}
@@ -303,10 +325,12 @@ function Create({ auth, quotation }) {
                                             outline: "none",
                                             boxShadow: "none",
                                         }}
-                                        key="invoiceTotal"
-                                        readOnly
+                                        key="total"
+                                        onChange={(event) =>
+                                            handleTotalChange(event)
+                                        }
                                         className="bg-gray-100 w-fit mt-1 p-2 rounded-xl"
-                                        {...register("total")}
+                                        // {...register("total")}
                                     />
                                 </div>
 

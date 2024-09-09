@@ -62,13 +62,42 @@ function Create({ auth, invoice }) {
     });
 
     const handlePriceChange = (index, e) => {
-        const value = parseFloat(e.target.value);
+        // const value = parseFloat(e.target.value);
+        if (!parseFloat(e.target.value)) {
+            toast.error("Please enter a valid number");
+            return;
+        }
+        const value = e.target.value;
         setValue(`items.${index}.rate`, value);
         const qty = getValues(`items.${index}.quantity`);
         const price = getValues(`items.${index}.rate`);
-        const total = roundToDecimalPlaces(qty * price, 3);
+        const total = roundToDecimalPlaces(qty * parseFloat(price), 3);
         setValue(`items.${index}.amount`, total);
         setInvoiceTotal();
+    };
+
+    const handleTotalChange = (e) => {
+        const index = 0;
+        if (!getValues(`items.${index}.quantity`)) {
+            toast.error("Please enter quantity first");
+            return;
+        }
+
+        const value = parseFloat(e.target.value);
+        const subtotal = roundToDecimalPlaces(
+            (parseFloat(value) * 100) / 116,
+            3
+        );
+        const vat = roundToDecimalPlaces(parseFloat(value) - subtotal, 3);
+        const rate = roundToDecimalPlaces(
+            subtotal / getValues(`items.${index}.quantity`),
+            3
+        );
+        setValue(`items.${index}.rate`, rate);
+        setValue(`items.${index}.amount`, subtotal);
+        setValue(`subtotal`, subtotal);
+        setValue(`invoicetotal`, value);
+        setValue(`vat`, vat);
     };
 
     const handleQuantityChange = (index, e) => {
@@ -76,6 +105,7 @@ function Create({ auth, invoice }) {
         setValue(`items.${index}.quantity`, value);
         const qty = getValues(`items.${index}.quantity`);
         const price = getValues(`items.${index}.rate`);
+
         const total = roundToDecimalPlaces(qty * price, 3);
         setValue(`items.${index}.amount`, total);
         setInvoiceTotal();
@@ -331,7 +361,7 @@ function Create({ auth, invoice }) {
 
                                 <div className="flex flex-col">
                                     <span className="text-sm">
-                                        Invoice Total
+                                        Invoice Totall
                                     </span>
                                     <input
                                         style={{
@@ -340,10 +370,11 @@ function Create({ auth, invoice }) {
                                             boxShadow: "none",
                                         }}
                                         key="invoiceTotal"
-                                        isReadOnly
-                                        readOnly
+                                        onChange={(event) =>
+                                            handleTotalChange(event)
+                                        }
                                         className="bg-gray-100 w-fit mt-1 p-2 rounded-xl float-right"
-                                        {...register("invoicetotal")}
+                                        // {...register("invoicetotal")}
                                     />
                                 </div>
 
@@ -357,7 +388,7 @@ function Create({ auth, invoice }) {
                         </div>
                     </div>
                     <div className="sticky space-y-4">
-                        <Button
+                        {/* <Button
                             onClick={() => {
                                 handleAdd();
                             }}
@@ -366,8 +397,9 @@ function Create({ auth, invoice }) {
                             endContent={<PlusIcon />}
                         >
                             Add New Item
-                        </Button>
-                        <div className=" flex  justify-between">
+                        </Button> */}
+                        <hr />
+                        <div className=" flex  justify-end gap-3">
                             <div>
                                 <Button
                                     onClick={() => {
