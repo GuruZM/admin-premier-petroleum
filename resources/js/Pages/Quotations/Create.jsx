@@ -46,7 +46,7 @@ function Create({ auth, quotation }) {
                 : new Date().toISOString().slice(0, 10),
             subtotal: quotation ? quotation.subtotal : 0,
             total: quotation ? quotation.total : 0,
-            vat: quotation ? parseFloat(quotation.subtotal) * 0.16 : 0,
+            vat: quotation ? parseFloat(quotation.vat) : 0,
             items: quotation ? JSON.parse(quotation.items) : items,
         },
     });
@@ -56,7 +56,7 @@ function Create({ auth, quotation }) {
         name: "items",
     });
 
-    const { register, reset, setValue, getValues, handleSubmit } = form;
+    const { register, data, reset, setValue, getValues, handleSubmit } = form;
 
     const handlePriceChange = (index, e) => {
         const value = parseFloat(e.target.value);
@@ -88,18 +88,20 @@ function Create({ auth, quotation }) {
         const value = parseFloat(e.target.value);
         const subtotal = roundToDecimalPlaces(
             (parseFloat(value) * 100) / 116,
-            3
+            2
         );
         const vat = roundToDecimalPlaces(parseFloat(value) - subtotal, 3);
         const rate = roundToDecimalPlaces(
             subtotal / getValues(`items.${index}.quantity`),
             3
         );
+        console.log("vat", vat);
+        console.log("rate", rate);
         setValue(`items.${index}.rate`, rate);
         setValue(`items.${index}.amount`, subtotal);
         setValue(`subtotal`, subtotal);
-        setValue("total", quotationtotal);
         setValue(`vat`, vat);
+        setValue("total", value);
     };
     const setInvoiceTotal = () => {
         const items = getValues("items");
@@ -194,7 +196,7 @@ function Create({ auth, quotation }) {
                     },
                 }}
                 exit={{ x: -700, transition: { duration: 0.2 } }}
-                className="  scrollbar-hide flex flex-col dark:text-white dark:bg-[#141625] bg-white my-5  md:pl-[50px] py-16 px-6 h-screen md:w-full md:rounded-r-3xl"
+                className="  scrollbar-hide flex flex-col dark:text-white dark:bg-[#141625] bg-white my-5  md:pl-[50px] py-16 px-6 h-fit md:w-full md:rounded-r-3xl"
             >
                 <h1 className=" font-semibold dark:text-white  text-3xl">
                     {/* {type == 'edit' ? 'Edit' : 'Create'}  */}
@@ -298,7 +300,7 @@ function Create({ auth, quotation }) {
 
                                 <div className="flex flex-col my-3">
                                     <span className="text-sm text-left">
-                                        VAT (16%)
+                                        VAT (16%)..
                                     </span>
 
                                     <input
@@ -344,7 +346,7 @@ function Create({ auth, quotation }) {
                         </div>
                     </div>
                     <div className="sticky space-y-4">
-                        <Button
+                        {/* <Button
                             onClick={() => {
                                 handleAdd();
                             }}
@@ -353,8 +355,9 @@ function Create({ auth, quotation }) {
                             endContent={<PlusIcon />}
                         >
                             Add New Item
-                        </Button>
-                        <div className=" flex  justify-between">
+                        </Button> */}
+                        <hr />
+                        <div className=" flex  justify-end gap-4">
                             <div>
                                 <Button
                                     onClick={() => {

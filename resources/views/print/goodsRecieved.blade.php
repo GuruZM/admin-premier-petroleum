@@ -174,7 +174,7 @@ p{
   
      <div style="text-align: right;margin-bottom:20px">
         <h1 style="display: inline">Order NO:</h1> 
-        {{ $goodsReceived->order_no }}
+        {{ $goodsReceived->order_reference }}
         <br>
         {{-- <h1 style="display: inline;text-align:right"> {{ \Carbon\Carbon::parse($deliveryNote->date )->toFormattedDateString() }}   </h1> <br> --}}
         <h1 style="display: inline">Date:</h1> 

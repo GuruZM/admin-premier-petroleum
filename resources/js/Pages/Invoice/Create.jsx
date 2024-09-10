@@ -51,7 +51,7 @@ function Create({ auth, invoice }) {
                 invoice && invoice.line_items
                     ? JSON.parse(invoice.line_items)
                     : items,
-            vat: invoice && invoice.vat ? invoice.subtotal * 0.16 : 0,
+            vat: invoice && invoice.vat ? invoice.vat : 0,
         },
     });
     const { register, reset, setValue, getValues, handleSubmit } = form;
@@ -86,7 +86,7 @@ function Create({ auth, invoice }) {
         const value = parseFloat(e.target.value);
         const subtotal = roundToDecimalPlaces(
             (parseFloat(value) * 100) / 116,
-            3
+            2
         );
         const vat = roundToDecimalPlaces(parseFloat(value) - subtotal, 2);
         const rate = roundToDecimalPlaces(

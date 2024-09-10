@@ -45,6 +45,7 @@ const Show = ({ auth, invoice }) => {
         return Math.round(number * factor) / factor;
     };
 
+    console.log(invoice);
     return (
         <Authenticated
             user={auth.user}
@@ -337,9 +338,7 @@ const Show = ({ auth, invoice }) => {
                                     Vat:
                                 </dt>
                                 <dd class="col-span-2 font-medium text-gray-800 dark:text-neutral-200">
-                                    {formatCurrency(
-                                        (invoice.total * 0.16).toFixed(2)
-                                    )}
+                                    {formatCurrency(invoice.vat)}
                                 </dd>
                             </dl>
 

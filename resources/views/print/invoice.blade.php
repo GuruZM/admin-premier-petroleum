@@ -302,7 +302,7 @@ p{
                                 </td>
                                 <td>
                                   <h3 style="text-align:right">
-                                   ZMW {{ number_format($invoice->total * 0.16) }}
+                                   ZMW {{ number_format($invoice->vat) }}
 
                                   </h3>
                                 </td>
