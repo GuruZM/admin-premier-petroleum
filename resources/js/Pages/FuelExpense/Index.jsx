@@ -151,6 +151,8 @@ function index({ auth }) {
                 title="Fuel Expenses"
                 baseurl="none"
                 handleDelete={handleDelete}
+                canEdit={true}
+                canDelete={true}
                 tableObject={fuelExpenses}
                 tableColumns={fuelExpenseColumns}
                 initialColumns={INITIAL_VISIBLE_COLUMNS}

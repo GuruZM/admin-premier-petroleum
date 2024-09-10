@@ -107,6 +107,8 @@ function Index({ auth, invoice_quantity }) {
                 editRecord={editRecord}
                 title="Transport Expenses"
                 baseurl="none"
+                canEdit={true}
+                canDelete={true}
                 tableObject={transportExpense}
                 tableColumns={transportExpenseColumns}
                 initialColumns={INITIAL_VISIBLE_COLUMNS}

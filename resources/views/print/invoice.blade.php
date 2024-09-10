@@ -318,7 +318,8 @@ p{
                                 </td>
                                 <td style="text-align:right">
                                     <h3 style=" font-size:18px">
-                                     ZMW   {{ number_format($invoice->total) }}
+                                    
+                                     ZMW   {{ number_format($invoice->total,2) }}
                                     </h3>
                                     
                                 </td>

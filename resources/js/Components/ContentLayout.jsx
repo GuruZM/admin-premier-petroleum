@@ -2,6 +2,9 @@ import React from "react";
 import { Head } from "@inertiajs/react";
 import TableData from "./TableData";
 function ContentLayout({
+    canView,
+    canEdit,
+    canDelete,
     title,
     tableObject,
     editRecord,
@@ -20,6 +23,9 @@ function ContentLayout({
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
                             <TableData
+                                canView={canView}
+                                canEdit={canEdit}
+                                canDelete={canDelete}
                                 onOpen={onOpen}
                                 editRecord={editRecord}
                                 handleDelete={handleDelete}

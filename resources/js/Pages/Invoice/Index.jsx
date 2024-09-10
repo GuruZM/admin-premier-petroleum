@@ -67,6 +67,9 @@ function Index({ auth }) {
             <ContentLayout
                 onOpen={redi}
                 baseurl={baseurl}
+                canView={true}
+                canEdit={true}
+                canDelete={true}
                 title="Invoices"
                 handleDelete={handleDelete}
                 tableObject={invoices}
