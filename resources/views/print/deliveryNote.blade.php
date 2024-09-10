@@ -145,19 +145,11 @@ p{
     src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('/images/deliverybg.png'))) }} " alt="premier petroleum" >
  
    <div id="content">
-    <div class="container" ">
+    <div class="container" >
         <div class="inline-item" style="  width:50%;margin-top:-300px">
             {{-- <h1 class="upper">Premier Petroleum Limited</h1>
             <p class="tpin upper" style="margin:0">TPIN : 2001480298</p> --}}
-           <div style="margin-top:30px">
-            <h1>
-                For:
-               </h1>
-            <h1>
-                {{ $deliveryNote->customer->company_name }}
-               </h1>
-               {{-- <p class="tpin upper" style="margin:0">TPIN : {{ $quotation->customer->tpin }}</p> --}}
-           </div>
+         
         </div>
         {{-- <div class="inline-item">Item 2</div> --}}
         <div class="inline-item" style="text-align:right;padding-top:30px">
@@ -173,13 +165,25 @@ p{
         </div>
     </div>
   
-     <div style="text-align: right;margin-bottom:20px">
-        <h1 style="display: inline">Date:</h1> 
-        <h1 style="display: inline;text-align:right"> {{ \Carbon\Carbon::parse($deliveryNote->date )->toFormattedDateString() }}   </h1> <br>
+    <div class="container" >
+        <div class="inline-item" style="  width:50%;margin-top:-300px;padding-bottom:15px">
+            <h1>
+                For:
+               </h1>
+            <h1>
+                {{ $deliveryNote->customer->company_name }}
+               </h1>
+               {{-- <p class="tpin upper" style="margin:0">TPIN : {{ $quotation->customer->tpin }}</p> --}}
+           </div>
+
+     <div class="inline-item" style="text-align:right;padding-top:5px;padding-bottom:15px;">
+        <h1 style="display: inline">Delivery Note No:</h1> 
+        <h1 style="display: inline;text-align:right"> {{ $deliveryNote->number }}   </h1> <br>
         <h1 style="display: inline">Issue Date:</h1> 
         <h1 style="display: inline;text-align:right"> {{ \Carbon\Carbon::parse($deliveryNote->issue_date )->toFormattedDateString() }}   </h1> 
    
      </div>
+    </div>
  
     <div class="margin-">
         <table class="products" id="items" >

@@ -272,7 +272,7 @@ p{
                                 </td>
                                 <td>
                                   <h3 style="text-align:right">
-                                   ZMW {{ number_format($quotation->total * 0.16) }}
+                                   ZMW {{ number_format($quotation->vat) }}
 
                                   </h3>
                                 </td>
@@ -288,7 +288,7 @@ p{
                                 </td>
                                 <td style="text-align:right">
                                     <h3 style=" font-size:18px">
-                                     ZMW {{ number_format($quotation->total) }}
+                                     ZMW {{ number_format($quotation->total, 2) }}
                                     </h3>
                                     
                                 </td>

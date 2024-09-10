@@ -66,7 +66,6 @@ const fuelExpenseColumns = [
     { name: "TOTAL", uid: "total", sortable: true },
     { name: "STATUS", uid: "status", sortable: true },
     { name: "TYPE", uid: "type", sortable: true },
-    { name: "DUTY", uid: "duty", sortable: true },
     { name: "ACTIONS", uid: "actions" },
 ];
 

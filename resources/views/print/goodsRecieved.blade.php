@@ -149,15 +149,7 @@ p{
         <div class="inline-item" style="  width:50%;margin-top:-300px">
             {{-- <h1 class="upper">Premier Petroleum Limited</h1>
             <p class="tpin upper" style="margin:0">TPIN : 2001480298</p> --}}
-           <div style="margin-top:30px">
-            <h1>
-                Reference:
-               </h1>
-            <h1>
-                {{ $goodsReceived->reference }}
-               </h1>
-               {{-- <p class="tpin upper" style="margin:0">TPIN : {{ $quotation->customer->tpin }}</p> --}}
-           </div>
+          
         </div>
         {{-- <div class="inline-item">Item 2</div> --}}
         <div class="inline-item" style="text-align:right;padding-top:30px">
@@ -172,15 +164,29 @@ p{
         </div>
     </div>
   
-     <div style="text-align: right;margin-bottom:20px">
-        <h1 style="display: inline">Order NO:</h1> 
-        {{ $goodsReceived->order_reference }}
-        <br>
-        {{-- <h1 style="display: inline;text-align:right"> {{ \Carbon\Carbon::parse($deliveryNote->date )->toFormattedDateString() }}   </h1> <br> --}}
-        <h1 style="display: inline">Date:</h1> 
-        <h1 style="display: inline;text-align:right"> {{ \Carbon\Carbon::parse($goodsReceived->date )->toFormattedDateString() }}   </h1> 
-   
-     </div>
+    <div class="container" style="">
+        <div class="inline-item" style="  width:60%;margin-top:-300px;padding-bottom:15px">
+            <h1>
+                Reference:
+               </h1>
+            <h1>
+                {{ $goodsReceived->reference }}
+               </h1>
+                
+           </div> 
+
+           <div class="inline-item" style="text-align:right;padding-top:5px;padding-bottom:15px ">
+        
+            <h1 style="display: inline">Order NO:</h1> 
+            {{ $goodsReceived->order_reference }}
+            <br>
+            {{-- <h1 style="display: inline;text-align:right"> {{ \Carbon\Carbon::parse($deliveryNote->date )->toFormattedDateString() }}   </h1> <br> --}}
+            <h1 style="display: inline">Date:</h1> 
+            <h1 style="display: inline;text-align:right"> {{ \Carbon\Carbon::parse($goodsReceived->date )->toFormattedDateString() }}   </h1> 
+       
+         </div>
+    </div>
+    
  
     <div class="margin-">
         <table class="products" id="items" >

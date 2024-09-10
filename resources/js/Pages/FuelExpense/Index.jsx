@@ -26,7 +26,6 @@ const INITIAL_VISIBLE_COLUMNS = [
     "total",
     "status",
     "type",
-    "duty",
     "actions",
 ];
 
