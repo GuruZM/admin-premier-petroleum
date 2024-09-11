@@ -287,7 +287,7 @@ p{
                                 </td>
                                 <td>
                                     <h3 style="text-align:right">
-                                 ZMW   {{ number_format($invoice->subtotal) }}
+                                 ZMW   {{ number_format($invoice->subtotal,2) }}
 
                                     </h3>
                                 </td>
@@ -302,7 +302,7 @@ p{
                                 </td>
                                 <td>
                                   <h3 style="text-align:right">
-                                   ZMW {{ number_format($invoice->vat) }}
+                                   ZMW {{ number_format($invoice->vat,2) }}
 
                                   </h3>
                                 </td>
@@ -311,13 +311,13 @@ p{
                       
                         <table   style="padding :10px;text-align:center; background-color:#F16924;color:white">
                             <tr>
-                                <td style="width:50%; text-align:center; ">
-                                    <h3 style=" font-size:20px"  >
+                                <td style="width:40%; text-align:center; ">
+                                    <h3 style=" font-size:14px"  >
                                        TOTAL
                                     </h3>
                                 </td>
                                 <td style="text-align:right">
-                                    <h3 style=" font-size:18px">
+                                    <h3 style=" font-size:16px">
                                     
                                      ZMW   {{ number_format($invoice->total,2) }}
                                     </h3>
