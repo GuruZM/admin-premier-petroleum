@@ -246,7 +246,7 @@ p{
                             </td>
                             <td style="text-align:center">
                                 <h3>
-                                {{ number_format($invoice->line_items[$i-1]['amount']) }}
+                                {{ number_format($invoice->line_items[$i-1]['amount'],2) }}
 
                                 </h3>
                             </td>

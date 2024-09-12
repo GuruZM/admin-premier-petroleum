@@ -216,7 +216,7 @@ p{
                             </td>
                             <td style="text-align:center">
                                 <h3>
-                                {{ number_format($quotation->line_items[$i-1]['amount']) }}
+                                {{ number_format($quotation->line_items[$i-1]['amount'],2) }}
 
                                 </h3>
                             </td>
@@ -251,13 +251,13 @@ p{
                         <table  style="padding-bottom :10px;padding-right:10px">
                             <tr>
                                 <td style=" text-align:center">
-                                    <h3>
+                                    <h3 style=" text-align:center"  >
                                        SUBTOTAL
                                     </h3>
                                 </td>
                                 <td>
                                     <h3 style="text-align:right">
-                                 ZMW   {{ number_format($quotation->subtotal) }}
+                                 ZMW   {{ number_format($quotation->subtotal,2) }}
 
                                     </h3>
                                 </td>
@@ -272,7 +272,7 @@ p{
                                 </td>
                                 <td>
                                   <h3 style="text-align:right">
-                                   ZMW {{ number_format($quotation->vat) }}
+                                   ZMW {{ number_format($quotation->vat,2) }}
 
                                   </h3>
                                 </td>
@@ -282,16 +282,23 @@ p{
                         <table   style="padding :10px;text-align:center; background-color:#F16924;color:white">
                             <tr>
                                 <td style="width:50%; text-align:center; ">
-                                    <h3 style=" font-size:20px"  >
+                                    <h3 style=" font-size:14px;text-align:center"  >
                                        TOTAL
                                     </h3>
                                 </td>
                                 <td style="text-align:right">
+                                    <h3 style=" font-size:16px">
+                                    
+                                     ZMW   {{number_format($quotation->total, 2)}}
+                                    </h3>
+                                    
+                                </td>
+                                {{-- <td style="text-align:right">
                                     <h3 style=" font-size:18px">
                                      ZMW {{ number_format($quotation->total, 2) }}
                                     </h3>
                                     
-                                </td>
+                                </td> --}}
                             </tr>
                         </table>
                        
