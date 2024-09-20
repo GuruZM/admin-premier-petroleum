@@ -38,12 +38,14 @@ class TransportExpenseController extends Controller
                 'quantity' => 'required',
                 'price' => 'required',
                 'total' => 'required',
+                'exchange_rate'=>'nullable',
                 'status'=>'nullable',
             ]);
             $transportExpense = TransportExpense::create([
                 'quantity'=>$request->quantity,
                 'price'=>$request->price,
                 'total'=>$request->total,
+                'exchange_rate'=>$request->exchange_rate,
                 'status'=>$request->status,
             ]);
             if ($transportExpense) {

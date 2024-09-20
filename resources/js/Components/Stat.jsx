@@ -6,15 +6,34 @@ const Stat = ({
     figure,
     desc1,
     desc2,
+    stat1,
+    stat2,
     figure2,
+    figure3,
     stat1label,
     stat2label,
     icon,
+    stat3label,
 }) => {
+    const formatNumber = (number) => {
+        // Convert to number if not already a number
+        const parsedNumber =
+            typeof number === "number" ? number : parseFloat(number);
+
+        if (isNaN(parsedNumber)) {
+            return "";
+        }
+
+        return parsedNumber.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+    };
+
     return (
         <Card
             isBlurred
-            className="flex  flex-col rounded-md bg-white text-black shadow-md gap-1  p-4 px-5  flex-1"
+            className="flex  flex-col rounded-md bg-white text-black shadow-md gap-1 h-full  p-4 px-5  flex-1"
         >
             <CardHeader className="flex flex-row items-center p-3 space-x-4   space-y-0">
                 <span className="">{icon}</span>
@@ -37,20 +56,20 @@ const Stat = ({
                                                 <small className="text-sm">
                                                     Credit
                                                 </small>
-                                                3,000.00
+                                                {formatNumber(stat1)}
                                             </span>
                                             <span className="mx-4">|</span>
-                                            <span className="flex flex-col">
+                                            <p className="flex flex-col mb-4 text-black font-semibold leading-normal">
                                                 <small className="text-sm">
                                                     Cash
                                                 </small>
-                                                4,000.00
-                                            </span>
+                                                {formatNumber(stat2)}
+                                            </p>
                                         </>
                                     ) : (
-                                        <span className="text-center ">
-                                            3,000.00
-                                        </span>
+                                        <small className="text-center ">
+                                            {formatNumber(figure)}
+                                        </small>
                                     )}
                                 </h2>
 
@@ -67,14 +86,29 @@ const Stat = ({
                                 <p class="mb-4 text-black font-semibold leading-normal">
                                     {stat2label}
                                 </p>
-                                <h2 class="mb-4 text-1xl md:text-2xl xl:text-10xl   font-black  leading-none">
-                                    {figure ? figure : "3,000.00"}
-                                </h2>
+                                <p class="mb-4  font-black  leading-none">
+                                    {formatNumber(figure2)}
+                                </p>
                                 <p class="text-gray-900 font-medium leading-snug">
                                     {desc2}
                                 </p>
                             </div>
                         </div>
+                        {figure3 && (
+                            <div class="w-full md:flex-1  ">
+                                <div class="text-center p-3 md:px-2 md:pt-9 md:pb-11">
+                                    <p class="mb-4 text-black font-semibold leading-normal">
+                                        {stat3label}
+                                    </p>
+                                    <p class="mb-4  font-black  leading-none">
+                                        {formatNumber(figure3)}
+                                    </p>
+                                    <p class="text-gray-900 font-medium leading-snug">
+                                        {desc2}
+                                    </p>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
                 {/* <div className="flex flex-col  px-3">

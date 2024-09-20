@@ -24,6 +24,8 @@ use App\Models\TransportExpense;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Quotation;
+use App\Models\ClearanceFee;
+use App\Models\Duty;
 
 
 
@@ -55,32 +57,60 @@ Route::get('/dashboard', function () {
     $paidInvoices = Invoice::whereMonth('created_at', $currentMonth)->where('status', 'paid')->sum('total');
     $unpaidInvoices = Invoice::whereMonth('created_at', $currentMonth)->where('status', 'pending')->sum('total');
     $totalInvoices = Invoice::whereMonth('created_at', $currentMonth)->sum('total');
- 
   
-        $paidTransportExpenses = TransportExpense::whereMonth('created_at', $currentMonth)->where('status', 'paid')->sum('total');
+    $creditFuelExpensesRecords = FuelExpense::whereMonth('created_at', $currentMonth)->where('type', 'credit')->get();
+    $creditFuelExpensesTotal = 0;
+    foreach ($creditFuelExpensesRecords as $record) {
+        $creditFuelExpensesTotal += $record->total * $record->exchange_rate;
+    }
+
+    $cashFuelExpensesRecords = FuelExpense::whereMonth('created_at', $currentMonth)->where('type', 'cash')->get();
+    $cashFuelExpensesTotal = 0;
+    foreach ($cashFuelExpensesRecords as $record) {
+        $cashFuelExpensesTotal += $record->total * $record->exchange_rate;
+    }
+
+    $transportExpensesRecords = TransportExpense::whereMonth('created_at', $currentMonth)->get();
+
+    $transportExpensesTotal = 0;
+    foreach ($transportExpensesRecords as $record) {
+        $transportExpensesTotal += $record->total * $record->exchange_rate;
+    }
+
+    
+    $dutiesRecords = Duty::whereMonth('created_at', $currentMonth)->get();
+    $dutiesTotal = 0;
+    foreach ($dutiesRecords as $record) {
+        $dutiesTotal += $record->rate;
+    }
+
+    $clearingFeesRecords = ClearanceFee::whereMonth('created_at', $currentMonth)
+        ->selectRaw('sum(logistics) as logistics, sum(clearing_fee) as clearing_fee, sum(zcsa) as zcsa')
+        ->first();
+    $clearingFeesTotal = $clearingFeesRecords->logitics + $clearingFeesRecords->clearing_fee + $clearingFeesRecords->zcsa;
+
+    $totalClearing = $clearingFeesTotal + $dutiesTotal;
+
         $paidFuelExpenses = FuelExpense::whereMonth('created_at', $currentMonth)->where('status', 'paid')->sum('total');
         $expenses = [
-            $paidTransportExpenses,
+            3000,
             $paidFuelExpenses
-        ];
-    $paidTotalExpenses = $paidTransportExpenses + $paidFuelExpenses;
+        ]; 
+ 
 
-    $pendingTransportExpenses = TransportExpense::whereMonth('created_at', $currentMonth)->where('status', 'pending')->sum('total');
-    
-    $pendingFuelExpenses = FuelExpense::whereMonth('created_at', $currentMonth)->where('status', 'pending')->sum('total');
-    $pendingTotalExpenses = $pendingTransportExpenses + $pendingFuelExpenses;
-  
-    $totalExpenses = $paidTotalExpenses + $pendingTotalExpenses;
+ 
 
     return Inertia::render('Dashboard',
 [
     'paidInvoices' => $paidInvoices,
     'unpaidInvoices' => $unpaidInvoices,
     'totalInvoices' => $totalInvoices,
-    'totalExpenses' => $totalExpenses,
+    'totalClearing' => $totalClearing,
+    'cashFuelExpensesTotal' => $cashFuelExpensesTotal,
+    'creditFuelExpensesTotal' => $creditFuelExpensesTotal,
+    'transportExpensesTotal' => $transportExpensesTotal,
    'expenses'=>$expenses,
-    'pendingTotalExpenses' => $pendingTotalExpenses,
-    'paidTotalExpenses' => $paidTotalExpenses,
+    
 ]
 );
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -165,6 +165,17 @@ function Index({ auth, invoice_quantity }) {
                         />
 
                         <InputText
+                            type="number"
+                            step="any"
+                            pattern="^\d*(\.\d+)?$"
+                            labelPlacement="outside"
+                            title="Exchange Rate"
+                            register={register}
+                            name="exchange_rate"
+                            onChange={calculateTotal}
+                        />
+
+                        <InputText
                             title="Total"
                             readOnly
                             register={register}

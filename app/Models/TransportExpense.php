@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class TransportExpense extends Model
 {
     use HasFactory;
-    protected $fillable = ['quantity', 'price','total','status'];
+    protected $fillable = ['quantity', 'price','total','exchange_rate','status'];
 }

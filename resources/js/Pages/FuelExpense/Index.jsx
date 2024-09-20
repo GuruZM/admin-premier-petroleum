@@ -194,6 +194,18 @@ function index({ auth }) {
                             name="price"
                             onChange={handlePriceChange}
                         />
+
+                        <InputText
+                            style={{ border: "none" }}
+                            step="any"
+                            type="number"
+                            title="Exchange Rate"
+                            placeholder=""
+                            className="   "
+                            register={register}
+                            name="exchange_rate"
+                            onChange={handlePriceChange}
+                        />
                         <label htmlFor="">
                             <p className="text-black text-small">Type</p>
                         </label>

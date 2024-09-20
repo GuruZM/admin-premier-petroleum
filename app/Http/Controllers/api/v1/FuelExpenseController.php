@@ -40,12 +40,14 @@ class FuelExpenseController extends Controller
                 'total' => 'required',
                 'type'=>'required',
                 'duty'=>'nullable',
+                'exchange_rate'=>'nullable',
                 'status'=>'nullable',
             ]);
             $fuelExpense = FuelExpense::create([
                'quantity'=>$request->quantity,
                 'price'=>$request->price,
                 'total'=>$request->total,
+                'exchange_rate'=>$request->exchange_rate,
                 'type'=>$request->type,
                 'duty'=>$request->duty,
                 'status'=>$request->status,
