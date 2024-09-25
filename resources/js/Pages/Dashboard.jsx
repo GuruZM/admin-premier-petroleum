@@ -1,7 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import DashboardStartCard from "@/Components/DashboardStartCard";
-import Stat from "@/Components/Stat";
+import ExpenseStat from "@/Components/ExpenseStat";
+import InvoiceStat from "@/Components/invoiceStat";
 import BarChart from "@/Components/Charts/BarChart";
 import PieChart from "@/Components/Charts/PieChart";
 import {
@@ -12,6 +13,7 @@ import {
     pieChartOptions,
 } from "@/Components/Charts/Variables";
 import { Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
+
 export default function Dashboard({
     auth,
     paidInvoices,
@@ -26,6 +28,7 @@ export default function Dashboard({
     creditFuelExpensesTotal,
     transportExpensesTotal,
 }) {
+    console.log("expn dash", expenses);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -41,7 +44,7 @@ export default function Dashboard({
                 <div className=" mx-auto">
                     <div className=" flex flex-col md:flex-row space-y-6 md:space-y-0  md:space-x-6 overflow-hidden   sm:rounded-lg">
                         <div className=" md:w-2/5">
-                            <Stat
+                            <InvoiceStat
                                 icon={
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -86,18 +89,14 @@ export default function Dashboard({
                                     </svg>
                                 }
                                 label="Invoices"
+                                paid={paidInvoices}
+                                unpaid={unpaidInvoices}
                                 stat1label={"Paid"}
                                 stat2label={"Unpaid"}
-                                desc1={"All Invoices Paid"}
-                                desc2={"All Invoices unpaid"}
-                                figure={paidInvoices}
-                                figure2={unpaidInvoices}
-                                stat1={paidInvoices}
-                                stat2={unpaidInvoices}
                             />
                         </div>
 
-                        <Stat
+                        <ExpenseStat
                             icon={
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -124,11 +123,11 @@ export default function Dashboard({
                                 </svg>
                             }
                             label="Expenses"
-                            stat1label={"Fuel Purchases"}
+                            stat1label={"Fuel Expenses"}
                             desc1={"All fuel expenses"}
                             desc2={"All fuel expenses"}
                             fuel={true}
-                            stat2label={"Transport Expenses"}
+                            stat2label={"Transport"}
                             stat3label={"Clearing Fees"}
                             figure2={transportExpensesTotal}
                             stat1={creditFuelExpensesTotal}
@@ -141,7 +140,7 @@ export default function Dashboard({
                     <div className="my-6 flex sm:flex-row flex-col sm:space-x-6 space-x-0 space-y-5 md:space-y-0">
                         <div className="  sm:w-3/5 w-full   border-red-500">
                             <Card className="rounded-md">
-                                <CardHeader className="flex flex-row items-center p-3 space-x-4 px-5 py-5  space-y-0">
+                                <CardHeader className="flex flex-row  items-center p-3 space-x-4 px-5 py-5  space-y-0">
                                     <span>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -232,7 +231,7 @@ export default function Dashboard({
                                 <Divider />
                                 <CardBody className="py-5">
                                     <PieChart
-                                        chartData={expenses}
+                                        pieChartData={expenses}
                                         chartOptions={pieChartOptions}
                                     />
                                 </CardBody>

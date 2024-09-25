@@ -91,10 +91,13 @@ Route::get('/dashboard', function () {
 
     $totalClearing = $clearingFeesTotal + $dutiesTotal;
 
-        $paidFuelExpenses = FuelExpense::whereMonth('created_at', $currentMonth)->where('status', 'paid')->sum('total');
+        $fuelExpenses = FuelExpense::whereMonth('created_at', $currentMonth)->sum('total');
+        $transportExpense = (float) TransportExpense::whereMonth('created_at', $currentMonth)->sum('total');
+
         $expenses = [
-            3000,
-            $paidFuelExpenses
+            $transportExpense,
+            $fuelExpenses,
+            $totalClearing 
         ]; 
  
 

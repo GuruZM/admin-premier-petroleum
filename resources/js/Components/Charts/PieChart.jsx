@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const PieChart = (chartData, chartOptions) => {
-    const [stateChartData, setChartData] = useState([]);
-    // console.log("expenses", expenses);
-    const pieChartData = [63, 25];
+const PieChart = ({ pieChartData, chartOptions }) => {
+    console.log("pieChart", pieChartData);
     const pieChartOptions = {
-        labels: ["Transport", "Fuel"],
-        colors: ["#F16924", "#083756"],
+        labels: ["Transport", "Fuel", "Clearing Fees"],
+        colors: ["#F16924", "#083756", "#000"],
         chart: {
             width: "50px",
         },
@@ -36,7 +34,7 @@ const PieChart = (chartData, chartOptions) => {
             },
         },
         fill: {
-            colors: ["#F16924", "#083756"],
+            colors: ["#F16924", "#083756", "#000"],
         },
         tooltip: {
             enabled: true,

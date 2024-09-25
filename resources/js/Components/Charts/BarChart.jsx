@@ -5,6 +5,7 @@ const BarChart = ({ chartData, categories, options }) => {
     const [stateChartData, setChartData] = useState([]);
     const [stateChartOptions, setChartOptions] = useState({});
 
+    console.log("barchart", chartData);
     useEffect(() => {
         setChartData(chartData);
     }, [chartData]);
