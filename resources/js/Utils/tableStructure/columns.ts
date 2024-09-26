@@ -134,6 +134,7 @@ export const clearanceFeesColumns = [
 export const dutyColumns = [
     { name: "DESCRIPTION", uid: "description" },
     { name: "RATE", uid: "rate" },
+    { name: "ACTIONS", uid: "actions" },
 ];
 
 export {

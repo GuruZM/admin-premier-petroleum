@@ -25,4 +25,36 @@ class DutyController extends Controller
             ], 500);
         }
     }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'rate' => 'required|numeric',
+            'description' => 'nullable|string',
+        ]);
+
+        $duty = Duty::find($id);
+
+        if (!$duty) {
+            return response()->json(['message' => 'Duty Fee not found'], 404);
+        }
+
+        $duty->update($request->all());
+
+        return response()->json($duty);
+    }
+
+    // Remove the specified resource from storage
+    public function destroy($id)
+    {
+        $duty = Duty::find($id);
+
+        if (!$duty) {
+            return response()->json(['message' => 'Duty Fee not found'], 404);
+        }
+
+        $duty->delete();
+
+        return response()->json(['message' => 'Duty Record deleted successfully']);
+    }
 }

@@ -9,12 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
+    protected $invoice_id_count = 11912;
     public function index()
     {
         try {
             $invoiceData = Invoice::join('customers', 'invoices.customer', '=', 'customers.id')
                 ->join('users', 'invoices.issued_by', '=', 'users.id')
                 ->select('invoices.*', 'customers.company_name as customer_name', 'users.name as issued_by_name')
+                ->orderBy('invoices.id', 'desc')
                 ->get();
             return response()->json($invoiceData);
         } catch (\Exception $e) {
@@ -49,6 +51,7 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
          
+   
         
         try {
             // Validate the incoming request data
@@ -65,9 +68,13 @@ class InvoiceController extends Controller
                 'issued_by'=>'required',
             ]);
 
+            $invoiceCount = Invoice::count();
+            $invoice_number = (int)($this->invoice_id_count + (int)$invoiceCount);
+             
+
             // Create a new customer
             $invoice = Invoice::create([
-                
+                'number'=> 'INV-' . $invoice_number,
                 'track_details' => $validatedData['truck_plate'],
                 'date' => $validatedData['date'],
                 'due_date' => $validatedData['due_date'],
@@ -82,7 +89,7 @@ class InvoiceController extends Controller
                 Payment to: PREMIER PETROLEUM LIMITED
                 Account No. 9130005329888',
             ]);      
-            $invoice->number = 'INV-' . $invoice->id;
+            // $invoice->number = 'INV-' . $invoice->id;
             $invoice->save();
 
             return response()->json(['message' => 'Invoice created successfully'], 201);

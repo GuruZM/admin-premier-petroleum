@@ -100,6 +100,24 @@ Route::get('/dashboard', function () {
             $totalClearing 
         ]; 
  
+        $monthlyInvoiceTotals = Invoice::select(           
+            DB::raw('MONTH(date) as month'),
+            DB::raw('SUM(total) as total') // Assuming `total` is the sales total column
+        )
+        ->groupBy('month')
+        ->get()
+        ->map(function ($item) {
+            $dateObj = \DateTime::createFromFormat('!m', $item->month);
+                if ($dateObj) {
+                    $monthName = $dateObj->format('F'); // Returns the full month name
+                } else {
+                    $monthName = 'Unknown'; // Handle the case where the month format is invalid
+                }
+                return [
+                    'month' => $monthName,
+                    'total' => $item->total,
+                ];
+        });
 
  
 
@@ -112,6 +130,7 @@ Route::get('/dashboard', function () {
     'cashFuelExpensesTotal' => $cashFuelExpensesTotal,
     'creditFuelExpensesTotal' => $creditFuelExpensesTotal,
     'transportExpensesTotal' => $transportExpensesTotal,
+    'monthlyInvoiceTotals'=> $monthlyInvoiceTotals,
    'expenses'=>$expenses,
     
 ]

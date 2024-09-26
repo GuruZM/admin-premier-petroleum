@@ -27,8 +27,26 @@ export default function Dashboard({
     cashFuelExpensesTotal,
     creditFuelExpensesTotal,
     transportExpensesTotal,
+    monthlyInvoiceTotals,
 }) {
-    console.log("expn dash", expenses);
+    console.log("monthlies", monthlyInvoiceTotals);
+
+    const invoiceDataFormatted = monthlyInvoiceTotals.map((dataPoint) => ({
+        x: dataPoint.month,
+        y: dataPoint.total,
+        fillColor: "#083756", // Customize the color as needed
+    }));
+
+    const monthsWithData = monthlyInvoiceTotals.map(
+        (dataPoint) => dataPoint.month
+    );
+
+    const chartFormattedData = [
+        {
+            data: invoiceDataFormatted,
+            name: "Monthly Total",
+        },
+    ];
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -180,7 +198,7 @@ export default function Dashboard({
                                             />
                                             <path
                                                 d="M3 3V14C3 17.2998 3 18.9497 4.02513 19.9749C5.05025 21 6.70017 21 10 21H21"
-                                                stroke="currentColor"
+                                                stroke=" currentColor"
                                                 stroke-width="1.5"
                                                 stroke-linecap="round"
                                             />
@@ -193,8 +211,9 @@ export default function Dashboard({
                                 <Divider />
                                 <CardBody className="py-5">
                                     <BarChart
+                                        categories={monthsWithData}
+                                        chartData={chartFormattedData}
                                         options={barChartOptions}
-                                        chartData={barChartDataDailyTraffic}
                                     />
                                 </CardBody>
                             </Card>

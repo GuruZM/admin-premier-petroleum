@@ -61,7 +61,7 @@ const ExpenseStat = ({
                 </div>
             </CardHeader>
 
-            <CardBody className="px-0 flex rounded-t-2xl border-t-2 border-gray-200  ">
+            <CardBody className="px-0 flex rounded-t-2xl border-t-1 border-gray-200  ">
                 <div class="     rounded-4xl shadow-8xl">
                     <div class="flex   flex-col ">
                         <p class="mb-4 w-4/5   mx-auto        font-semibold leading-normal">

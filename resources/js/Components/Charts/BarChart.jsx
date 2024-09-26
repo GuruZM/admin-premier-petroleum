@@ -64,7 +64,7 @@ const BarChart = ({ chartData, categories, options }) => {
             labels: {
                 show: true,
                 style: {
-                    colors: "#000",
+                    colors: "#083756",
                     fontSize: "14px",
                 },
             },
@@ -97,12 +97,12 @@ const BarChart = ({ chartData, categories, options }) => {
                     [
                         {
                             offset: 0,
-                            color: "#000",
+                            color: "#083756",
                             opacity: 1,
                         },
                         {
                             offset: 100,
-                            color: "#000",
+                            color: "#083756",
                             opacity: 1,
                         },
                     ],
@@ -128,7 +128,7 @@ const BarChart = ({ chartData, categories, options }) => {
 
     return (
         <ReactApexChart
-            options={options}
+            options={chartOptions}
             series={stateChartData}
             type="bar"
             width="100%"

@@ -54,8 +54,9 @@ function Index({ auth, clearanceFees }) {
             } else {
                 // If record is not set or doesn't have an ID, add a new customer
                 await axios.post("/clearance-fees", data);
-                router.visit("/clearance-fees");
+
                 toast.success("Clearance Fee Added Successfully");
+                router.visit("/clearance-fees");
             }
 
             // Close the modal, fetch updated data, and reset the form
@@ -82,7 +83,7 @@ function Index({ auth, clearanceFees }) {
                 const response = await axios.delete(`/clearance-fees/${id}`);
                 router.visit("/clearance-fees");
                 toast.success("Record Deleted");
-                dispatch(fetchCustomers());
+                router.visit("/clearance-fees");
             } else {
                 toast.error("Request Cancelled");
             }
@@ -109,6 +110,7 @@ function Index({ auth, clearanceFees }) {
                 onOpen={onOpen}
                 title={record ? "Edit Clearance Fee" : "Add Clearance Fee"}
                 handleDelete={handleDelete}
+                canDelete={true}
                 tableObject={clearanceFees}
                 tableColumns={clearanceFeesColumns}
                 initialColumns={INITIAL_VISIBLE_COLUMNS}

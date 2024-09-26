@@ -18,7 +18,7 @@ import { useForm, Controller, set } from "react-hook-form";
 import axios from "../../Axios/axiosConfig";
 import InputText from "@/Components/InputText";
 
-const INITIAL_VISIBLE_COLUMNS = ["description", "rate"];
+const INITIAL_VISIBLE_COLUMNS = ["description", "rate", "actions"];
 
 function Index({ auth, duties }) {
     const [record, setRecord] = React.useState(null);
@@ -72,10 +72,10 @@ function Index({ auth, duties }) {
     const handleDelete = async (id) => {
         try {
             if (confirm("are you sure you want to delete this Record")) {
-                const response = await axios.delete(`/customers/${id}`);
+                const response = await axios.delete(`/duties/${id}`);
 
                 toast.success("Record Deleted");
-                dispatch(fetchCustomers());
+                router.visit("/duties");
             } else {
                 toast.error("Request Cancelled");
             }
@@ -102,6 +102,7 @@ function Index({ auth, duties }) {
                 onOpen={onOpen}
                 title={record ? "Edit Duty Fees" : "Add Duty Fees"}
                 handleDelete={handleDelete}
+                canDelete={true}
                 tableObject={duties}
                 tableColumns={dutyColumns}
                 initialColumns={INITIAL_VISIBLE_COLUMNS}
