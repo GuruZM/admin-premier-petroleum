@@ -77,6 +77,8 @@ class InvoiceController extends Controller
                  $dompdf->setOptions($options);
                  $user = User::find($invoice->issued_by);
                 $invoice->user = $user;
+                $company_name = $customer->company_name;
+                // dd($customer->company_name);
         
                 $invoice->line_items = json_decode($invoice->line_items,true);
                         $html =  view('print.invoice',
@@ -95,7 +97,7 @@ class InvoiceController extends Controller
         
                      return new Response($output, 200, [
                           'Content-Type' => 'application/pdf',
-                          'Content-Disposition' => 'inline; filename="Invoice.pdf"',
+                          'Content-Disposition' => 'inline; filename="' .rawurlencode($company_name). '-' . (new \DateTime($invoice->date))->format('Y-m-d') . '.pdf" ',
                       ]);
                     
                 } catch (\Exception $e) {
