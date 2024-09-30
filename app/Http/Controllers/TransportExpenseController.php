@@ -19,7 +19,7 @@ class TransportExpenseController extends Controller
         $invoice = Invoice::selectRaw('number, line_items')->get();
        
 
-        $invoce_quantity = [];
+        $invoice_quantity = [];
  
         foreach($invoice as $value){
             $invoice_quantity[] = [
