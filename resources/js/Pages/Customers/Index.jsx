@@ -105,6 +105,8 @@ function Index({ auth }) {
             <ContentLayout
                 baseurl="none"
                 editRecord={editRecord}
+                canEdit={true}
+                canDelete={true}
                 onOpen={onOpen}
                 title={record ? "Edit Customer" : "Add Customer"}
                 handleDelete={handleDelete}

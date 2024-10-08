@@ -20,9 +20,9 @@ import axios from "../../Axios/axiosConfig";
 import { router } from "@inertiajs/react";
 function Index({ auth }) {
     const INITIAL_VISIBLE_COLUMNS = [
-        "client",
+        // "client",
         "number",
-        "invoice_number",
+        // "invoice_number",
         "date",
         "issue_date",
         "actions",

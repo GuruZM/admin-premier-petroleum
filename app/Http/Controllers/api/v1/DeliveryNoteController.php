@@ -14,15 +14,18 @@ class DeliveryNoteController extends Controller
     public function index()
     {
       
-        $deliveryNotesWithInvoicesAndCustomers = DeliveryNote::join('invoices', 'delivery_notes.invoice_number', '=', 'invoices.id')
-        ->join('customers', 'customers.id', '=', 'delivery_notes.client')
-        ->select(
-            'delivery_notes.*',
-            'customers.company_name as client',
-            'invoices.number as invoice_number'
+        // $deliveryNotesWithInvoicesAndCustomers = DeliveryNote::join('invoices', 'delivery_notes.invoice_number', '=', 'invoices.id')
+        // ->join('customers', 'customers.id', '=', 'delivery_notes.client')
+        // ->select(
+        //     'delivery_notes.*',
+        //     'customers.company_name as client',
+        //     'invoices.number as invoice_number'
             
-        )
-        ->get();
+        // )
+        // ->get();
+
+        $deliveryNotesWithInvoicesAndCustomers = DeliveryNote::all();
+       
     
      
      
@@ -48,21 +51,25 @@ class DeliveryNoteController extends Controller
         // ]);
         try{
             $validatedData = $request->validate([
-                'client' => 'required',
+   
                 'items' => 'required',
                 'date' => 'required',
                 'issue_date'=> 'required|string',
                 'invoice'=> 'nullable',
-                'number'=>'required'
+          
             ]);
+
+            $count = DeliveryNote::count();
+            $deliveryNote_number = 1 + (int)$count;
+            $validatedData['number'] = 'PPDN00-' . $deliveryNote_number;            
 
           
             $deliveryNote = DeliveryNote::create(
                 [
                  "issue_date" =>  $validatedData['issue_date'],
                  "date" => $validatedData['date'],
-                 "client"=> $validatedData['client'],
-                 "invoice_number"=> $validatedData['invoice'] ? $validatedData['invoice'] : 0,
+                //  "client"=> $validatedData['client'],
+                 "invoice_number"=> $validatedData['invoice'] ? $validatedData['invoice'] : NULL,
                  "number"=>$validatedData['number'],
                  "items" => json_encode($validatedData['items'])
                 ]); 

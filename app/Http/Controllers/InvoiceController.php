@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\User;
 use App\Models\Customer;
+use App\Models\DeliveryNote;
 use Illuminate\Http\Response;   
 use Inertia\Inertia;
 use Dompdf\Dompdf;
@@ -26,7 +27,20 @@ class InvoiceController extends Controller
     
     public function create()
     {
+        $deliveryNotes = DeliveryNote::all();
+        $lineItemsArray = [];
+        foreach ($deliveryNotes as $deliveryNote) {
+            $lineItems = json_decode($deliveryNote->items);
+            foreach ($lineItems as $lineItem) {
+                $lineItemsArray[] = [
+                    'delivery_note_number' => $deliveryNote->number,
+                    'description' => $lineItem->description,
+                    'quantity' => $lineItem->quantity
+                ];
+            }
+        }
         return inertia('Invoice/Create',[
+            'deliveryNotes' => $lineItemsArray,
             'status'=> session('status')
         ]);
     }
@@ -76,9 +90,12 @@ class InvoiceController extends Controller
                  $options->set('isHtml5ParserEnabled', true);
                  $dompdf->setOptions($options);
                  $user = User::find($invoice->issued_by);
+
                 $invoice->user = $user;
+             
+                $line_item = json_decode($invoice->line_items,true);              
+                $invoice->track_details = $line_item[0]['description'];
                 $company_name = $customer->company_name;
-                // dd($customer->company_name);
         
                 $invoice->line_items = json_decode($invoice->line_items,true);
                         $html =  view('print.invoice',

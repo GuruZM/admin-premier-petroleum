@@ -88,6 +88,8 @@ function Index({ auth }) {
                 onOpen={onOpen}
                 baseurl="none"
                 editRecord={editRecord}
+                canEdit={true}
+                canDelete={true}
                 title="Suppliers"
                 handleDelete={handleDelete}
                 tableObject={suppliers}
@@ -145,7 +147,7 @@ function Index({ auth }) {
                                 type="submit"
                                 color="primary"
                             >
-                              {record ? "Update" : "Create"}
+                                {record ? "Update" : "Create"}
                             </Button>
                         </div>
                     </div>

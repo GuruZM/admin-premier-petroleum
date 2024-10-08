@@ -5,7 +5,7 @@ import { InvoiceField } from "@/Components/InvoiceField";
 import { PlusIcon } from "@/Components/icons/PlusIcon";
 import { fetchCustomers } from "@/Redux/slices/customerSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { useForm, useFieldArray, Controller, set } from "react-hook-form";
 import { toast } from "sonner";
 import { Head } from "@inertiajs/react";
 import {
@@ -19,7 +19,7 @@ import {
 import axios from "@/Axios/axiosConfig";
 import { router } from "@inertiajs/react";
 import InputText from "@/Components/InputText";
-function Create({ auth, invoice }) {
+function Create({ auth, invoice, deliveryNotes }) {
     const dispatch = useDispatch();
 
     const items = [
@@ -43,8 +43,8 @@ function Create({ auth, invoice }) {
                 invoice && invoice.due_date
                     ? invoice.due_date
                     : new Date().toISOString().slice(0, 10),
-            truck_plate:
-                invoice && invoice.track_details ? invoice.track_details : "",
+            delivery_note:
+                invoice && invoice.delivery_note ? invoice.delivery_note : "",
             subtotal: invoice && invoice.subtotal ? invoice.subtotal : 0,
             invoicetotal: invoice && invoice.total ? invoice.total : 0,
             items:
@@ -146,6 +146,19 @@ function Create({ auth, invoice }) {
     };
 
     const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+    const handleDeliveryNoteChange = (index, value) => {
+        const deliveryNote = deliveryNotes.find(
+            (deliveryNote) => deliveryNote.delivery_note_number === value
+        );
+
+        console.log("deliveryNote:", deliveryNote);
+        if (deliveryNote) {
+            setValue(`delivery_note`, deliveryNote.delivery_note_number);
+            setValue(`items.${index}.description`, deliveryNote.description);
+            setValue(`items.${index}.quantity`, deliveryNote.quantity);
+        }
+    };
 
     const onSubmit = async (data) => {
         if (invoice && invoice.id) {
@@ -280,8 +293,47 @@ function Create({ auth, invoice }) {
                                     />
                                 </div>
                             </div>
-                            {/* plate number  */}
-                            <div className=" mx-1 mt-6 flex flex-col ">
+                            {/* Delivery Note  */}
+                            <div className=" grid grid-cols-1   gap-3 mt-5   ">
+                                <div className="  col-span-1">
+                                    <span>Delivery Note Number</span>
+
+                                    <select
+                                        labelPlacement="outside"
+                                        label="Delivery Note"
+                                        onChange={(e) =>
+                                            handleDeliveryNoteChange(
+                                                0,
+                                                e.target.value
+                                            )
+                                        }
+                                        className="bg-gray-100  mt-1 p-2 rounded-xl w-full border-none outline-none focus:ring-0"
+                                        startContent="👤"
+                                        // {...register("delivery_note")}
+                                    >
+                                        <option value="">
+                                            Select Delivery Note
+                                        </option>
+                                        {deliveryNotes?.map((delivery_note) => (
+                                            <option
+                                                key={
+                                                    delivery_note.delivery_note_number
+                                                }
+                                                value={
+                                                    delivery_note.delivery_note_number
+                                                }
+                                            >
+                                                {
+                                                    delivery_note.delivery_note_number
+                                                }
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+
+                            {/* <div className=" mx-1 mt-6 flex flex-col ">
+                                Delivery Note Number
                                 <InputText
                                     title="Truck Plate Number"
                                     className="flex-1"
@@ -289,7 +341,7 @@ function Create({ auth, invoice }) {
                                     register={register}
                                     name="truck_plate"
                                 />
-                            </div>
+                            </div> */}
 
                             {/* Item List Section */}
 

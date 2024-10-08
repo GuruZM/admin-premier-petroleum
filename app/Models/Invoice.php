@@ -10,7 +10,7 @@ class Invoice extends Model
     use HasFactory;
     protected $fillable = [
         'number',
-        'track_details',
+        'delivery_note',
         'date',
         'due_date',
         'customer',

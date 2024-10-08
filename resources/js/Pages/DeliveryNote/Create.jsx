@@ -40,7 +40,7 @@ function Create({ auth, deliveryNote }) {
                 ? deliveryNote.issue_date
                 : new Date().toISOString().slice(0, 10),
             number: deliveryNote ? deliveryNote.number : "",
-            items: deliveryNote ? JSON.parse(deliveryNote.items) : [],
+            items: deliveryNote ? JSON.parse(deliveryNote.items) : items,
         },
     });
 
@@ -169,7 +169,7 @@ function Create({ auth, deliveryNote }) {
                         <div className=" ">
                             <Divider className="my-5" />
 
-                            <div className=" grid grid-cols-1   gap-3   ">
+                            {/* <div className=" grid grid-cols-1   gap-3   ">
                                 <div className=" mx-1 col-span-1">
                                     <span>Invoice Number</span>
                                     <select
@@ -180,7 +180,7 @@ function Create({ auth, deliveryNote }) {
                                         onChange={(e) =>
                                             selectedInvoice(e.target.value)
                                         }
-                                        // {...register("invoice")}
+                                         
                                     >
                                         {invoices.map((invoice) => (
                                             <option
@@ -192,7 +192,7 @@ function Create({ auth, deliveryNote }) {
                                         ))}
                                     </select>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className=" flex justify-center space-x-5 items-center mt-8 ">
                                 <div className=" flex-1  ">

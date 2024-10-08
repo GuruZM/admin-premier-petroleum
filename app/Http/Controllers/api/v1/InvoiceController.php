@@ -57,7 +57,7 @@ class InvoiceController extends Controller
             // Validate the incoming request data
             $validatedData = $request->validate([
                 
-                'truck_plate' => 'required|string',
+                'delivery_note' => 'required|string',
                 'date' => 'required|string',
                 'due_date' => 'required|string',
                 'client'=> 'required',
@@ -75,7 +75,7 @@ class InvoiceController extends Controller
             // Create a new customer
             $invoice = Invoice::create([
                 'number'=> 'INV-' . $invoice_number,
-                'track_details' => $validatedData['truck_plate'],
+                'delivery_note' => $validatedData['delivery_note'],
                 'date' => $validatedData['date'],
                 'due_date' => $validatedData['due_date'],
                 'customer'=> $validatedData['client'],

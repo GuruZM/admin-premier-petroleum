@@ -1,0 +1,1 @@
+import{j as n}from"./app-4e6fcf28.js";const t=({...e})=>n.jsxs("div",{className:"flex flex-col w-full flex-1",children:[n.jsx("span",{children:e.title}),n.jsx("input",{...e,...e.register(e.name,{onChange:e.onChange},{required:e.required}),className:`bg-gray-100 flex-1 mt-1 p-2 rounded-xl w-full ${e.className}  border-none outline-none focus:ring-0 `})]});export{t as I};

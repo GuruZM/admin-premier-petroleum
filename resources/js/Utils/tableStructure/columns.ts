@@ -50,9 +50,10 @@ const customerColumns = [
 
 const deliveryNoteColumns = [
     { name: "ID", uid: "id", sortable: true },
-    { name: "CUSTOMER", uid: "client", sortable: true },
-    { name: "INVOICE NUMBER", uid: "invoice_number", sortable: true },
+    // { name: "CUSTOMER", uid: "client", sortable: true },
+    // { name: "INVOICE NUMBER", uid: "invoice_number", sortable: true },
     { name: "DELIVERY NOTE NO#", uid: "number", sortable: true },
+    { name: "DATE", uid: "date", sortable: true },
     { name: "ISSUE DATE", uid: "issue_date", sortable: true },
     { name: "ACTIONS", uid: "actions" },
 ];
