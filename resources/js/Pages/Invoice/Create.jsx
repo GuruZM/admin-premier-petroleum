@@ -21,6 +21,7 @@ import { router } from "@inertiajs/react";
 import InputText from "@/Components/InputText";
 function Create({ auth, invoice, deliveryNotes }) {
     const dispatch = useDispatch();
+    console.log("notes", deliveryNotes);
 
     const items = [
         {
@@ -155,6 +156,7 @@ function Create({ auth, invoice, deliveryNotes }) {
         console.log("deliveryNote:", deliveryNote);
         if (deliveryNote) {
             setValue(`delivery_note`, deliveryNote.delivery_note_number);
+            setValue(`client`, deliveryNote.customer_id);
             setValue(`items.${index}.description`, deliveryNote.description);
             setValue(`items.${index}.quantity`, deliveryNote.quantity);
         }
@@ -257,6 +259,7 @@ function Create({ auth, invoice, deliveryNotes }) {
                                         className="bg-gray-100  mt-1 p-2 rounded-xl w-full border-none outline-none focus:ring-0"
                                         startContent="👤"
                                         {...register("client")}
+                                        disabled
                                     >
                                         <option value=""></option>
                                         {clients.map((client) => (

@@ -74,7 +74,7 @@ class InvoiceController extends Controller
 
             // Create a new customer
             $invoice = Invoice::create([
-                'number'=> 'INV-' . $invoice_number,
+                'number'=>  $invoice_number,
                 'delivery_note' => $validatedData['delivery_note'],
                 'date' => $validatedData['date'],
                 'due_date' => $validatedData['due_date'],

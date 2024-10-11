@@ -27,7 +27,9 @@ class InvoiceController extends Controller
     
     public function create()
     {
-        $deliveryNotes = DeliveryNote::all();
+        $deliveryNotes = DeliveryNote::join('customers', 'delivery_notes.client', '=', 'customers.id')
+        ->select('delivery_notes.*', 'customers.company_name as customer_name', 'customers.id as customer_id')
+        ->get();
         $lineItemsArray = [];
         foreach ($deliveryNotes as $deliveryNote) {
             $lineItems = json_decode($deliveryNote->items);
@@ -35,7 +37,10 @@ class InvoiceController extends Controller
                 $lineItemsArray[] = [
                     'delivery_note_number' => $deliveryNote->number,
                     'description' => $lineItem->description,
-                    'quantity' => $lineItem->quantity
+                    'quantity' => $lineItem->quantity,
+                    'customer_id' => $deliveryNote->customer_id,
+                    'customer_name' => $deliveryNote->customer_name,
+
                 ];
             }
         }

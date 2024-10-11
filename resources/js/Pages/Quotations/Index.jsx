@@ -65,6 +65,7 @@ function Index({ auth }) {
                 canEdit={true}
                 canDelete={true}
                 onOpen={redi}
+                currency={"ZMW"}
                 baseurl={baseurl}
                 handleDelete={handleDelete}
                 title="quotations"

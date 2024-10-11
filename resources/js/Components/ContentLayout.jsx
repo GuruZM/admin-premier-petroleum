@@ -13,6 +13,7 @@ function ContentLayout({
     tableColumns,
     initialColumns,
     baseurl,
+    currency,
 }) {
     return (
         <div>
@@ -26,6 +27,7 @@ function ContentLayout({
                                 canView={canView}
                                 canEdit={canEdit}
                                 canDelete={canDelete}
+                                currency={currency}
                                 onOpen={onOpen}
                                 editRecord={editRecord}
                                 handleDelete={handleDelete}

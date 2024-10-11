@@ -56,19 +56,20 @@ class DeliveryNoteController extends Controller
                 'date' => 'required',
                 'issue_date'=> 'required|string',
                 'invoice'=> 'nullable',
+                'client'=> 'required',
           
             ]);
 
             $count = DeliveryNote::count();
             $deliveryNote_number = 1 + (int)$count;
-            $validatedData['number'] = 'PPDN00-' . $deliveryNote_number;            
+            $validatedData['number'] = 'PPDN00' . $deliveryNote_number;            
 
           
             $deliveryNote = DeliveryNote::create(
                 [
                  "issue_date" =>  $validatedData['issue_date'],
                  "date" => $validatedData['date'],
-                //  "client"=> $validatedData['client'],
+                 "client"=> $validatedData['client'],
                  "invoice_number"=> $validatedData['invoice'] ? $validatedData['invoice'] : NULL,
                  "number"=>$validatedData['number'],
                  "items" => json_encode($validatedData['items'])

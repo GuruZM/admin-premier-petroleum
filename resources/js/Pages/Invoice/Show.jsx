@@ -314,7 +314,7 @@ const Show = ({ auth, invoice }) => {
                                         Amount
                                     </h5>
                                     <p class="sm:text-end text-gray-800 dark:text-neutral-200">
-                                        {formatCurrency(item.amount)}
+                                        {formatCurrency(item.amount, "ZMW")}
                                     </p>
                                 </div>
                             </div>
@@ -329,7 +329,7 @@ const Show = ({ auth, invoice }) => {
                                     Subotal:
                                 </dt>
                                 <dd class="col-span-2   font-medium text-gray-800 dark:text-neutral-200">
-                                    {formatCurrency(invoice.subtotal)}
+                                    {formatCurrency(invoice.subtotal, "ZMW")}
                                 </dd>
                             </dl>
 
@@ -338,7 +338,7 @@ const Show = ({ auth, invoice }) => {
                                     Vat:
                                 </dt>
                                 <dd class="col-span-2 font-medium text-gray-800 dark:text-neutral-200">
-                                    {formatCurrency(invoice.vat)}
+                                    {formatCurrency(invoice.vat, "ZMW")}
                                 </dd>
                             </dl>
 
@@ -347,7 +347,7 @@ const Show = ({ auth, invoice }) => {
                                     Total:
                                 </dt>
                                 <dd class="col-span-2 font-medium text-gray-800 dark:text-neutral-200">
-                                    {formatCurrency(invoice.total)}
+                                    {formatCurrency(invoice.total, "ZMW")}
                                 </dd>
                             </dl>
                         </div>

@@ -70,6 +70,7 @@ function Index({ auth }) {
                 canView={true}
                 canEdit={true}
                 canDelete={true}
+                currency={"ZMW"}
                 title="Invoices"
                 handleDelete={handleDelete}
                 tableObject={invoices}

@@ -149,7 +149,7 @@ const Show = ({ auth, quotation }) => {
                                         Amount
                                     </h5>
                                     <p class="sm:text-end text-gray-800 dark:text-neutral-200">
-                                        {formatCurrency(item.amount)}
+                                        {formatCurrency(item.amount, "ZMW")}
                                     </p>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@ const Show = ({ auth, quotation }) => {
                                     Subotal:
                                 </dt>
                                 <dd class="col-span-2   font-medium text-gray-800 dark:text-neutral-200">
-                                    {formatCurrency(quotation.subtotal)}
+                                    {formatCurrency(quotation.subtotal, "ZMW")}
                                 </dd>
                             </dl>
 
@@ -173,7 +173,10 @@ const Show = ({ auth, quotation }) => {
                                     Vat:
                                 </dt>
                                 <dd class="col-span-2 font-medium text-gray-800 dark:text-neutral-200">
-                                    {formatCurrency(quotation.subtotal * 0.16)}
+                                    {formatCurrency(
+                                        quotation.subtotal * 0.16,
+                                        "ZMW"
+                                    )}
                                 </dd>
                             </dl>
 
@@ -182,7 +185,7 @@ const Show = ({ auth, quotation }) => {
                                     Total:
                                 </dt>
                                 <dd class="col-span-2 font-medium text-gray-800 dark:text-neutral-200">
-                                    {formatCurrency(quotation.total)}
+                                    {formatCurrency(quotation.total, "ZMW")}
                                 </dd>
                             </dl>
                         </div>

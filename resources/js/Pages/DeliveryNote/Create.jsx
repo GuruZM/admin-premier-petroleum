@@ -168,31 +168,27 @@ function Create({ auth, deliveryNote }) {
                     <div className="  ">
                         <div className=" ">
                             <Divider className="my-5" />
+                            <div className="  col-span-1">
+                                <span>Client</span>
 
-                            {/* <div className=" grid grid-cols-1   gap-3   ">
-                                <div className=" mx-1 col-span-1">
-                                    <span>Invoice Number</span>
-                                    <select
-                                        labelPlacement="outside"
-                                        label="Select Invoice"
-                                        className="bg-gray-100  mt-1 p-2 rounded-xl w-full border-none outline-none focus:ring-0"
-                                        startContent="⚅"
-                                        onChange={(e) =>
-                                            selectedInvoice(e.target.value)
-                                        }
-                                         
-                                    >
-                                        {invoices.map((invoice) => (
-                                            <option
-                                                key={invoice.id}
-                                                value={invoice.id}
-                                            >
-                                                {invoice.number}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div> */}
+                                <select
+                                    labelPlacement="outside"
+                                    label="Client Name"
+                                    className="bg-gray-100  mt-1 p-2 rounded-xl w-full border-none outline-none focus:ring-0"
+                                    startContent="👤"
+                                    {...register("client")}
+                                >
+                                    <option value=""></option>
+                                    {clients.map((client) => (
+                                        <option
+                                            key={client.id}
+                                            value={client.id}
+                                        >
+                                            {client.company_name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
                             <div className=" flex justify-center space-x-5 items-center mt-8 ">
                                 <div className=" flex-1  ">

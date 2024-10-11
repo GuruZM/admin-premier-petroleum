@@ -79,26 +79,26 @@ function Show({ auth, deliveryNote }) {
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-3">
-                    <div>
-                        <div class="grid space-y-3">
-                            <dl class="grid sm:flex gap-x-3 text-sm">
+                    {/* <div>
+                        <div class="grid space-y-3"> */}
+                    {/* <dl class="grid sm:flex gap-x-3 text-sm">
                                 <dt class="min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500">
                                     Billed to:
                                 </dt>
                                 <dd class="text-gray-800 dark:text-neutral-200">
                                     {deliveryNote.client}
                                 </dd>
-                            </dl>
-                            <dl class="grid sm:flex gap-x-3 text-sm">
+                            </dl> */}
+                    {/* <dl class="grid sm:flex gap-x-3 text-sm">
                                 <dt class="min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500">
                                     Invoice Number
                                 </dt>
                                 <dd class="text-gray-800 dark:text-neutral-200">
-                                    {deliveryNote.number}
+                                    {deliveryNote?.number}
                                 </dd>
-                            </dl>
-                        </div>
-                    </div>
+                            </dl> */}
+                    {/* </div>
+                    </div> */}
 
                     <div>
                         <div class="grid space-y-3">

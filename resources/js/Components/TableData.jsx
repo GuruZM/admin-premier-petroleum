@@ -29,6 +29,7 @@ function TableData({
     handleDelete,
     onOpen,
     baseurl,
+    currency,
 }) {
     // const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [filterValue, setFilterValue] = React.useState("");
@@ -135,7 +136,7 @@ function TableData({
                     <div className="flex flex-col">
                         {/* <p className="text-bold text-small capitalize">{cellValue}</p> */}
                         <p className="text-bold capitalize ">
-                            {formatCurrency(obj.total)}
+                            {formatCurrency(obj.total, currency)}
                         </p>
                     </div>
                 );
@@ -155,7 +156,7 @@ function TableData({
                         <p className="text-bold capitalize ">
                             {obj.price < 1
                                 ? obj.price
-                                : formatCurrency(obj.price)}
+                                : formatCurrency(obj.price, currency)}
                         </p>
                     </div>
                 );
@@ -164,7 +165,7 @@ function TableData({
                     <div className="flex flex-col">
                         {/* <p className="text-bold text-small capitalize">{cellValue}</p> */}
                         <p className="text-bold capitalize ">
-                            {formatCurrency(obj.duty)}
+                            {formatCurrency(obj.duty, currency)}
                         </p>
                     </div>
                 );
@@ -182,7 +183,7 @@ function TableData({
                     <div className="flex flex-col">
                         {/* <p className="text-bold text-small capitalize">{cellValue}</p> */}
                         <p className="text-bold text-tiny capitalize text-default-400">
-                            {formatCurrency(obj.base_price)}
+                            {formatCurrency(obj.base_price, currency)}
                         </p>
                     </div>
                 );
