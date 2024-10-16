@@ -190,6 +190,13 @@ function Create({ auth, deliveryNote }) {
                                 </select>
                             </div>
 
+                            <InputText
+                                title="truck details"
+                                type="text"
+                                register={register}
+                                name="truck_details"
+                            />
+
                             <div className=" flex justify-center space-x-5 items-center mt-8 ">
                                 <div className=" flex-1  ">
                                     <InputText

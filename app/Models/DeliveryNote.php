@@ -13,6 +13,7 @@ class DeliveryNote extends Model
         'address',
         'title',
         'number',
+        'truck_details',
         'client',
         'date',
         'items',

@@ -95,11 +95,12 @@ class InvoiceController extends Controller
                  $options->set('isHtml5ParserEnabled', true);
                  $dompdf->setOptions($options);
                  $user = User::find($invoice->issued_by);
+                 $truck = DeliveryNote::where('number', '=', $invoice->delivery_note)->first();
 
                 $invoice->user = $user;
              
                 $line_item = json_decode($invoice->line_items,true);              
-                $invoice->track_details = $line_item[0]['description'];
+                $invoice->track_details = $truck->truck_details;
                 $company_name = $customer->company_name;
         
                 $invoice->line_items = json_decode($invoice->line_items,true);

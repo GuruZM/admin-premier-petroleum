@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
-    protected $invoice_id_count = 1190;
+    protected $invoice_id_count = 1191;
     public function index()
     {
         try {

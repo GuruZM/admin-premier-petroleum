@@ -54,6 +54,7 @@ class DeliveryNoteController extends Controller
    
                 'items' => 'required',
                 'date' => 'required',
+                'truck_details'=> 'nullable',
                 'issue_date'=> 'required|string',
                 'invoice'=> 'nullable',
                 'client'=> 'required',
@@ -69,6 +70,7 @@ class DeliveryNoteController extends Controller
                 [
                  "issue_date" =>  $validatedData['issue_date'],
                  "date" => $validatedData['date'],
+                 "truck_details" => $validatedData['truck_details'],
                  "client"=> $validatedData['client'],
                  "invoice_number"=> $validatedData['invoice'] ? $validatedData['invoice'] : NULL,
                  "number"=>$validatedData['number'],
