@@ -100,7 +100,7 @@ class InvoiceController extends Controller
                 $invoice->user = $user;
              
                 $line_item = json_decode($invoice->line_items,true);              
-                $invoice->track_details = $truck->truck_details;
+                $invoice->truck_details = $truck->truck_details;
                 $company_name = $customer->company_name;
         
                 $invoice->line_items = json_decode($invoice->line_items,true);
