@@ -198,7 +198,7 @@ p{
                         <td>
                             <h1 style="display: inline;text-align:right"> {{ \Carbon\Carbon::parse($invoice->date )->toFormattedDateString() }}   </h1> <br>
                             <h1 style="display: inline">  {{ \Carbon\Carbon::parse($invoice->due_date)->toFormattedDateString() }}  </h1> <br>
-                            <h1 style="display: inline">  {{ $invoice->track_details }}  </h1>
+                            <h1 style="display: inline">  {{ $invoice->truck_details }}  </h1>
                         </td>
                     </tr>
                 </table>
