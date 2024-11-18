@@ -33,7 +33,7 @@ function Index({ auth, invoice_quantity }) {
         });
         onOpen();
     };
-
+    console.log("invoice_quantity :", invoice_quantity);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const dispatch = useDispatch();
     const { transportExpense } = useSelector((state) => state.transport);
@@ -133,6 +133,7 @@ function Index({ auth, invoice_quantity }) {
                                 setValue("quantity", e.target.value)
                             }
                         >
+                            <option value=""></option>
                             {invoice_quantity.map((invoice) => (
                                 <option
                                     id="pending"
@@ -143,7 +144,6 @@ function Index({ auth, invoice_quantity }) {
                                 </option>
                             ))}
                         </select>
-
                         <InputText
                             type="number"
                             labelPlacement="outside"
@@ -152,7 +152,6 @@ function Index({ auth, invoice_quantity }) {
                             name="quantity"
                             onChange={calculateTotal}
                         />
-
                         <InputText
                             type="number"
                             step="any"
@@ -163,7 +162,6 @@ function Index({ auth, invoice_quantity }) {
                             name="price"
                             onChange={calculateTotal}
                         />
-
                         <InputText
                             type="number"
                             step="any"
@@ -174,14 +172,12 @@ function Index({ auth, invoice_quantity }) {
                             name="exchange_rate"
                             onChange={calculateTotal}
                         />
-
                         <InputText
                             title="Total"
                             readOnly
                             register={register}
                             name="total"
                         />
-
                         <select
                             labelPlacement="outside"
                             label="Status"
@@ -197,7 +193,6 @@ function Index({ auth, invoice_quantity }) {
                                 Paid
                             </option>
                         </select>
-
                         <Divider className="my-5" />
                         <div className="buttonSection flex  justify-end gap-1">
                             <Button

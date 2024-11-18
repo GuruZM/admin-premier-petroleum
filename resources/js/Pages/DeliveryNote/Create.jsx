@@ -21,6 +21,7 @@ import InputText from "@/Components/InputText";
 import { toast } from "sonner";
 
 function Create({ auth, deliveryNote }) {
+    console.log("notes", deliveryNote);
     const dispatch = useDispatch();
     const items = [
         {
@@ -32,13 +33,14 @@ function Create({ auth, deliveryNote }) {
     const form = useForm({
         defaultValues: {
             invoice: deliveryNote ? deliveryNote.invoice_id : 0,
-            client: deliveryNote ? deliveryNote.client_id : 0,
+            client: deliveryNote ? deliveryNote.client : 0,
             date: deliveryNote
                 ? deliveryNote.date
                 : new Date().toISOString().slice(0, 10),
             issue_date: deliveryNote
                 ? deliveryNote.issue_date
                 : new Date().toISOString().slice(0, 10),
+            truck_details: deliveryNote ? deliveryNote.truck_details : "",
             number: deliveryNote ? deliveryNote.number : "",
             items: deliveryNote ? JSON.parse(deliveryNote.items) : items,
         },
@@ -127,8 +129,6 @@ function Create({ auth, deliveryNote }) {
     const clients = useSelector((state) => state.customers.customers);
     const invoices = useSelector((state) => state.invoices.invoices);
 
-    console.log("invoices", invoices);
-
     return (
         <Authenticated
             user={auth.user}
@@ -183,6 +183,10 @@ function Create({ auth, deliveryNote }) {
                                         <option
                                             key={client.id}
                                             value={client.id}
+                                            selected={
+                                                form.getValues().client ===
+                                                client.id
+                                            }
                                         >
                                             {client.company_name}
                                         </option>
@@ -190,12 +194,14 @@ function Create({ auth, deliveryNote }) {
                                 </select>
                             </div>
 
-                            <InputText
-                                title="truck details"
-                                type="text"
-                                register={register}
-                                name="truck_details"
-                            />
+                            <div className="mt-3">
+                                <InputText
+                                    title="Truck details"
+                                    type="text"
+                                    register={register}
+                                    name="truck_details"
+                                />
+                            </div>
 
                             <div className=" flex justify-center space-x-5 items-center mt-8 ">
                                 <div className=" flex-1  ">

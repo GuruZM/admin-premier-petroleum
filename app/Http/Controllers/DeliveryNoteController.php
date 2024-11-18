@@ -52,21 +52,22 @@ class DeliveryNoteController extends Controller
 
     public function edit(string $id)
     {
-        $deliveryNote = DeliveryNote::find($id);
+        $deliveryNote = DeliveryNote::with('customer')->find($id);
         $deliveryNoteData = DeliveryNote::join('invoices', 'delivery_notes.invoice_number', '=', 'invoices.id')
         ->where('delivery_notes.id', '=', $deliveryNote->id) 
         ->join('customers','customers.id','=','delivery_notes.client')
        ->select('delivery_notes.*', 'invoices.number as invoice_number','invoices.id as invoice_id','customers.company_name as client','customers.id as client_id' )
         ->first();
+        // dd($deliveryNote);
         return inertia('DeliveryNote/Create', [
-            'deliveryNote' => $deliveryNoteData,
+            'deliveryNote' => $deliveryNote,
             'status'=> session('status')
         ]);
     }
 
     public function printdeliverynote(Request $request)
     {
-            // dd($request->all());
+        
             try {
     
                 // $serializedData = $request->query('data');

@@ -45,10 +45,7 @@ class DeliveryNoteController extends Controller
      */
     public function store(Request $request)
     {
-        // return response()->json([
-        //     'request'=> $request->all(),
-        //     'message'=> 'success'
-        // ]);
+      
         try{
             $validatedData = $request->validate([
    
@@ -107,38 +104,32 @@ class DeliveryNoteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //try catch and store the data
-        // return response()->json([
-        //     'request'=> $request->all(),
-        //     'message'=> 'success'
-        // ]);
+     
         try{
             $validatedData = $request->validate([
-                'client' => 'required',
                 'items' => 'required',
                 'date' => 'required',
+                'truck_details'=> 'nullable',
                 'issue_date'=> 'required|string',
                 'invoice'=> 'nullable',
-                'number'=>'required'
+                'client'=> 'required',    
             ]);
-            $deliveryNote = DeliveryNote::find($id);
-            if (isset($request->items) && is_array($request->items)) {
-                $validatedData['items'] = json_encode($request->items, JSON_UNESCAPED_SLASHES);
-            }
-            
-            $deliveryNote->issue_date = $validatedData['issue_date'];
-            $deliveryNote->date = $validatedData['date'];
-            $deliveryNote->client = $validatedData['client'];
-            $deliveryNote->invoice_number = $validatedData['invoice'] ? $validatedData['invoice'] : 0;
-            $deliveryNote->number = $validatedData['number'];
-            $deliveryNote->items =  $validatedData['items'];
-            $deliveryNote->save();
 
+            $deliveryNote = DeliveryNote::find($id);
+            $deliveryNote->update(
+                
+                    [
+                     "issue_date" =>  $validatedData['issue_date'],
+                     "date" => $validatedData['date'],
+                     "truck_details" => $validatedData['truck_details'],
+                     "client"=> $validatedData['client'],
+                     "items" => $validatedData['items'],
+                    ]); 
             return response()->json(['message' => 'Delivery Note updated successfully'], 200);
 
         }catch(\Exception $e){
             \Log::error('Error updating Delivery Note: ' . $e->getMessage());
-            return response()->json(['error' => 'Internal server error'], 500);
+            return response()->json(['error' => 'Internal server error'.$e->getMessage()], 500);
         }
 
     }
